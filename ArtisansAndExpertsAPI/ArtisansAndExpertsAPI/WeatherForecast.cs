@@ -1,4 +1,4 @@
-namespace api
+namespace ArtisansAndExpertsAPI
 {
     public class WeatherForecast
     {
