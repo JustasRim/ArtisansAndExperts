@@ -56,6 +56,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'medink'
+          app-name: 'artisansandexperts'
           publish-profile: ${{ secrets.AzureAppService_client_publishprofile }}
           package: .
