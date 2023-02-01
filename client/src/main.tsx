@@ -4,7 +4,7 @@ import App from './App';
 import './index.scss';
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./public/serviceWorker.js');
+  navigator.serviceWorker.register('./serviceWorker.js');
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
