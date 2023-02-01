@@ -9,10 +9,11 @@ function App() {
     <div className={classes.App}>
       <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/icons/manifest-icon-192.maskable.png" className={classes.logo} alt="Vite logo" />
+          <img src="/vite.svg" className={classes.logo} alt="Vite logo" />
         </a>
+
         <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src="icons/manifest-icon-512.maskable.png" className={classes.logo} alt="React logo" />
+          <img src={reactLogo} className={classes.logo} alt="React logo" />
         </a>
       </div>
       <h1>Vite + React</h1>
