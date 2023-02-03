@@ -1,0 +1,11 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.header {
+  @include themify($themes) {
+    background-color: themed('colorHeaderFooter');
+  }
+
+  &__content {
+    display: flex;
+  }
+}
