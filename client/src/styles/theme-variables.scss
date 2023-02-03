@@ -1,13 +1,19 @@
+@use './variables.scss' as *;
+
 $themes: (
   light: (
-    colorHeaderFooter: red,
+    colorHeaderFooter: #fff,
     colorText: #000,
     colorBackground: #f8f8fa,
+    primary: $cornflower-blue,
+    secondary: $casablanca,
   ),
   dark: (
     colorHeaderFooter: #36394c,
     colorText: #eff2f7,
     colorBackground: #222736,
+    primary: $nevada,
+    secondary: $casablanca,
   ),
 );
 

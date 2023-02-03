@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Error404 from './pages/Error404';
 import Root from './routes/Root';
+import './styles/global.scss';
 import './styles/reset.scss';
 
 if ('serviceWorker' in navigator) {

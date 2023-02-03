@@ -1,0 +1,35 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.toggle {
+  &__input {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+
+  &__btn {
+    width: 46px;
+    height: 20px;
+    border: 0;
+    border-radius: 20px;
+    @include themify($themes) {
+      background-color: themed('primary');
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      background-color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      transition: 0.2s ease;
+    }
+  }
+}
+
+.checked.toggle__btn::before {
+  transition: 0.2s ease;
+  transform: translate(calc(100% + 6px));
+  margin-right: -2px;
+}

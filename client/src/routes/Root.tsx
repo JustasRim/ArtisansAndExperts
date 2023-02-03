@@ -16,8 +16,10 @@ function Root() {
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className={`theme-${theme}`}>
-        <Header />
-        <Outlet />
+        <div className="bg">
+          <Header />
+          <Outlet />
+        </div>
       </div>
     </ThemeContext.Provider>
   );

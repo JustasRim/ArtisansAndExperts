@@ -1,0 +1,13 @@
+@use '../styles/theme-variables.scss' as *;
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.bg {
+  min-height: 100vh;
+  @include themify($themes) {
+    background-color: themed('colorBackground');
+  }
+}
