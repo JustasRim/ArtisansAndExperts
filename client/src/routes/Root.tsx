@@ -14,12 +14,13 @@ function Root() {
   };
 
   const [theme, setTheme] = useState(getDefaultTheme());
+  const [hidden, setHidden] = useState<boolean>(false);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className={`theme-${theme}`}>
         <div className="bg">
-          <Header />
-          <Sidebar />
+          <Header setSidebarHidden={setHidden} />
+          <Sidebar hidden={hidden} setHidden={setHidden} />
           <Outlet />
         </div>
       </div>

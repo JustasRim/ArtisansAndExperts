@@ -11,7 +11,7 @@
   right: 0;
   width: min(75%, 40rem);
   @include themify($themes) {
-    background-color: themed('colorBackground');
+    background-color: themed('colorHeaderFooter');
   }
 
   padding: 2em 0;
@@ -25,12 +25,15 @@
 
   &__close {
     margin-left: -3.5rem;
-    z-index: 99;
     width: 40px;
     height: 40px;
     border: 0;
     border-radius: 50%;
-    opacity: 0.8;
+    opacity: 0.9;
+
+    @include themify($themes) {
+      background-color: themed('colorBackground');
+    }
   }
 }
 
@@ -39,5 +42,5 @@
   inset: 0;
   z-index: 5;
   background-color: #222;
-  opacity: 0.9;
+  opacity: 0.7;
 }

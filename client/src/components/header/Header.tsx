@@ -7,7 +7,11 @@ import moon from './../../assets/moon.svg';
 import sun from './../../assets/sun.svg';
 import styles from './header.module.scss';
 
-const Header = () => {
+type Props = {
+  setSidebarHidden: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Header = ({ setSidebarHidden }: Props) => {
   const { theme, setTheme } = useContext(ThemeContext);
   const handleThemeChange = () => {
     const isCurrentDark = theme === 'dark';
@@ -32,26 +36,39 @@ const Header = () => {
             Contact
           </Link>
         </nav>
-        <Switch className={styles.header__theme} checked={theme === 'dark'} setChecked={handleThemeChange} />
-        <div
-          className={styles.header__theme_btn}
-          onClick={handleThemeChange}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              handleThemeChange();
-            }
-          }}
-          role="button"
-          aria-label="theme"
-          tabIndex={0}
-        >
-          {theme === 'dark' ? <img src={moon} alt="Moon" /> : <img src={sun} alt="Sun" />}{' '}
+        <div className={styles.controls}>
+          <Switch className={styles.controls__theme} checked={theme === 'dark'} setChecked={handleThemeChange} />
+          <div
+            className={styles.controls__theme_btn}
+            onClick={handleThemeChange}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                handleThemeChange();
+              }
+            }}
+            role="button"
+            aria-label="theme"
+            tabIndex={0}
+          >
+            {theme === 'dark' ? <img src={moon} alt="Moon" /> : <img src={sun} alt="Sun" />}{' '}
+          </div>
+          <div
+            className={styles.hamburger}
+            onClick={() => setSidebarHidden((curr) => !curr)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setSidebarHidden((curr) => !curr);
+              }
+            }}
+            role="button"
+            aria-label="hamburger"
+            tabIndex={0}
+          >
+            <div className={styles.hamburger__bar}></div>
+            <div className={`${styles.hamburger__bar} ${styles['hamburger__bar--middle']}`}></div>
+            <div className={styles.hamburger__bar}></div>
+          </div>
         </div>
-      </div>
-      <div className={styles.hamburger}>
-        <div></div>
-        <div></div>
-        <div></div>
       </div>
     </header>
   );

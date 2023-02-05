@@ -15,19 +15,8 @@
 
   &__nav {
     margin: 0;
-  }
 
-  &__nav,
-  &__theme {
     @media (max-width: $breakpoint-tablet) {
-      display: none;
-    }
-  }
-
-  &__theme_btn {
-    width: 30px;
-
-    @media (min-width: $breakpoint-tablet) {
       display: none;
     }
   }
@@ -43,6 +32,47 @@
       @include themify($themes) {
         color: themed('secondary');
       }
+    }
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+
+  &__theme {
+    @media (max-width: $breakpoint-tablet) {
+      display: none;
+    }
+  }
+
+  &__theme_btn {
+    width: 25px;
+
+    @media (min-width: $breakpoint-tablet) {
+      display: none;
+    }
+  }
+}
+
+.hamburger {
+  width: 20px;
+  margin-left: 2rem;
+
+  @media (min-width: $breakpoint-tablet) {
+    display: none;
+  }
+
+  &__bar {
+    height: 3px;
+    width: 100%;
+    border-radius: 20px;
+    @include themify($themes) {
+      background-color: themed('highlightText');
+    }
+
+    &--middle {
+      margin: 0.25rem 0;
     }
   }
 }

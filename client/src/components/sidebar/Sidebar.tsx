@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useWindowWidth from '../../hooks/useWindowWidth';
@@ -7,10 +6,11 @@ import styles from './sidebar.module.scss';
 
 type Props = {
   className?: string;
+  hidden: boolean;
+  setHidden: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Sidebar = ({ className }: Props) => {
-  const [hidden, setHidden] = useState<boolean>(false);
+const Sidebar = ({ className, hidden, setHidden }: Props) => {
   useWindowWidth(BREAKPOINT_TABELT, () => setHidden(true));
 
   return (
