@@ -6,8 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Error404 from './pages/Error404';
 import Root from './routes/Root';
-import './styles/global.scss';
-import './styles/reset.scss';
+import './styles/index.scss';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./serviceWorker.js');
@@ -19,10 +18,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-  },
-  {
-    path: '*',
-    element: <Error404 />,
+    children: [{ path: '*', element: <Error404 /> }],
   },
 ]);
 

@@ -1,4 +1,5 @@
 @use '../../styles/theme-variables.scss' as *;
+@use '../../styles/variables.scss' as *;
 
 .header {
   @include themify($themes) {
@@ -7,7 +8,41 @@
 
   &__content {
     display: flex;
+    align-content: center;
     justify-content: space-between;
-    padding: 3rem 2rem;
+    padding: 2em;
+  }
+
+  &__nav {
+    margin: 0;
+  }
+
+  &__nav,
+  &__theme {
+    @media (max-width: $breakpoint-tablet) {
+      display: none;
+    }
+  }
+
+  &__theme_btn {
+    width: 30px;
+
+    @media (min-width: $breakpoint-tablet) {
+      display: none;
+    }
+  }
+
+  &__link {
+    margin: 0 2em;
+    transition: 150ms ease;
+    @include themify($themes) {
+      color: themed('highlightText');
+    }
+
+    &:hover {
+      @include themify($themes) {
+        color: themed('secondary');
+      }
+    }
   }
 }

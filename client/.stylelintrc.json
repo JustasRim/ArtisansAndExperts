@@ -2,6 +2,8 @@
   "plugins": ["stylelint-scss"],
   "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier-scss"],
   "rules": {
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "function-url-quotes": "never",
+    "font-family-name-quotes": null
   }
 }

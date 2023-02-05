@@ -2,16 +2,18 @@
 
 $themes: (
   light: (
-    colorHeaderFooter: #fff,
-    colorText: #000,
-    colorBackground: #f8f8fa,
+    colorHeaderFooter: $white,
+    colorText: $black,
+    highlightText: $slate-gray,
+    colorBackground: $athens-gray,
     primary: $cornflower-blue,
     secondary: $casablanca,
   ),
   dark: (
-    colorHeaderFooter: #36394c,
-    colorText: #eff2f7,
-    colorBackground: #222736,
+    colorHeaderFooter: $bright-grey,
+    colorText: $catskill-white,
+    highlightText: $catskill-white,
+    colorBackground: $ebony-clay,
     primary: $nevada,
     secondary: $casablanca,
   ),
