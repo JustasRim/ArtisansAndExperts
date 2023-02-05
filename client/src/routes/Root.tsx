@@ -14,7 +14,7 @@ function Root() {
   };
 
   const [theme, setTheme] = useState(getDefaultTheme());
-  const [hidden, setHidden] = useState<boolean>(false);
+  const [hidden, setHidden] = useState<boolean>(true);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className={`theme-${theme}`}>
