@@ -1,3 +1,5 @@
+@use './theme-variables.scss' as *;
+
 @font-face {
   font-family: 'Inter';
   src: url(../assets/fonts/Inter-Regular.ttf) format('TrueType');
@@ -17,4 +19,35 @@
   src: url(../assets/fonts/Inter-Black.ttf) format('TrueType');
   font-weight: 900;
   font-style: normal;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  margin: 0.5em 0 0.75em 0;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  @include themify($themes) {
+    color: themed('header');
+  }
 }

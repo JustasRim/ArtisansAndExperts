@@ -32,8 +32,8 @@ const Header = ({ setSidebarHidden }: Props) => {
           <Link className={styles.header__link} to="/experts" tabIndex={0}>
             Experts
           </Link>
-          <Link className={styles.header__link} to="/contact" tabIndex={0}>
-            Contact
+          <Link className={styles.header__link} to="/login" tabIndex={0}>
+            Login
           </Link>
         </nav>
         <div className={styles.controls}>

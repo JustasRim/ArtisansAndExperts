@@ -1,0 +1,11 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.card {
+  margin: 0 0.5em;
+  padding: 2em;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px 0 #0003;
+  @include themify($themes) {
+    background-color: themed('colorHeaderFooter');
+  }
+}

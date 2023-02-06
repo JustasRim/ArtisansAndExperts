@@ -22,7 +22,7 @@ a {
 body {
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 img,
@@ -38,4 +38,9 @@ textarea,
 button,
 select {
   font: inherit;
+}
+
+label,
+p {
+  font-weight: normal;
 }

@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Error404 from './pages/Error404';
+import Login from './pages/login/Login';
 import Root from './routes/Root';
 import './styles/index.scss';
 
@@ -18,7 +19,13 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    children: [{ path: '*', element: <Error404 /> }],
+    children: [
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      { path: '*', element: <Error404 /> },
+    ],
   },
 ]);
 
