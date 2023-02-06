@@ -22,8 +22,10 @@
   }
 
   &__link {
+    text-decoration: none;
     margin: 0 2em;
     transition: 150ms ease;
+    font-weight: 900;
     @include themify($themes) {
       color: themed('highlightText');
     }

@@ -1,12 +1,28 @@
+@use '../../styles/variables.scss' as *;
+
 .login {
   margin-top: 5rem;
   display: flex;
   justify-content: center;
-}
 
-.card {
+  &__card {
+    width: min(70%, 400px);
+    margin: 0 0.5em;
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
   &__label {
     display: block;
     margin-top: 0.75em;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

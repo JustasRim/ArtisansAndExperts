@@ -8,8 +8,9 @@ $themes: (
     header: $oxford-blue,
     colorBackground: $athens-gray,
     inputBackground: $catskill-white,
-    primary: $casablanca,
     headerLinks: $oxford-blue,
+    links: $cobalt,
+    primary: $casablanca,
     secondary: $cornflower-blue,
   ),
   dark: (
@@ -19,8 +20,9 @@ $themes: (
     header: $catskill-white,
     colorBackground: $ebony-clay,
     inputBackground: $slate-gray,
-    primary: $nevada,
     headerLinks: $casablanca,
+    links: $casablanca,
+    primary: $nevada,
     secondary: $nevada,
   ),
 );

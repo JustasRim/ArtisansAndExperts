@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 import Button from '../../components/button/Button';
@@ -15,7 +16,11 @@ const login = z.object({
 type LoginInput = z.infer<typeof login>;
 
 const Login = () => {
-  const { register, handleSubmit } = useForm<LoginInput>({ resolver: zodResolver(login) });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>({ resolver: zodResolver(login) });
 
   const onSubmit = (data: LoginInput) => {
     alert(JSON.stringify(data));
@@ -23,18 +28,23 @@ const Login = () => {
 
   return (
     <div className={styles.login}>
-      <Card>
+      <Card className={styles.login__card}>
         <h1>Prisijungti</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className={styles.card__label} htmlFor="email">
+          <label className={styles.login__label} htmlFor="email">
             El. paštas:
           </label>
-          <Input className={styles.card__input} register={register} required id="email" type="email" />
-          <label className={styles.card__label} htmlFor="password">
+          <Input className={styles.login__input} register={register} required id="email" type="email" />
+          {errors.email?.message && <p className="error">{errors.email?.message}</p>}
+          <label className={styles.login__label} htmlFor="password">
             Slaptažodis:
           </label>
-          <Input className={styles.card__input} register={register} id="password" type="password" />
-          <Button type="submit">Prisijungti</Button>
+          <Input className={styles.login__input} register={register} id="password" type="password" />
+          {errors.password?.message && <p className="error">{errors.password?.message}</p>}
+          <div className={styles.login__controls}>
+            <Button type="submit">Prisijungti</Button>
+            <Link to={'/register'}>Aš jau turiu paskyrą!</Link>
+          </div>
         </form>
       </Card>
     </div>

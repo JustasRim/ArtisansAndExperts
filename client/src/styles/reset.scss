@@ -1,4 +1,5 @@
 @use '../styles/theme-variables.scss' as *;
+@use '../styles/variables.scss' as *;
 
 *,
 *::before,
@@ -17,7 +18,13 @@
 }
 
 a {
-  text-decoration: none;
+  text-decoration: underline;
+  font-weight: normal;
+  color: $cobalt;
+
+  @include themify($themes) {
+    color: themed('links');
+  }
 }
 
 body {
