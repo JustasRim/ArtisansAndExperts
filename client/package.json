@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.10",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
@@ -25,7 +26,8 @@
     "react-hook-form": "^7.43.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.8.0",
-    "string-hash": "^1.1.3"
+    "string-hash": "^1.1.3",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

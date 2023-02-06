@@ -1,17 +1,21 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import Button from '../../components/button/Button';
 import Card from '../../components/card/Card';
 import Input from '../../components/input/Input';
 import styles from './login.module.scss';
 
-type LoginInput = {
-  email: string;
-  password: string;
-};
+const login = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+type LoginInput = z.infer<typeof login>;
 
 const Login = () => {
-  const { register, handleSubmit } = useForm<LoginInput>();
+  const { register, handleSubmit } = useForm<LoginInput>({ resolver: zodResolver(login) });
 
   const onSubmit = (data: LoginInput) => {
     alert(JSON.stringify(data));
