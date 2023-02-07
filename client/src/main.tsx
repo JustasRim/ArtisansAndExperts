@@ -4,8 +4,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import Login from './components/login/Login';
+import Register from './components/register/Register';
 import Error404 from './pages/Error404';
-import Login from './pages/login/Login';
 import Root from './routes/Root';
 import './styles/index.scss';
 
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'sign-up',
+        element: <Register />,
       },
       { path: '*', element: <Error404 /> },
     ],

@@ -1,0 +1,42 @@
+@use '../../styles/variables.scss' as *;
+
+.register {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+
+  &__card {
+    width: min(70%, 400px);
+    margin: 0 0.5em;
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-top: 0.75em;
+  }
+
+  &__input {
+    &--inline {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+  }
+
+  &__checkbox {
+    height: 25px;
+    width: 25px;
+    background-color: red;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
