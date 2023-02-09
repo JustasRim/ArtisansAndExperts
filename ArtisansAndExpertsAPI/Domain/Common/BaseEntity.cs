@@ -1,7 +1,7 @@
 ﻿namespace Domain.Common
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        int Id { get; set; }
+        public int Id { get; set; }
     }
 }

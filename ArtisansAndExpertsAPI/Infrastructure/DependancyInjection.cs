@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependancyInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AaEDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("MedinkDatabase"),
+                options.UseNpgsql(configuration.GetConnectionString("AAEDatabase"),
                 builder => builder.MigrationsAssembly(typeof(AaEDbContext).Assembly.FullName)));
 
             //services.AddScoped<IApplicationDbContext>(q => q.GetRequiredService<ApplicationDbContext>());

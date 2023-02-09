@@ -13,6 +13,8 @@ namespace Domain.Entity
 
         public string? Password { get; set; }
 
+        public string? RefreshToken{ get; set; }
+
         public Role Role { get; set; }
 
         public bool EmailConfirmed { get; set; } = false;

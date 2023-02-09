@@ -1,4 +1,3 @@
-using Infrastructure;
 using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
