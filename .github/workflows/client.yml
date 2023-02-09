@@ -1,4 +1,4 @@
-name: artisansandexperts
+name: client
 
 on:
   push:
