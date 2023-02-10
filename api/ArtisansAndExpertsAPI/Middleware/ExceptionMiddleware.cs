@@ -1,15 +1,18 @@
 ﻿using Domain.Model;
 using System.Net;
+using ILogger = Serilog.ILogger;
 
 namespace ArtisansAndExpertsAPI.Middleware
 {
     internal class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILogger logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -36,7 +39,7 @@ namespace ArtisansAndExpertsAPI.Middleware
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var (statusCode, message) = exception switch
             {
@@ -45,6 +48,8 @@ namespace ArtisansAndExpertsAPI.Middleware
                 AccessViolationException => (HttpStatusCode.Forbidden, "Forbidden."),
                 _ => (HttpStatusCode.InternalServerError, "Internal Server Error.")
             };
+
+            _logger.Error("{exeption}", exception);
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;

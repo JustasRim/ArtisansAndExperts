@@ -6,6 +6,7 @@ using Domain.Enum;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Serilog;
 
 namespace Infrastructure.Services
 {
@@ -129,7 +130,7 @@ namespace Infrastructure.Services
 
             if (affectedRows != 0)
             {
-                throw new Exception();
+                throw new Exception("Save changes to database returned not 0");
             }
 
             return new AuthResponse
