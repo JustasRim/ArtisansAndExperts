@@ -1,3 +1,4 @@
+using ArtisansAndExpertsAPI.Extentions;
 using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 

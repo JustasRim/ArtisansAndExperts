@@ -1,7 +1,11 @@
-﻿using Infrastructure;
+﻿using Application.Common.Interfaces;
+using Application.Services;
+using Domain.Model;
+using Infrastructure;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -13,15 +17,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UseNpgsql(configuration.GetConnectionString("AAEDatabase"),
                 builder => builder.MigrationsAssembly(typeof(AaEDbContext).Assembly.FullName)));
 
-            //services.AddScoped<IApplicationDbContext>(q => q.GetRequiredService<ApplicationDbContext>());
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IPasswordService, PasswordService>();
+            services.AddTransient<IAuthService, AuthService>();
 
-            //services.AddTransient<IMedicService, MedicService>();
-            //services.AddTransient<IPatientService, PatientService>();
-            //services.AddTransient<ISymptomService, SymptomService>();
-            //services.AddTransient<IAuthService, AuthService>();
-
-            //services.AddSingleton<IAuthHelper, AuthHelper>();
-
+            services.AddTransient<IRepository<User>, UserRepository>();
+            
             return services;
         }
     }

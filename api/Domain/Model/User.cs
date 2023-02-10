@@ -2,7 +2,7 @@
 using Domain.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entity
+namespace Domain.Model
 {
     public class User : BaseEntity
     {
@@ -14,6 +14,8 @@ namespace Domain.Entity
         public string? Password { get; set; }
 
         public string? RefreshToken{ get; set; }
+
+        public DateTime RefreshTokenExpiryTime { get; set; }
 
         public Role Role { get; set; }
 
