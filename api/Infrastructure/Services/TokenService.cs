@@ -54,7 +54,7 @@ namespace Infrastructure.Services
 
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = true,
+                ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),

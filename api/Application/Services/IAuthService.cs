@@ -4,8 +4,8 @@ namespace Application.Services
 {
     public interface IAuthService
     {
-        Task<AuthResponse> Register(RegisterDto registerDto);
+        Task<AuthDto> Register(RegisterDto registerDto);
 
-        Task<AuthResponse> Login(LoginDto loginDto);
+        Task<AuthDto> Login(LoginDto loginDto);
     }
 }

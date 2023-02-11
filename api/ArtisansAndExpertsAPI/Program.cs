@@ -1,3 +1,4 @@
+using ArtisansAndExpertsAPI.Extentions;
 using ArtisansAndExpertsAPI.Middleware;
 using Newtonsoft.Json.Converters;
 using Serilog;
@@ -12,6 +13,7 @@ ILogger logger = new LoggerConfiguration()
 builder.Logging.AddSerilog(logger);
 builder.Services.AddSingleton(logger);
 
+builder.Services.AddAuthSchema(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()
@@ -29,11 +31,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
-
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

@@ -63,7 +63,7 @@ namespace Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task<AuthResponse> Login(LoginDto loginDto)
+        public async Task<AuthDto> Login(LoginDto loginDto)
         {
             if (loginDto is null || string.IsNullOrEmpty(loginDto.Email)) 
             {
@@ -88,14 +88,14 @@ namespace Infrastructure.Services
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(15);
             await _userRepository.Update(user);
 
-            return new AuthResponse 
+            return new AuthDto 
             { 
-                Token = accessToken,
+                AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
         }
 
-        public async Task<AuthResponse> Register(RegisterDto registerDto)
+        public async Task<AuthDto> Register(RegisterDto registerDto)
         {
             if (registerDto is null || string.IsNullOrEmpty(registerDto.Email))
             {
@@ -133,9 +133,9 @@ namespace Infrastructure.Services
                 throw new Exception("Save changes to database returned not 0");
             }
 
-            return new AuthResponse
+            return new AuthDto
             {
-                Token = accessToken,
+                AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
         }
@@ -153,12 +153,13 @@ namespace Infrastructure.Services
         {
             return new[]
             {
+                new Claim(ClaimTypes.Name, email),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iss, JwtIssuer),
                 new Claim(JwtRegisteredClaimNames.Aud, JwtAudience),
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role.ToString())
             };
         }
     }

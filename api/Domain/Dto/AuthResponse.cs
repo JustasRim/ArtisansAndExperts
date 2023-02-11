@@ -1,8 +1,8 @@
 ﻿namespace Domain.Dto
 {
-    public class AuthResponse
+    public class AuthDto
     {
-        public string? Token { get; init; }
+        public string? AccessToken { get; init; }
 
         public string? RefreshToken { get; init; }
     }
