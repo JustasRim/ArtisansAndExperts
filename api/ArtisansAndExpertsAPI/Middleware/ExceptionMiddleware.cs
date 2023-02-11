@@ -33,6 +33,10 @@ namespace ArtisansAndExpertsAPI.Middleware
             {
                 await HandleExceptionAsync(httpContext, ex);
             }
+            catch (InvalidOperationException ex)
+            {
+                await HandleExceptionAsync(httpContext, ex);
+            }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(httpContext, ex);
@@ -46,6 +50,7 @@ namespace ArtisansAndExpertsAPI.Middleware
                 UnauthorizedAccessException => (HttpStatusCode.Unauthorized, "Unauthorized request."),
                 ArgumentNullException => (HttpStatusCode.BadRequest, "Bad request."),
                 AccessViolationException => (HttpStatusCode.Forbidden, "Forbidden."),
+                InvalidOperationException => (HttpStatusCode.BadRequest, "Invalid operation."),
                 _ => (HttpStatusCode.InternalServerError, "Internal Server Error.")
             };
 
