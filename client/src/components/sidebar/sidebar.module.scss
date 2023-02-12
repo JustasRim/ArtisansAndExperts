@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
@@ -23,6 +23,13 @@
     border-bottom: 1px solid #222;
   }
 
+  &__btn {
+    display: block;
+    margin-top: 3em;
+    width: 100%;
+    border-radius: 0;
+  }
+
   &__close {
     margin-left: -3.5rem;
     width: 40px;
@@ -38,7 +45,7 @@
 }
 
 .curtain {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 5;
   background-color: #222;

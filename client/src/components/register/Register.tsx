@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/useAuth';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
@@ -39,7 +41,7 @@ export default function Register() {
     formState: { errors },
   } = useForm<RegisterInput>({ resolver: zodResolver(registerInput) });
 
-  const { login } = useAuth();
+  const { setUser } = useContext(AuthContext);
   const { ax } = useAxios();
 
   const onSubmit = async (data: RegisterInput) => {
@@ -49,7 +51,7 @@ export default function Register() {
     }
 
     const { data: responseData } = response;
-    login({
+    setUser({
       name: responseData.name,
       lastName: responseData.lastName,
       accessToken: responseData.accessToken,

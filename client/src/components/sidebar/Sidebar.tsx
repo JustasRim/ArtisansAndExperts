@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AuthContext } from '../../context/AuthContext';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import { BREAKPOINT_TABELT } from '../../utils/Constants';
+import Button from '../button/Button';
 import styles from './sidebar.module.scss';
 
 type Props = {
@@ -12,6 +15,7 @@ type Props = {
 
 const Sidebar = ({ className, hidden, setHidden }: Props) => {
   useWindowWidth(BREAKPOINT_TABELT, () => setHidden(true));
+  const { user, setUser } = useContext(AuthContext);
 
   return (
     <div className={hidden ? styles.hidden : ''}>
@@ -21,15 +25,26 @@ const Sidebar = ({ className, hidden, setHidden }: Props) => {
         </button>
         <nav className={styles.sidebar__nav}>
           <Link className={styles.sidebar__link} to="/" tabIndex={0}>
-            Home
+            Namai
           </Link>
           <Link className={styles.sidebar__link} to="/experts" tabIndex={0}>
-            Experts
+            Ekspertai
           </Link>
-          <Link className={styles.sidebar__link} to="/login" tabIndex={0}>
-            Login
-          </Link>
+          {user ? (
+            <Link className={styles.sidebar__link} to="/profile" tabIndex={0}>
+              Profilis
+            </Link>
+          ) : (
+            <Link className={styles.sidebar__link} to="/login" tabIndex={0}>
+              Prisijungti
+            </Link>
+          )}
         </nav>
+        {user && (
+          <Button className={styles.sidebar__btn} onClick={() => setUser(null)}>
+            Atsijungti
+          </Button>
+        )}
       </div>
       <div className={styles.curtain}></div>
     </div>

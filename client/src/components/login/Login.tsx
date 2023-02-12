@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { AuthContext } from '../../context/AuthContext';
 import { useAuth } from '../../hooks/useAuth';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
@@ -24,7 +26,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInput>({ resolver: zodResolver(login) });
 
-  const { login: loginUser } = useAuth();
+  const { setUser } = useContext(AuthContext);
   const { ax } = useAxios();
 
   const onSubmit = async (data: LoginInput) => {
@@ -34,7 +36,7 @@ const Login = () => {
     }
 
     const { data: responseData } = response;
-    loginUser({
+    setUser({
       name: responseData.name,
       lastName: responseData.lastName,
       accessToken: responseData.accessToken,

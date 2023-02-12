@@ -1,7 +1,11 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
+import { useAuth } from '../../hooks/useAuth';
+import { useInteractions } from '../../hooks/useInteract';
+import Button from '../button/Button';
 import Switch from '../switch/Switch';
 import moon from './../../assets/moon.svg';
 import sun from './../../assets/sun.svg';
@@ -13,6 +17,10 @@ type Props = {
 
 const Header = ({ setSidebarHidden }: Props) => {
   const { theme, setTheme } = useContext(ThemeContext);
+  const { user, setUser } = useContext(AuthContext);
+
+  const { registerInteraction } = useInteractions();
+
   const handleThemeChange = () => {
     const isCurrentDark = theme === 'dark';
     setTheme(isCurrentDark ? 'light' : 'dark');
@@ -32,15 +40,26 @@ const Header = ({ setSidebarHidden }: Props) => {
           <Link className={styles.header__link} to="/experts" tabIndex={0}>
             Ekspertai
           </Link>
-          <Link className={styles.header__link} to="/login" tabIndex={0}>
-            Prisijungti
-          </Link>
-          <Link className={styles.header__link} to="/sign-up" tabIndex={0}>
-            Registruotis
-          </Link>
+          {!user ? (
+            <>
+              <Link className={styles.header__link} to="/login" tabIndex={0}>
+                Prisijungti
+              </Link>
+            </>
+          ) : (
+            <Link className={styles.header__link} to="/profile" tabIndex={0}>
+              Profilis
+            </Link>
+          )}
         </nav>
         <div className={styles.controls}>
           <Switch className={styles.controls__theme} checked={theme === 'dark'} setChecked={handleThemeChange} />
+          {user && (
+            <Button className={styles.controls__logout} onClick={() => setUser(null)}>
+              Atsijungti
+            </Button>
+          )}
+
           <div
             className={styles.controls__theme_btn}
             onClick={handleThemeChange}
@@ -57,12 +76,7 @@ const Header = ({ setSidebarHidden }: Props) => {
           </div>
           <div
             className={styles.hamburger}
-            onClick={() => setSidebarHidden((curr) => !curr)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                setSidebarHidden((curr) => !curr);
-              }
-            }}
+            {...registerInteraction(() => setSidebarHidden((curr) => !curr))}
             role="button"
             aria-label="hamburger"
             tabIndex={0}

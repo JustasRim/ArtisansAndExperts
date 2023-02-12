@@ -27,12 +27,16 @@ export const useAxios = () => {
       const { config, message } = err;
 
       if (!config || config.isRetryRequest) {
-        return Promise.reject(err);
+        return err;
       }
-      // retry while Network timeout or Network Error
+
       if (!(message.includes('timeout') || message.includes('Network Error'))) {
-        return Promise.reject(err);
+        return err;
       }
+
+      // if (err.status !== 401) {
+      //   return;
+      // }
 
       config.isRetryRequest = true;
 
