@@ -21,11 +21,11 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore .\api
+      run: dotnet restore ./api
     - name: Build
-      run: dotnet build .\api --configuration Release --no-restore
+      run: dotnet build ./api --configuration Release --no-restore
     - name: Test
-      run: dotnet test .\api --no-build --verbosity normal
+      run: dotnet test ./api --no-build --verbosity normal
   deploy:
     runs-on: ubuntu-latest
     needs: build
