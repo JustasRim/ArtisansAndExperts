@@ -51,6 +51,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             return Ok(new AuthDto
             {
+                Name = user.Name,
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken
             });

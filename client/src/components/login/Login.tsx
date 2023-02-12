@@ -35,9 +35,8 @@ const Login = () => {
 
     const { data: responseData } = response;
     loginUser({
-      name: '',
-      lastName: '',
-      email: '',
+      name: responseData.name,
+      lastName: responseData.lastName,
       accessToken: responseData.accessToken,
       refreshToken: responseData.refreshToken,
     });

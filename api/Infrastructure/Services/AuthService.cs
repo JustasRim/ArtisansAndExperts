@@ -88,8 +88,10 @@ namespace Infrastructure.Services
             user.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
             await _userRepository.Update(user);
 
-            return new AuthDto 
-            { 
+            return new AuthDto
+            {
+                Name = user.Name,
+                LastName = user.Name,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
@@ -115,7 +117,9 @@ namespace Infrastructure.Services
 
             var newUser = new User 
             {
-                Email= registerDto.Email,
+                Email = registerDto.Email,
+                Name = registerDto.Name,
+                LastName= registerDto.LastName,
                 Role = registerDto.Role,
                 Password = registerDto.Password
             };
@@ -135,6 +139,8 @@ namespace Infrastructure.Services
 
             return new AuthDto
             {
+                Name = registerDto.Name,
+                LastName = registerDto.LastName,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };

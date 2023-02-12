@@ -50,9 +50,8 @@ export default function Register() {
 
     const { data: responseData } = response;
     login({
-      name: '',
-      lastName: '',
-      email: '',
+      name: responseData.name,
+      lastName: responseData.lastName,
       accessToken: responseData.accessToken,
       refreshToken: responseData.refreshToken,
     });

@@ -5,7 +5,6 @@ import { useLocalStorage } from './useLocalStorage';
 export interface User {
   name: string;
   lastName: string;
-  email: string;
   accessToken: string;
   refreshToken: string;
 }
