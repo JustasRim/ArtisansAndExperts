@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { useAuth } from '../../hooks/useAuth';
+import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
 import Card from '../card/Card';
 import Input from '../input/Input';
@@ -22,8 +24,23 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInput>({ resolver: zodResolver(login) });
 
-  const onSubmit = (data: LoginInput) => {
-    alert(JSON.stringify(data));
+  const { login: loginUser } = useAuth();
+  const { ax } = useAxios();
+
+  const onSubmit = async (data: LoginInput) => {
+    const response = await ax.post('/auth/login', data);
+    if (response.status !== 200) {
+      return;
+    }
+
+    const { data: responseData } = response;
+    loginUser({
+      name: '',
+      lastName: '',
+      email: '',
+      accessToken: responseData.accessToken,
+      refreshToken: responseData.refreshToken,
+    });
   };
 
   return (

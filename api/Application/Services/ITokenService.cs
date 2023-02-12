@@ -8,6 +8,8 @@ namespace Application.Services
 
         string GenerateRefreshToken();
 
+        DateTime GenerateRefreshTokenExpirationTime();
+
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token); 
     }
 }

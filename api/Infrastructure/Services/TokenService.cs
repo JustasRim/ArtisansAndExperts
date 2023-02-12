@@ -29,7 +29,7 @@ namespace Infrastructure.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                     claims: claims,
-                    expires: DateTime.Now.AddDays(1),
+                    expires: DateTime.UtcNow.AddSeconds(10),
                     signingCredentials: creds
                 );
 
@@ -42,6 +42,11 @@ namespace Infrastructure.Services
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
+        }
+
+        public DateTime GenerateRefreshTokenExpirationTime()
+        {
+            return DateTime.UtcNow.AddDays(15);
         }
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)

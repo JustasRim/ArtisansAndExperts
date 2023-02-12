@@ -23,6 +23,7 @@ namespace ArtisansAndExpertsAPI.Extentions
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Secrets:JwtSecret").Value)),
+                    ClockSkew = TimeSpan.Zero
                 };
             });
         }

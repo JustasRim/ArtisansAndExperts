@@ -14,6 +14,7 @@ builder.Logging.AddSerilog(logger);
 builder.Services.AddSingleton(logger);
 
 builder.Services.AddAuthSchema(builder.Configuration);
+builder.Services.AddGlobalCors();
 builder.Services.AddControllers();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers()
@@ -35,5 +36,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors();
 
 app.Run();

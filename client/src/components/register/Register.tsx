@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
+import { useAuth } from '../../hooks/useAuth';
+import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
 import Card from '../card/Card';
 import Input from '../input/Input';
@@ -37,8 +39,23 @@ export default function Register() {
     formState: { errors },
   } = useForm<RegisterInput>({ resolver: zodResolver(registerInput) });
 
-  const onSubmit = (data: RegisterInput) => {
-    alert(JSON.stringify(data));
+  const { login } = useAuth();
+  const { ax } = useAxios();
+
+  const onSubmit = async (data: RegisterInput) => {
+    const response = await ax.post('/auth/sign-up', data);
+    if (response.status !== 200) {
+      return;
+    }
+
+    const { data: responseData } = response;
+    login({
+      name: '',
+      lastName: '',
+      email: '',
+      accessToken: responseData.accessToken,
+      refreshToken: responseData.refreshToken,
+    });
   };
 
   return (

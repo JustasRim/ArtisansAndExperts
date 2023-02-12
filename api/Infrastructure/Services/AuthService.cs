@@ -85,7 +85,7 @@ namespace Infrastructure.Services
             var (accessToken, refreshToken) = GenerateTokens(loginDto.Email, user.Role);
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(15);
+            user.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
             await _userRepository.Update(user);
 
             return new AuthDto 
@@ -125,7 +125,7 @@ namespace Infrastructure.Services
 
             var (accessToken, refreshToken) = GenerateTokens(registerDto.Email, registerDto.Role);
             newUser.RefreshToken = refreshToken;
-            newUser.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(15);
+            newUser.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
             var affectedRows = await _userRepository.Add(newUser);
 
             if (affectedRows != 0)

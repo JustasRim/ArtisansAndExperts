@@ -37,7 +37,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             var user = _repository.Get(q => q.Email == userName);
-            if (user is null || user.RefreshToken != authDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            if (user is null || user.RefreshToken != authDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
                 return BadRequest("Invalid request");
             }
@@ -45,6 +45,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
 
             await _repository.Update(user);
 
