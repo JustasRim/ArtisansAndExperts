@@ -7,6 +7,9 @@ export const useAxios = () => {
 
   const ax = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
+    headers: {
+      'x-api-key': import.meta.env.VITE_API_KEY,
+    },
   });
 
   ax.interceptors.request.use((config) => {
@@ -33,10 +36,6 @@ export const useAxios = () => {
       if (!(message.includes('timeout') || message.includes('Network Error'))) {
         return err;
       }
-
-      // if (err.status !== 401) {
-      //   return;
-      // }
 
       config.isRetryRequest = true;
 
