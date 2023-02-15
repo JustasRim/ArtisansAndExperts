@@ -8,6 +8,12 @@ namespace ArtisansAndExpertsAPI.Extentions
     {
         public static void AddAuthSchema(this IServiceCollection services, IConfiguration configuration)
         {
+            var signingKey = configuration.GetValue<string>("Secrets:JwtSecret");
+            if (signingKey is null)
+            {
+                throw new ArgumentNullException(nameof(signingKey));
+            }
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -17,12 +23,12 @@ namespace ArtisansAndExpertsAPI.Extentions
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = configuration.GetSection("Secrets:JwtIssuer").Value,
-                    ValidAudience = configuration.GetSection("Secrets:JwtAudience").Value,
+                    ValidIssuer = configuration.GetValue<string>("Secrets:JwtIssuer"),
+                    ValidAudience = configuration.GetValue<string>("Secrets:JwtAudience"),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Secrets:JwtSecret").Value)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)),
                     ClockSkew = TimeSpan.Zero
                 };
             });
