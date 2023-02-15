@@ -1,5 +1,5 @@
 ---
-name: api-new
+name: api
 on:
   push:
     branches:

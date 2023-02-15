@@ -27,7 +27,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             var authResponse = await _authService.Login(loginDto);
             if (authResponse is null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
             return Ok(authResponse);
@@ -44,7 +44,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             var authResponse = await _authService.Register(registerDto);
             if (authResponse is null)
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
             return Ok(authResponse);

@@ -70,7 +70,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             var user = _repository.Get(q => q.Email == userName);
             if (user is null)
             {
-                return Forbid();
+                return Unauthorized();
             }
 
             user.RefreshToken = null;

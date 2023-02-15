@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
-import { useAuth } from '../../hooks/useAuth';
+import { useAxios } from '../../hooks/useAxios';
 import { useInteractions } from '../../hooks/useInteract';
 import Button from '../button/Button';
 import Switch from '../switch/Switch';
@@ -18,6 +18,7 @@ type Props = {
 const Header = ({ setSidebarHidden }: Props) => {
   const { theme, setTheme } = useContext(ThemeContext);
   const { user, setUser } = useContext(AuthContext);
+  const { ax } = useAxios();
 
   const { registerInteraction } = useInteractions();
 
@@ -25,6 +26,13 @@ const Header = ({ setSidebarHidden }: Props) => {
     const isCurrentDark = theme === 'dark';
     setTheme(isCurrentDark ? 'light' : 'dark');
     localStorage.setItem('theme', isCurrentDark ? 'light' : 'dark');
+  };
+
+  const handleLogout = async () => {
+    const response = await ax.post('/token/revoke');
+    if (response.status === 204) {
+      setUser(null);
+    }
   };
 
   return (
@@ -55,19 +63,14 @@ const Header = ({ setSidebarHidden }: Props) => {
         <div className={styles.controls}>
           <Switch className={styles.controls__theme} checked={theme === 'dark'} setChecked={handleThemeChange} />
           {user && (
-            <Button className={styles.controls__logout} onClick={() => setUser(null)}>
+            <Button className={styles.controls__logout} onClick={handleLogout}>
               Atsijungti
             </Button>
           )}
 
           <div
             className={styles.controls__theme_btn}
-            onClick={handleThemeChange}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                handleThemeChange();
-              }
-            }}
+            {...registerInteraction(() => handleThemeChange())}
             role="button"
             aria-label="theme"
             tabIndex={0}
