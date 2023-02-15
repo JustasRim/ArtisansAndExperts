@@ -11,13 +11,19 @@ namespace Domain.Model
         [EmailAddress]
         public string? Email { get; set; }
 
+        [Required]
+        [StringLength(100)]
         public string? Name { get; set; }
 
-        public string? LastName { get; set; } 
+        [Required]
+        [StringLength(100)]
+        public string? LastName { get; set; }
 
+        [Required]
+        [StringLength(100)]
         public string? Password { get; set; }
 
-        public string? RefreshToken{ get; set; }
+        public string? RefreshToken { get; set; }
 
         public DateTime RefreshTokenExpiryTime { get; set; }
 
@@ -25,6 +31,14 @@ namespace Domain.Model
 
         public bool EmailConfirmed { get; set; } = false;
 
-        public int FkExpert { get; set; }
+        public bool IsBanned { get; set; } = false;
+
+        public int? ExpertId { get; set; }
+
+        public Expert? Expert { get; set; }
+
+        public int? CientId { get; set; }
+
+        public Client? Client { get; set; }
     }
 }
