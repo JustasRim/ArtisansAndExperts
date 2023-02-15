@@ -16,15 +16,19 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 7.x
       - name: Restore dependencies
         run: dotnet restore ./api
+        
       - name: Build
         run: dotnet build ./api --configuration Release --no-restore
+        
       - name: Test
         run: dotnet test ./api --no-build --verbosity normal
+        
       - name: dotnet publish
         run: dotnet publish ./api -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
