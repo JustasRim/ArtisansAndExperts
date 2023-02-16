@@ -15,5 +15,7 @@ namespace Domain.Model
         public int Radius { get; set; }
 
         public IList<Activity>? Activities { get; set; }
+
+        public IList<Offer>? Offers { get; set; }
     }
 }

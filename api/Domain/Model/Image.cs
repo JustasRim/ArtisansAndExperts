@@ -2,7 +2,7 @@
 
 namespace Domain.Model
 {
-    public class Images : BaseEntity
+    public class Image : BaseEntity
     {
         public string? Source { get; set; }
 

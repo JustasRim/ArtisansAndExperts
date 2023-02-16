@@ -8,6 +8,8 @@ namespace Domain.Model
 
         public string? Description { get; set; }
 
-        public IList<Images>? Images { get; set; }
+        public IList<Image>? Images { get; set; }
+
+        public IList<Offer>? Offers { get; set; }
     }
 }
