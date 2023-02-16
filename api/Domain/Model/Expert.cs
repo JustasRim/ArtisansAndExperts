@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Model
 {
@@ -8,10 +9,15 @@ namespace Domain.Model
 
         public string? WorkDescription { get; set; }
 
+        [Required]
+        [Phone]
         public string? MobilePhone { get; set; }
 
+        [Required]
+        [StringLength(100)]
         public string? City { get; set; }
 
+        [Required]
         public int Radius { get; set; }
 
         public IList<Activity>? Activities { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Model
 {
@@ -6,8 +7,10 @@ namespace Domain.Model
     {
         public DateTime Date { get; set; } = DateTime.Now;
 
+        [Required]
         public string? Description { get; set; }
 
+        [Required]
         public decimal? Price { get; set; }
 
         public IList<OfferStep>? Steps { get; set; }
