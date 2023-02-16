@@ -12,14 +12,12 @@ namespace Infrastructure.Persistance.Configuration
             builder
                 .HasOne(q => q.Expert)
                 .WithOne(q => q.User)
-                .HasForeignKey<Expert>(q => q.UserId)
-                .HasForeignKey<User>(q => q.ExpertId);
+                .HasForeignKey<Expert>(q => q.UserId);
 
             builder
                 .HasOne(q => q.Client)
                 .WithOne(q => q.User)
-                .HasForeignKey<Client>(q => q.UserId)
-                .HasForeignKey<User>(q => q.CientId);
+                .HasForeignKey<Client>(q => q.UserId);
         }
     }
 }

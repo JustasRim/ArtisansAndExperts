@@ -33,11 +33,7 @@ namespace Domain.Model
 
         public bool IsBanned { get; set; } = false;
 
-        public int? ExpertId { get; set; }
-
         public Expert? Expert { get; set; }
-
-        public int? CientId { get; set; }
 
         public Client? Client { get; set; }
     }
