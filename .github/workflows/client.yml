@@ -27,9 +27,9 @@ jobs:
           npm install
           npm run build
       - name: Copy web.config
-        run: Copy-Item ./client/web.config -Destination ./client/dist/
+        run: cp ./client/web.config ./client/dist/
       - name: Zip artifact
-        run: Compress-Archive ./client/dist/* release.zip
+        run: zip -r release.zip ./client/dist/*
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
