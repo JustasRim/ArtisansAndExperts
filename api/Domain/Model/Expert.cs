@@ -20,6 +20,10 @@ namespace Domain.Model
         [Required]
         public int Radius { get; set; }
 
+        public User? User { get; set; }
+
+        public int UserId { get; set; }
+
         public IList<Activity>? Activities { get; set; }
 
         public IList<Offer>? Offers { get; set; }

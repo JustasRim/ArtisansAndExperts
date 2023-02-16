@@ -8,5 +8,7 @@ namespace Domain.Model
         [Required]
         [StringLength(100)]
         public string? Name { get; set; }
+
+        public IList<Expert>? Experts { get; set; }
     }
 }

@@ -12,6 +12,10 @@ namespace Domain.Model
         [Required]
         public string? Description { get; set; }
 
+        public Client? Client { get; set; }
+
+        public int ClientId { get; set; }
+
         public IList<Image>? Images { get; set; }
 
         public IList<Offer>? Offers { get; set; }

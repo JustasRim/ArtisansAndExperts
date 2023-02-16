@@ -9,7 +9,17 @@ namespace Infrastructure.Persistance.Configuration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasIndex(q => q.Email).IsUnique();
-            //builder.HasOne(q => q.FkExpert);
+            builder
+                .HasOne(q => q.Expert)
+                .WithOne(q => q.User)
+                .HasForeignKey<Expert>(q => q.UserId)
+                .HasForeignKey<User>(q => q.ExpertId);
+
+            builder
+                .HasOne(q => q.Client)
+                .WithOne(q => q.User)
+                .HasForeignKey<Client>(q => q.UserId)
+                .HasForeignKey<User>(q => q.CientId);
         }
     }
 }
