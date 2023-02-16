@@ -18,9 +18,9 @@ jobs:
           node-version: 18.x
       - name: create env file
         run: |
-          touch .env
-          echo VITE_API_KEY=${{ secrets.VITE_API_KEY }} >> .env
-          echo VITE_API_URL=https://artisansandexperts-api.azurewebsites.net/api >> .evn
+          touch ./client/.env
+          echo VITE_API_KEY=${{ secrets.VITE_API_KEY }} >> ./client/.env
+          echo VITE_API_URL=https://artisansandexperts-api.azurewebsites.net/api >> ./client/.evn
       - name: npm install, build, and test
         working-directory: ./client
         run: |
