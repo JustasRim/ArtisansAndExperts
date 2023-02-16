@@ -19,7 +19,7 @@ namespace Infrastructure.Services
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var secret = _configuration.GetSection("Secrets:JwtSecret").Value;
+            var secret = _configuration.GetValue<string>("Secrets:JwtSecret");
             if (secret is null)
             {
                 throw new Exception("No jwt secret");
@@ -51,7 +51,7 @@ namespace Infrastructure.Services
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-            var secret = _configuration.GetSection("Secrets:JwtSecret").Value;
+            var secret = _configuration.GetValue<string>("Secrets:JwtSecret");
             if (secret is null)
             {
                 throw new Exception("No jwt secret");

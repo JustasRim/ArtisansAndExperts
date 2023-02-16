@@ -6,7 +6,6 @@ using Domain.Enum;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Serilog;
 
 namespace Infrastructure.Services
 {
@@ -21,12 +20,8 @@ namespace Infrastructure.Services
         {
             get
             {
-                if (_configuration.GetSection("Secrets:JwtIssuer") is null)
-                {
-                    throw new ArgumentNullException("JwtIssuer");
-                }
 
-                var issuer = _configuration.GetSection("Secrets:JwtIssuer").Value;
+                var issuer = _configuration.GetValue<string>("Secrets:JwtIssuer");
                 if (issuer is null)
                 {
                     throw new ArgumentNullException(nameof(issuer));
@@ -40,12 +35,7 @@ namespace Infrastructure.Services
         {
             get
             {
-                if (_configuration.GetSection("Secrets:JwtAudience") is null)
-                {
-                    throw new ArgumentNullException("JwtAudience");
-                }
-
-                var issuer = _configuration.GetSection("Secrets:JwtAudience").Value;
+                var issuer = _configuration.GetValue<string>("Secrets:JwtAudience");
                 if (issuer is null)
                 {
                     throw new ArgumentNullException(nameof(issuer));
