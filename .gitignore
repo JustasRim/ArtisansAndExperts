@@ -39,6 +39,5 @@ lerna-debug.log*
 
 .stylelintcache
 
-.env
 .env.local
 .env.development
