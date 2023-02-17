@@ -70,7 +70,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             user.Expert.UpdateExpertFromDto(expertDto);
             await _userRepository.Update(user);
 
-            return Ok(user);
+            return Ok(user.Expert.ToExpertDto());
         }
     }
 }

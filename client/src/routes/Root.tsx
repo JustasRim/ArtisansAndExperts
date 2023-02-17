@@ -27,6 +27,7 @@ function Root() {
           <div className="bg">
             <Header setSidebarHidden={setHidden} />
             <Sidebar hidden={hidden} setHidden={setHidden} />
+            <div className="paddingTop"></div>
             <main className="container">
               <Outlet />
             </main>

@@ -10,7 +10,14 @@ type Props<T extends FieldValues> = {
 };
 
 const Input = <T extends FieldValues>({ id, type, className, register }: Props<T>) => {
-  return <input id={id} type={type} {...register(id)} className={`${className ?? ''} ${styles.input}`} />;
+  return (
+    <input
+      id={id}
+      type={type}
+      {...register(id, { valueAsNumber: type === 'number' })}
+      className={`${className ?? ''} ${styles.input}`}
+    />
+  );
 };
 
 export default Input;

@@ -6,7 +6,7 @@ namespace Infrastructure
 {
     public class AaEDbContext : DbContext
     {
-        public DbSet<User> Users => Set<User>();
+        public virtual DbSet<User> Users => Set<User>();
 
         public AaEDbContext(DbContextOptions<AaEDbContext> options)
             : base(options)

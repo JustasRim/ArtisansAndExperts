@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -25,7 +26,10 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public User? Get(Func<User, bool> pred) => _context.Users.FirstOrDefault(pred);
+        public User? Get(Func<User, bool> pred) => _context.Users
+            .Include(q => q.Expert)
+            .Include(q => q.Client)
+            .FirstOrDefault(pred);
 
         public User? GetById(int id) => _context.Users.Find(id);
 
