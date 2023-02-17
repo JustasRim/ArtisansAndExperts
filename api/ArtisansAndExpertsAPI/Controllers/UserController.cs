@@ -72,5 +72,17 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             return Ok(user.Expert.ToExpertDto());
         }
+
+        [HttpPost("picture")]
+        [AuthorizeRoles(Role.Admin, Role.Expert)]
+        public IActionResult UpdateProfilePicture([FromForm] IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+            }
+
+            return Ok();
+        }
     }
 }

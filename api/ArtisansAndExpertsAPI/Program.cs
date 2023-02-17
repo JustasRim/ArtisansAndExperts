@@ -37,6 +37,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<ApiKeyAuthMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

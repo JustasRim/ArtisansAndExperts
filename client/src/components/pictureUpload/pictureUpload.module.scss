@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  &__picture {
+    max-height: 500px !important;
+  }
+
+  &__dropzone {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px red dashed;
+    height: 200px;
+    margin: 2rem 0 1rem;
+  }
+}

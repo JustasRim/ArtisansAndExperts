@@ -8,6 +8,7 @@ import { UserProfile } from '../../utils/Interfaces';
 import Button from '../button/Button';
 import Card from '../card/Card';
 import Input from '../input/Input';
+import { PictureUpload } from '../pictureUpload/PictureUpload';
 
 const userProfile = z.object({
   workDescription: z.string().optional(),
@@ -54,6 +55,9 @@ export function Profile() {
   return (
     <div>
       <h1>Profilis</h1>
+      <Card>
+        <PictureUpload />
+      </Card>
       <Card>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2>Asmeneninė informacija</h2>

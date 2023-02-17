@@ -30,9 +30,7 @@ const Header = ({ setSidebarHidden }: Props) => {
 
   const handleLogout = async () => {
     const response = await ax.post('/token/revoke');
-    if (response.status === 204) {
-      setUser(null);
-    }
+    setUser(null);
   };
 
   return (
