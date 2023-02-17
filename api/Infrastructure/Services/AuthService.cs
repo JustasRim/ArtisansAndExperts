@@ -94,30 +94,26 @@ namespace Infrastructure.Services
                 throw new ArgumentNullException(nameof(registerDto));
             }
 
-            if (registerDto.Role == Role.Moderator || registerDto.Role == Role.Admin)
-            {
-                throw new InvalidOperationException();
-            }
-
             var user = _userRepository.Get(q => q.Email == registerDto.Email);
             if (user is not null)
             {
                 throw new InvalidOperationException("User exists");
             }
 
+            var role = registerDto.Expert ? Role.Expert : Role.Client;
             var newUser = new User 
             {
                 Email = registerDto.Email,
                 Name = registerDto.Name,
                 LastName= registerDto.LastName,
-                Role = registerDto.Role,
+                Role = role,
                 Password = registerDto.Password
             };
 
             var hashedPassword = _passwordService.HashPassword(newUser);
             newUser.Password = hashedPassword;
 
-            var (accessToken, refreshToken) = GenerateTokens(registerDto.Email, registerDto.Role);
+            var (accessToken, refreshToken) = GenerateTokens(registerDto.Email, registerDto.Expert ? Role.Expert : Role.Client);
             newUser.RefreshToken = refreshToken;
             newUser.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
             var affectedRows = await _userRepository.Add(newUser);

@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { useContext } from 'react';
 
-import { useAuth } from './useAuth';
+import { AuthContext } from '../context/AuthContext';
 
 export const useAxios = () => {
-  const { user, setTokens } = useAuth();
+  const { user, setUser } = useContext(AuthContext);
 
   const ax = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -27,18 +28,17 @@ export const useAxios = () => {
   ax.interceptors.response.use(
     (response) => response,
     async (err) => {
-      const { config, message } = err;
+      const { config } = err;
 
       if (!config || config.isRetryRequest) {
         return err;
       }
 
-      if (!(message.includes('timeout') || message.includes('Network Error'))) {
+      if (err.response.status !== 401) {
         return err;
       }
 
       config.isRetryRequest = true;
-
       if (!user) {
         return err;
       }
@@ -53,7 +53,7 @@ export const useAxios = () => {
       }
 
       const { accessToken, refreshToken } = refreshResponse.data;
-      setTokens(accessToken, refreshToken);
+      setUser({ ...user, accessToken, refreshToken });
 
       err.config.headers.Authorization = `Bearer ${accessToken}`;
       return axios(err.config);

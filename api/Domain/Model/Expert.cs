@@ -9,15 +9,12 @@ namespace Domain.Model
 
         public string? WorkDescription { get; set; }
 
-        [Required]
         [Phone]
         public string? MobilePhone { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string? City { get; set; }
 
-        [Required]
         public int Radius { get; set; }
 
         public User? User { get; set; }

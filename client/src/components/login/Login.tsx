@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 import { AuthContext } from '../../context/AuthContext';
-import { useAuth } from '../../hooks/useAuth';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
 import Card from '../card/Card';

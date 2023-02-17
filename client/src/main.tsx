@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Login from './components/login/Login';
+import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
 import Error404 from './pages/Error404';
 import Root from './routes/Root';
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'sign-up',
         element: <Register />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
       { path: '*', element: <Error404 /> },
     ],

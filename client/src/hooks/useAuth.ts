@@ -25,22 +25,5 @@ export const useAuth = () => {
     setItem('user', JSON.stringify(user));
   };
 
-  const logout = () => {
-    setUser(null);
-    setItem('user', JSON.stringify(null));
-  };
-
-  const setTokens = (accessToken: string, refreshToken: string) => {
-    if (!user) {
-      throw 'setting tokens when user is not defined';
-    }
-
-    setUser({
-      ...user,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    });
-  };
-
-  return { user, login, logout, setTokens };
+  return { user, login };
 };

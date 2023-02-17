@@ -25,6 +25,6 @@ namespace Domain.Dto
         [MinLength(6)]
         public string? Password { get; set; }
 
-        public Role Role{ get; set; }
+        public bool Expert { get; set; }
     }
 }
