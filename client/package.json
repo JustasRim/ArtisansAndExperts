@@ -27,6 +27,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.43.0",
     "react-image-crop": "^10.0.9",
+    "react-multi-select-component": "^4.3.4",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.8.0",
     "string-hash": "^1.1.3",

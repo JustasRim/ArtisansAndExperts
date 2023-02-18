@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ReactCrop, { Crop, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -18,6 +18,11 @@ export function PictureUpload({ initialImgSrc }: Props) {
   const [editOn, seteditOn] = useState(false);
 
   const { ax } = useAxios();
+
+  useEffect(() => {
+    if (!initialImgSrc) return;
+    setImgSrc(initialImgSrc);
+  }, [initialImgSrc]);
 
   const uploadedRef = useRef<HTMLImageElement>(null);
 

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { MultiSelect } from 'react-multi-select-component';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
 
@@ -10,12 +11,14 @@ import Button from '../button/Button';
 import Card from '../card/Card';
 import Input from '../input/Input';
 import { PictureUpload } from '../pictureUpload/PictureUpload';
+import styles from './profile.module.scss';
 
 const userProfile = z.object({
   workDescription: z.string().optional(),
   mobilePhone: z.string(),
   city: z.string().max(100),
   radius: z.number(),
+  activities: z.number().array().optional(),
 });
 
 type UserProfileInput = z.infer<typeof userProfile>;
@@ -33,18 +36,21 @@ export function Profile() {
     formState: { errors },
     reset,
   } = useForm<UserProfileInput>({
-    defaultValues: { ...data },
+    defaultValues: { ...data, activities: data?.activities?.map((q) => q.value) ?? [] },
     resolver: zodResolver(userProfile),
   });
 
+  const [selected, setSelected] = useState([]);
+
   useEffect(() => {
-    reset(data);
+    reset({ ...data, activities: data?.activities?.map((q) => q.value) ?? [] });
   }, [data]);
 
   const onSubmit = async (data: UserProfileInput) => {
+    data.activities = selected.map((q: { value: number }) => q.value);
     const userData = await ax.post('user', data);
     if (!userData) {
-      throw 'errror';
+      throw 'error';
     }
   };
 
@@ -75,9 +81,24 @@ export function Profile() {
           <label htmlFor="city">Miestas</label>
           <Input register={register} id="city" type="text" />
           {errors.city?.message && <p className="error">{errors.city?.message}</p>}
-          <label htmlFor="radius">Perimetras</label>
+          <label htmlFor="radius">Perimetras (km)</label>
           <Input register={register} id="radius" type="number" />
           {errors.radius?.message && <p className="error">{errors.radius?.message}</p>}
+          <label htmlFor="activities">Veiklos:</label>
+
+          <MultiSelect
+            className={styles.profile__multiselect}
+            overrideStrings={{
+              selectAll: 'Pasirinkti viską',
+              search: 'Ieškoti',
+              selectSomeItems: 'Pasirinkti',
+            }}
+            options={data?.activities ?? []}
+            value={selected}
+            onChange={setSelected}
+            labelledBy="Pasirinkti"
+          />
+          {errors.activities?.message && <p className="error">{errors.activities?.message}</p>}
           <Button type="submit">Atnaujinti duomenis</Button>
         </form>
       </Card>

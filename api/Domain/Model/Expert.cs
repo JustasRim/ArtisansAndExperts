@@ -15,6 +15,8 @@ namespace Domain.Model
 
         public int Radius { get; set; }
 
+        public bool Approved { get; set; } = false;
+
         public User? User { get; set; }
 
         public int UserId { get; set; }

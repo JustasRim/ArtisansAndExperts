@@ -15,5 +15,7 @@ namespace Domain.Dto
         public int Radius { get; set; }
 
         public string? ProfileSrc { get; set; }
+
+        public IList<ActivityDto>? Activities { get; set; }
     }
 }
