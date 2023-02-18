@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { Outlet } from 'react-router-dom';
 
+import { Footer } from '../components/footer/Footer';
 import Header from '../components/header/Header';
+import { QueryProvider } from '../components/queryProvider/QueryProvider';
 import Sidebar from '../components/sidebar/Sidebar';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
@@ -22,18 +25,22 @@ function Root() {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <ThemeContext.Provider value={{ theme, setTheme }}>
-        <div className={`theme-${theme}`}>
-          <div className="bg">
-            <Header setSidebarHidden={setHidden} />
-            <Sidebar hidden={hidden} setHidden={setHidden} />
-            <div className="paddingTop"></div>
-            <main className="container">
-              <Outlet />
-            </main>
+      <QueryProvider>
+        <ThemeContext.Provider value={{ theme, setTheme }}>
+          <div className={`theme-${theme}`}>
+            <div className="bg">
+              <Header setSidebarHidden={setHidden} />
+              <Sidebar hidden={hidden} setHidden={setHidden} />
+              <div className="paddingTop"></div>
+              <main className="container">
+                <Outlet />
+              </main>
+              <Footer></Footer>
+            </div>
           </div>
-        </div>
-      </ThemeContext.Provider>
+        </ThemeContext.Provider>
+        <ReactQueryDevtools />
+      </QueryProvider>
     </AuthContext.Provider>
   );
 }

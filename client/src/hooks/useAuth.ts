@@ -14,9 +14,9 @@ export const useAuth = () => {
   const { getItem, setItem } = useLocalStorage();
 
   useEffect(() => {
-    const user = getItem('user');
-    if (user) {
-      setUser(JSON.parse(user));
+    const userFromStorage = getItem('user');
+    if (userFromStorage) {
+      setUser(JSON.parse(userFromStorage));
     }
   }, []);
 

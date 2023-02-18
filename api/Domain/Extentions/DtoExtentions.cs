@@ -13,6 +13,7 @@ namespace Domain.Extentions
                 MobilePhone = expert.MobilePhone,
                 City = expert.City,
                 Radius = expert.Radius,
+                ProfileSrc = expert?.User?.ProfileSrc
             };
         }
 

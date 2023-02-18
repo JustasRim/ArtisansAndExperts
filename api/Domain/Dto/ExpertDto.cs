@@ -13,5 +13,7 @@ namespace Domain.Dto
         public string? City { get; set; }
 
         public int Radius { get; set; }
+
+        public string? ProfileSrc { get; set; }
     }
 }

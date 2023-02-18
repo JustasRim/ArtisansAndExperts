@@ -19,6 +19,8 @@ namespace Domain.Model
         [StringLength(100)]
         public string? LastName { get; set; }
 
+        public string? ProfileSrc { get; set; }
+
         [Required]
         [StringLength(100)]
         public string? Password { get; set; }

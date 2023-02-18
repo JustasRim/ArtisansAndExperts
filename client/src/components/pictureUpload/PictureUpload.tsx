@@ -8,9 +8,13 @@ import { ProfilePreview } from '../../utils/CropPicture';
 import Button from '../button/Button';
 import styles from './pictureUpload.module.scss';
 
-export function PictureUpload() {
+type Props = {
+  initialImgSrc?: string;
+};
+
+export function PictureUpload({ initialImgSrc }: Props) {
   const [crop, setCrop] = useState<Crop>();
-  const [imgSrc, setImgSrc] = useState<string>();
+  const [imgSrc, setImgSrc] = useState<string>(initialImgSrc ?? '');
   const [editOn, seteditOn] = useState(false);
 
   const { ax } = useAxios();
@@ -42,11 +46,15 @@ export function PictureUpload() {
     const t = await blob;
     const formData = new FormData();
     formData.append('file', t);
-    await ax.post('user/picture', formData, {
+    const response = await ax.post('user/picture', formData, {
       headers: {
         'Content-Type': 'multiple/form-data',
       },
     });
+
+    if (response && response.status === 200) {
+      setImgSrc(response.data);
+    }
   };
 
   const centerAspectCrop = (mediaWidth: number, mediaHeight: number, aspect: number) => {
@@ -98,7 +106,7 @@ export function PictureUpload() {
         <p>Tempkite nuotrauką čia</p>
         <input {...getInputProps()} />
       </div>
-      <Button onClick={saveProfilePic}>Išsaugoti nuotrauką</Button>
+      {editOn && <Button onClick={saveProfilePic}>Išsaugoti nuotrauką</Button>}
     </>
   );
 }

@@ -5,8 +5,6 @@ namespace Domain.Model
 {
     public class Expert : BaseEntity
     {
-        public string? ProfileSrc { get; set; }
-
         public string? WorkDescription { get; set; }
 
         [Phone]

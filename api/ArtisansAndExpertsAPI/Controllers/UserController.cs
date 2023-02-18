@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Services;
 using ArtisansAndExpertsAPI.Attributes;
 using Domain.Dto;
 using Domain.Enum;
@@ -15,10 +16,12 @@ namespace ArtisansAndExpertsAPI.Controllers
     public class UserController : Controller
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IFileUploadService _fileUploadService;
 
-        public UserController(IRepository<User> userRepository)
+        public UserController(IRepository<User> userRepository, IFileUploadService fileUploadService)
         {
             _userRepository = userRepository;
+            _fileUploadService = fileUploadService;
         }
 
         [HttpGet]
@@ -75,14 +78,33 @@ namespace ArtisansAndExpertsAPI.Controllers
 
         [HttpPost("picture")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public IActionResult UpdateProfilePicture([FromForm] IFormFile file)
+        public async Task<IActionResult> UpdateProfilePicture([FromForm] IFormFile file)
         {
-            using (var memoryStream = new MemoryStream())
+            if (User is null || User.Identity is null)
             {
-                file.CopyTo(memoryStream);
+                return BadRequest();
             }
 
-            return Ok();
+            var userName = User.Identity?.Name;
+            if (userName is null)
+            {
+                return BadRequest("No email");
+            }
+
+            var user = _userRepository.Get(q => q.Email == userName);
+            if (user is null || user.Expert is null)
+            {
+                return BadRequest("No user");
+            }
+
+            using var memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+            var url = await _fileUploadService.Upload(memoryStream);
+
+            user.ProfileSrc = url;
+            await _userRepository.Update(user);
+
+            return Ok(url);
         }
     }
 }

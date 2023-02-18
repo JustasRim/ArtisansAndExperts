@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
@@ -30,12 +31,15 @@ export function Profile() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<UserProfileInput>({
+    defaultValues: { ...data },
     resolver: zodResolver(userProfile),
-    defaultValues: {
-      ...data,
-    },
   });
+
+  useEffect(() => {
+    reset(data);
+  }, [data]);
 
   const onSubmit = async (data: UserProfileInput) => {
     const userData = await ax.post('user', data);
@@ -53,10 +57,11 @@ export function Profile() {
   }
 
   return (
-    <div>
+    <>
       <h1>Profilis</h1>
       <Card>
-        <PictureUpload />
+        <h2>Nuotrauka</h2>
+        <PictureUpload initialImgSrc={data?.profileSrc} />
       </Card>
       <Card>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -76,6 +81,6 @@ export function Profile() {
           <Button type="submit">Atnaujinti duomenis</Button>
         </form>
       </Card>
-    </div>
+    </>
   );
 }

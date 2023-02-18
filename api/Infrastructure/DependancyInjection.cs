@@ -20,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IFileUploadService, FileUpload>();
 
             services.AddTransient<IRepository<User>, UserRepository>();
             

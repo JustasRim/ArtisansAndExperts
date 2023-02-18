@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Login from './components/login/Login';
@@ -14,8 +12,6 @@ import './styles/index.scss';
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./serviceWorker.js');
 }
-
-const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -40,10 +36,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <QueryClientProvider client={queryClient}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools />
-    </React.StrictMode>
-  </QueryClientProvider>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );
