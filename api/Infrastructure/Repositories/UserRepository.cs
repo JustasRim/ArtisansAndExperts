@@ -26,11 +26,14 @@ namespace Infrastructure.Repositories
         }
 
         public User? Get(Func<User, bool> pred) => _context.Users
-            .Include(q => q.Expert)
             .Include(q => q.Client)
+            .Include(q => q.Expert)
+            .ThenInclude(q => q.Activities)
             .FirstOrDefault(pred);
 
         public User? GetById(int id) => _context.Users.Find(id);
+
+        public IList<User> GetAll() => _context.Users.ToList();
 
         public async Task Update(User entity)
         {

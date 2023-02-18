@@ -13,14 +13,7 @@ namespace Domain.Extentions
                 MobilePhone = expert.MobilePhone,
                 City = expert.City,
                 Radius = expert.Radius,
-                ProfileSrc = expert?.User?.ProfileSrc,
-                Activities = expert?.Activities?
-                    .Select(q => new ActivityDto 
-                    {
-                        Label = q.Name,
-                        Value = q.Id
-                    })
-                    .ToList() ?? new List<ActivityDto>()
+                ProfileSrc = expert?.User?.ProfileSrc
             };
         }
 

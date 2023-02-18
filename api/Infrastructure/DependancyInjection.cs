@@ -23,6 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IFileUploadService, FileUpload>();
 
             services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<Activity>, ActivityRepository>();
             
             return services;
         }

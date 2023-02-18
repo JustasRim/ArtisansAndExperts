@@ -17,11 +17,13 @@ namespace ArtisansAndExpertsAPI.Controllers
     {
         private readonly IRepository<User> _userRepository;
         private readonly IFileUploadService _fileUploadService;
+        private readonly IRepository<Activity> _activityRepository;
 
-        public UserController(IRepository<User> userRepository, IFileUploadService fileUploadService)
+        public UserController(IRepository<User> userRepository, IFileUploadService fileUploadService, IRepository<Activity> activityRepository)
         {
             _userRepository = userRepository;
             _fileUploadService = fileUploadService;
+            _activityRepository = activityRepository;
         }
 
         [HttpGet]
@@ -45,7 +47,24 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest("No user");
             }
 
+            var activities = _activityRepository.GetAll();
             var dto = user.Expert.ToExpertDto();
+            dto.Activities = activities
+                .Select(q => new ActivityDto
+                    {
+                        Label = q.Name,
+                        Value = q.Id
+                    })
+                    .ToList() ?? new List<ActivityDto>();
+
+            dto.SelectedActivities = user.Expert?.Activities?
+                .Select(q => new ActivityDto
+                {
+                    Label = q.Name,
+                    Value = q.Id
+                })
+                .ToList() ?? new List<ActivityDto>();
+
             return Ok(dto);
         }
 
@@ -53,17 +72,17 @@ namespace ArtisansAndExpertsAPI.Controllers
         [AuthorizeRoles(Role.Admin, Role.Expert)]
         public async Task<IActionResult> UpdateExpert([FromBody] ExpertDto expertDto)
         {
-            if (User is null || User.Identity is null)
+            if (User is null || User.Identity is null || User.Identity.Name is null)
             {
                 return BadRequest();
             }
 
-            var userName = User.Identity?.Name;
-            if (userName is null)
+            if (expertDto.Activities is null)
             {
-                return BadRequest("No email");
+                return BadRequest("No user");
             }
 
+            var userName = User.Identity?.Name;
             var user = _userRepository.Get(q => q.Email == userName);
             if (user is null || user.Expert is null)
             {
@@ -71,8 +90,30 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             user.Expert.UpdateExpertFromDto(expertDto);
-            await _userRepository.Update(user);
+            var activities = _activityRepository.GetAll();
+            foreach (var activity in expertDto.Activities)
+            {
+                var activityToAdd = activities.FirstOrDefault(q => q.Id == activity.Value);
+                if (activityToAdd is null)
+                {
+                    return BadRequest("No such activity");
+                }
 
+                activityToAdd.Experts = new List<Expert>
+                {
+                    user.Expert
+                };
+
+                await _activityRepository.Update(activityToAdd);
+            }
+
+            if (expertDto.Activities.Count == 0)
+            {
+                user.Expert.Activities = new List<Activity>();
+                await _userRepository.Update(user);
+            }
+
+            await _userRepository.Update(user);
             return Ok(user.Expert.ToExpertDto());
         }
 

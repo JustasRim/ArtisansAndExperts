@@ -17,5 +17,7 @@ namespace Domain.Dto
         public string? ProfileSrc { get; set; }
 
         public IList<ActivityDto>? Activities { get; set; }
+
+        public IList<ActivityDto>? SelectedActivities { get; set; }
     }
 }

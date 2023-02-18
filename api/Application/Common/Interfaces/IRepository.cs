@@ -6,6 +6,8 @@
 
         T? Get(Func<T, bool> pred);
 
+        IList<T> GetAll();
+
         Task<int> Add(T entity);
 
         Task Update(T entity);

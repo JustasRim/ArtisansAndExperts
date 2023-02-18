@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 import { useAxios } from '../../hooks/useAxios';
-import { UserProfile } from '../../utils/Interfaces';
+import { Select, UserProfile } from '../../utils/Interfaces';
 import Button from '../button/Button';
 import Card from '../card/Card';
 import Input from '../input/Input';
@@ -18,7 +18,13 @@ const userProfile = z.object({
   mobilePhone: z.string(),
   city: z.string().max(100),
   radius: z.number(),
-  activities: z.number().array().optional(),
+  activities: z
+    .object({
+      label: z.string(),
+      value: z.number(),
+    })
+    .array()
+    .optional(),
 });
 
 type UserProfileInput = z.infer<typeof userProfile>;
@@ -36,19 +42,21 @@ export function Profile() {
     formState: { errors },
     reset,
   } = useForm<UserProfileInput>({
-    defaultValues: { ...data, activities: data?.activities?.map((q) => q.value) ?? [] },
+    defaultValues: { ...data, activities: data?.activities ?? [] },
     resolver: zodResolver(userProfile),
   });
 
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState<Select[]>([]);
 
   useEffect(() => {
-    reset({ ...data, activities: data?.activities?.map((q) => q.value) ?? [] });
+    reset({ ...data, activities: data?.activities ?? [] });
+    if (!data?.selectedActivities) return;
+    setSelected(data?.selectedActivities);
   }, [data]);
 
-  const onSubmit = async (data: UserProfileInput) => {
-    data.activities = selected.map((q: { value: number }) => q.value);
-    const userData = await ax.post('user', data);
+  const onSubmit = async (submitData: UserProfileInput) => {
+    submitData.activities = selected;
+    const userData = await ax.post('user', submitData);
     if (!userData) {
       throw 'error';
     }
@@ -85,7 +93,6 @@ export function Profile() {
           <Input register={register} id="radius" type="number" />
           {errors.radius?.message && <p className="error">{errors.radius?.message}</p>}
           <label htmlFor="activities">Veiklos:</label>
-
           <MultiSelect
             className={styles.profile__multiselect}
             overrideStrings={{
