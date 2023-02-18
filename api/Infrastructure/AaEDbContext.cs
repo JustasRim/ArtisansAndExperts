@@ -8,6 +8,8 @@ namespace Infrastructure
     {
         public virtual DbSet<User> Users => Set<User>();
 
+        public virtual DbSet<Activity> Activities => Set<Activity>();
+
         public AaEDbContext(DbContextOptions<AaEDbContext> options)
             : base(options)
         {

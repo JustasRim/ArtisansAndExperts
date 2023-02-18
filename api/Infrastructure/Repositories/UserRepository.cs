@@ -16,13 +16,12 @@ namespace Infrastructure.Repositories
         public async Task<int> Add(User entity)
         {
             await _context.Users.AddAsync(entity);
-            await _context.SaveChangesAsync();
             return await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
-            _context.Remove(id);
+            _context.Users.Remove(new User { Id = id });
             await _context.SaveChangesAsync();
         }
 
