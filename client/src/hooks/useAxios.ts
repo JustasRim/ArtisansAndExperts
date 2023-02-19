@@ -49,6 +49,7 @@ export const useAxios = () => {
       });
 
       if (refreshResponse.status !== 200) {
+        window.location.href = '/login';
         return err;
       }
 

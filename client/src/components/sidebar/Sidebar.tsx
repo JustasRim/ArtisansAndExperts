@@ -41,7 +41,13 @@ const Sidebar = ({ className, hidden, setHidden }: Props) => {
           )}
         </nav>
         {user && (
-          <Button className={styles.sidebar__btn} onClick={() => setUser(null)}>
+          <Button
+            className={styles.sidebar__btn}
+            onClick={() => {
+              setUser(null);
+              window.location.href = '/';
+            }}
+          >
             Atsijungti
           </Button>
         )}

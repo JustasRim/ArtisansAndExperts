@@ -35,12 +35,16 @@ const Login = () => {
     }
 
     const { data: responseData } = response;
+    debugger;
     setUser({
       name: responseData.name,
       lastName: responseData.lastName,
+      role: responseData.role,
       accessToken: responseData.accessToken,
       refreshToken: responseData.refreshToken,
     });
+
+    window.location.href = '/';
   };
 
   return (

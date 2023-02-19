@@ -5,6 +5,10 @@
   margin: 0 auto;
 }
 
+main {
+  min-height: calc(100vh - 14.5rem - 3px);
+}
+
 .bg {
   min-height: 100vh;
   @include themify($themes) {

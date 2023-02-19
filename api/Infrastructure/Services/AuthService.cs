@@ -82,6 +82,7 @@ namespace Infrastructure.Services
             {
                 Name = user.Name,
                 LastName = user.Name,
+                Role = user.Role,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
@@ -105,7 +106,7 @@ namespace Infrastructure.Services
             {
                 Email = registerDto.Email,
                 Name = registerDto.Name,
-                LastName= registerDto.LastName,
+                LastName = registerDto.LastName,
                 Role = role,
                 Password = registerDto.Password
             };
@@ -127,6 +128,7 @@ namespace Infrastructure.Services
             {
                 Name = registerDto.Name,
                 LastName = registerDto.LastName,
+                Role = newUser.Role,
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { Role } from '../utils/Enums';
 import { useLocalStorage } from './useLocalStorage';
 
 export interface User {
   name: string;
   lastName: string;
+  role: Role;
   accessToken: string;
   refreshToken: string;
 }
