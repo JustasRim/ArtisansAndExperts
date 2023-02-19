@@ -7,8 +7,6 @@ type Props = {
   className?: string;
 };
 
-const Card = ({ children, className }: Props) => {
+export function Card({ children, className }: Props) {
   return <div className={`${styles.card} ${className ?? ''}`}>{children}</div>;
-};
-
-export default Card;
+}

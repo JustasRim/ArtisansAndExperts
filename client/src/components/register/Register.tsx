@@ -5,10 +5,9 @@ import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 import { AuthContext } from '../../context/AuthContext';
-import { useAuth } from '../../hooks/useAuth';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
-import Card from '../card/Card';
+import { Card } from '../card/Card';
 import Input from '../input/Input';
 import styles from './register.module.scss';
 
@@ -58,6 +57,8 @@ export default function Register() {
       accessToken: responseData.accessToken,
       refreshToken: responseData.refreshToken,
     });
+
+    window.location.href = '/';
   };
 
   return (

@@ -1,5 +1,6 @@
 using ArtisansAndExpertsAPI.Extentions;
 using ArtisansAndExpertsAPI.Middleware;
+using HashidsNet;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using ILogger = Serilog.ILogger;
@@ -12,6 +13,7 @@ ILogger logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Logging.AddSerilog(logger);
 builder.Services.AddSingleton(logger);
+builder.Services.AddHashids(builder.Configuration);
 
 builder.Services.AddAuthSchema(builder.Configuration);
 builder.Services.AddGlobalCors();

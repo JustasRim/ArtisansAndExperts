@@ -24,6 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddTransient<IRepository<User>, UserRepository>();
             services.AddTransient<IRepository<Activity>, ActivityRepository>();
+            services.AddTransient<IRepository<Expert>, ExpertRepository>();
             
             return services;
         }

@@ -10,6 +10,8 @@ namespace Infrastructure
 
         public virtual DbSet<Activity> Activities => Set<Activity>();
 
+        public virtual DbSet<Expert> Experts => Set<Expert>();
+
         public AaEDbContext(DbContextOptions<AaEDbContext> options)
             : base(options)
         {

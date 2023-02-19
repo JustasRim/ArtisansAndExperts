@@ -24,5 +24,18 @@ namespace Domain.Extentions
             expert.City = dto.City;
             expert.Radius = dto.Radius;
         }
+
+        public static AdminUserDto ToAdminUserDto(this Expert expert)
+        {
+            return new AdminUserDto
+            {
+                Name = expert.User?.Name,
+                LastName = expert.User?.LastName,
+                Email = expert.User?.Email,
+                RegistrationDate = expert.User?.RegistrationDate,
+                Approved = expert.Approved,
+                Banned = expert.User?.IsBanned ?? false
+            };
+        }
     }
 }

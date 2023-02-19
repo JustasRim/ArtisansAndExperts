@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { useAxios } from '../../hooks/useAxios';
 import { Select, UserProfile } from '../../utils/Interfaces';
 import Button from '../button/Button';
-import Card from '../card/Card';
+import { Card } from '../card/Card';
 import Input from '../input/Input';
 import { PictureUpload } from '../pictureUpload/PictureUpload';
 import styles from './profile.module.scss';

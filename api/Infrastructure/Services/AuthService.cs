@@ -117,9 +117,17 @@ namespace Infrastructure.Services
             var (accessToken, refreshToken) = GenerateTokens(registerDto.Email, registerDto.Expert ? Role.Expert : Role.Client);
             newUser.RefreshToken = refreshToken;
             newUser.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
-            var affectedRows = await _userRepository.Add(newUser);
+            if (newUser.Role == Role.Expert)
+            {
+                newUser.Expert = new();
+            }
+            else
+            {
+                newUser.Client = new();
+            }
 
-            if (affectedRows != 0)
+            var affectedRows = await _userRepository.Add(newUser);
+            if (affectedRows >= 0)
             {
                 throw new Exception("Save changes to database returned not 0");
             }

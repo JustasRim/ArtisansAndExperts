@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
-import Card from '../card/Card';
+import { Card } from '../card/Card';
 import Input from '../input/Input';
 import styles from './login.module.scss';
 

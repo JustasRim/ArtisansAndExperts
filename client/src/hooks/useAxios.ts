@@ -43,13 +43,19 @@ export const useAxios = () => {
         return err;
       }
 
+      const stringUser = localStorage.getItem('user');
+      if (!stringUser) {
+        return err;
+      }
+
+      const userFromStorage = JSON.parse(stringUser);
       const refreshResponse = await ax.post('/token/refresh', {
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
+        accessToken: userFromStorage.accessToken,
+        refreshToken: userFromStorage.refreshToken,
       });
 
       if (refreshResponse.status !== 200) {
-        window.location.href = '/login';
+        //window.location.href = '/login';
         return err;
       }
 

@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useAxios } from '../../hooks/useAxios';
 import { useInteractions } from '../../hooks/useInteract';
+import { Role } from '../../utils/Enums';
 import Button from '../button/Button';
 import Switch from '../switch/Switch';
 import moon from './../../assets/moon.svg';
@@ -13,6 +14,25 @@ import styles from './header.module.scss';
 
 type Props = {
   setSidebarHidden: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const renderLink = (role: Role) => {
+  switch (role) {
+    case Role.Expert:
+      return (
+        <Link className={styles.header__link} to="/profile" tabIndex={0}>
+          Profilis
+        </Link>
+      );
+    case Role.Admin:
+      return (
+        <Link className={styles.header__link} to="/admin" tabIndex={0}>
+          Administravimas
+        </Link>
+      );
+    default:
+      break;
+  }
 };
 
 const Header = ({ setSidebarHidden }: Props) => {
@@ -29,7 +49,7 @@ const Header = ({ setSidebarHidden }: Props) => {
   };
 
   const handleLogout = async () => {
-    const response = await ax.post('/token/revoke');
+    await ax.post('/token/revoke');
     setUser(null);
   };
 
@@ -53,9 +73,7 @@ const Header = ({ setSidebarHidden }: Props) => {
               </Link>
             </>
           ) : (
-            <Link className={styles.header__link} to="/profile" tabIndex={0}>
-              Profilis
-            </Link>
+            renderLink(user.role)
           )}
         </nav>
         <div className={styles.controls}>

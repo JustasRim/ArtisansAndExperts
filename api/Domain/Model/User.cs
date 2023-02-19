@@ -29,14 +29,16 @@ namespace Domain.Model
 
         public DateTime RefreshTokenExpiryTime { get; set; }
 
+        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+
         public Role Role { get; set; }
 
         public bool EmailConfirmed { get; set; } = false;
 
         public bool IsBanned { get; set; } = false;
 
-        public Expert Expert { get; set; } = new Expert();
+        public Expert? Expert { get; set; }
 
-        public Client Client { get; set; } = new Client();
+        public Client? Client { get; set; }
     }
 }
