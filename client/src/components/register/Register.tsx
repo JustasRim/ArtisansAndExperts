@@ -54,6 +54,7 @@ export default function Register() {
     setUser({
       name: responseData.name,
       lastName: responseData.lastName,
+      role: responseData.role,
       accessToken: responseData.accessToken,
       refreshToken: responseData.refreshToken,
     });

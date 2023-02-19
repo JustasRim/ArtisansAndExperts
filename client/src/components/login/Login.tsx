@@ -35,7 +35,6 @@ const Login = () => {
     }
 
     const { data: responseData } = response;
-    debugger;
     setUser({
       name: responseData.name,
       lastName: responseData.lastName,
