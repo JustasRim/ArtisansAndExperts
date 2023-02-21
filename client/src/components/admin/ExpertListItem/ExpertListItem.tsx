@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 
 import { useAxios } from '../../../hooks/useAxios';
@@ -40,7 +41,7 @@ export function ExpertListItem({
     <div className={styles.list__item}>
       <span>{`${name} ${lastName}`}</span>
       <span>{email}t</span>
-      <span>{`${registrationDate}`}</span>
+      <span>{moment(registrationDate).format('yyyy/mm/d hh:mm')}</span>
       <Button onClick={() => approveToggle(email)}> {approved ? 'Atmesti' : 'Patvirtinti'}</Button>
       <Button>Peržiūrėti</Button>
       <Button onClick={() => banToggle(email)}>{banned ? 'Neblokuoti' : 'Blokuoti'}</Button>
