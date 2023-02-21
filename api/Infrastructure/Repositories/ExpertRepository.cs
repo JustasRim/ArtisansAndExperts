@@ -36,6 +36,8 @@ namespace Infrastructure.Repositories
         public IList<Expert> GetAll() => _context.Experts
             .Include(q => q.User)
             .Include(q => q.Activities)
+            .OrderBy(q => q.User.Name)
+            .ThenBy(q => q.User.LastName)
             .ToList();
 
         public async Task Update(Expert entity)

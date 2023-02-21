@@ -9,16 +9,20 @@ import { ClientListItem } from '../lientListItem/ClientListItem';
 export function Clients() {
   const { ax } = useAxios();
   const { isLoading, error, data } = useQuery<AdminUser[], Error>('adminClients', async () => {
-    const experts = await ax.get('client');
+    const experts = await ax.get('admin/clients');
+    if (experts.request?.status === 204) {
+      throw new Error('Nėra klientų');
+    }
+
     return experts.data;
   });
 
   if (isLoading) {
-    return <div>Kraunasi...</div>;
+    return <Card>Kraunasi...</Card>;
   }
 
   if (error) {
-    return <div>Klaida...</div>;
+    return <Card>{error.message}</Card>;
   }
 
   return (

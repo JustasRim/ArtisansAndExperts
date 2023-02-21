@@ -9,6 +9,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr) repeat(3, min(6.5rem, 100%));
     gap: 0.5em;
+    padding: 0.5em 0;
     align-items: center;
 
     button {

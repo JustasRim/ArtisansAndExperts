@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAxios } from '../../../hooks/useAxios';
 import { AdminUser } from '../../../utils/Interfaces';
 import Button from '../../button/Button';
-import styles from '../ExpertListItem/expertListItem.module.scss';
+import styles from '../expertListItem/expertListItem.module.scss';
 
 export function ClientListItem({ name, lastName, email, banned: isBanned, registrationDate }: AdminUser) {
   const [banned, setBanned] = useState<boolean>(isBanned);
@@ -14,9 +14,9 @@ export function ClientListItem({ name, lastName, email, banned: isBanned, regist
   }, [isBanned]);
 
   const banToggle = async (email: string) => {
-    const response = await ax.patch(`client/block?email=${email}`);
-    if (response.status === 204) {
-      setBanned((curr) => !curr);
+    const response = await ax.patch(`admin/client/block?email=${email}&block=${!banned}`);
+    if (response.status === 200) {
+      setBanned(response.data);
     }
   };
 

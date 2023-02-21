@@ -1,24 +1,5 @@
 @use '../../styles/variables.scss' as *;
 
-.list {
-  &__item {
-    font-weight: normal;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) repeat(3, min(6.5rem, 100%));
-    gap: 0.5em;
-    align-items: center;
-
-    button {
-      margin: 0;
-      padding: 0.5em;
-    }
-
-    @media (max-width: $breakpoint-tablet) {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-
 .navigation {
   display: flex;
   justify-content: center;

@@ -98,7 +98,7 @@ export default function Register() {
 
           <div className={`${styles.register__input} ${styles['register__input--inline']}`}>
             <label className={styles.register__label} htmlFor="password">
-              Esu meistras (nesiregistruoju kaip klientas)?
+              Esu meistras (nesiregistruoju kaip klientas)
             </label>
             <Input className={styles.register__checkbox} register={register} id="expert" type="checkbox" />
           </div>

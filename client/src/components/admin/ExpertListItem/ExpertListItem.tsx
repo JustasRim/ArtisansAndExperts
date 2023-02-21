@@ -23,16 +23,16 @@ export function ExpertListItem({
   }, [isApproved, isBanned]);
 
   const approveToggle = async (email: string) => {
-    const response = await ax.patch(`expert/approve?email=${email}`);
-    if (response.status === 204) {
-      setApproved((curr) => !curr);
+    const response = await ax.patch(`admin/approve?email=${email}&approve=${!approved}`);
+    if (response.status === 200) {
+      setApproved(response.data);
     }
   };
 
   const banToggle = async (email: string) => {
-    const response = await ax.patch(`expert/block?email=${email}`);
-    if (response.status === 204) {
-      setBanned((curr) => !curr);
+    const response = await ax.patch(`admin/expert/block?email=${email}&block=${!banned}`);
+    if (response.status === 200) {
+      setBanned(response.data);
     }
   };
 

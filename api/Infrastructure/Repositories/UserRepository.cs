@@ -33,7 +33,10 @@ namespace Infrastructure.Repositories
 
         public User? GetById(int id) => _context.Users.Find(id);
 
-        public IList<User> GetAll() => _context.Users.ToList();
+        public IList<User> GetAll() => _context.Users
+            .OrderBy(q => q.Name)
+            .ThenBy(q => q.LastName)
+            .ToList();
 
         public async Task Update(User entity)
         {

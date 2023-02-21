@@ -9,16 +9,19 @@ import { ExpertListItem } from '../expertListItem/ExpertListItem';
 export function Experts() {
   const { ax } = useAxios();
   const { isLoading, error, data } = useQuery<AdminUser[], Error>('adminExperts', async () => {
-    const experts = await ax.get('expert');
+    const experts = await ax.get('admin/experts');
+    if (experts.request?.status === 204) {
+      throw new Error('Nėra ekspertų');
+    }
     return experts.data;
   });
 
   if (isLoading) {
-    return <div>Kraunasi...</div>;
+    return <Card>Kraunasi...</Card>;
   }
 
   if (error) {
-    return <div>Klaida...</div>;
+    return <Card>{error.message}</Card>;
   }
 
   return (

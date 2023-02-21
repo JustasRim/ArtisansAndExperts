@@ -127,9 +127,9 @@ namespace Infrastructure.Services
             }
 
             var affectedRows = await _userRepository.Add(newUser);
-            if (affectedRows >= 0)
+            if (affectedRows == 0)
             {
-                throw new Exception("Save changes to database returned not 0");
+                throw new Exception("Save changes to database returned is 0");
             }
 
             return new AuthDto

@@ -37,5 +37,18 @@ namespace Domain.Extentions
                 Banned = expert.User?.IsBanned ?? false
             };
         }
+
+
+        public static AdminUserDto ToAdminUserDto(this User user)
+        {
+            return new AdminUserDto
+            {
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                RegistrationDate = user.RegistrationDate,
+                Banned = user.IsBanned
+            };
+        }
     }
 }
