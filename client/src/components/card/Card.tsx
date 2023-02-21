@@ -2,11 +2,11 @@ import { ReactNode } from 'react';
 
 import styles from './card.module.scss';
 
-type Props = {
+type Prop = {
   children: ReactNode;
   className?: string;
 };
 
-export function Card({ children, className }: Props) {
+export function Card({ children, className }: Prop) {
   return <div className={`${styles.card} ${className ?? ''}`}>{children}</div>;
 }

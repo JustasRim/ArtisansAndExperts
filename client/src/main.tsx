@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Admin } from './components/admin/Admin';
+import { Clients } from './components/admin/clients/Clients';
+import { Experts } from './components/admin/experts/Experts';
 import Login from './components/login/Login';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
@@ -44,6 +46,24 @@ const router = createBrowserRouter([
             <Admin />
           </Protected>
         ),
+        children: [
+          {
+            path: 'clients',
+            element: (
+              <Protected roles={[Role.Admin]}>
+                <Clients />
+              </Protected>
+            ),
+          },
+          {
+            path: 'experts',
+            element: (
+              <Protected roles={[Role.Admin]}>
+                <Experts />
+              </Protected>
+            ),
+          },
+        ],
       },
       { path: '*', element: <Error404 /> },
     ],

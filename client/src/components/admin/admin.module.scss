@@ -18,3 +18,12 @@
     }
   }
 }
+
+.navigation {
+  display: flex;
+  justify-content: center;
+
+  &__link {
+    margin: 0 1em;
+  }
+}
