@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Admin } from './components/admin/Admin';
 import { Clients } from './components/admin/clients/Clients';
 import { Experts } from './components/admin/experts/Experts';
+import { Preview } from './components/admin/preview/Preview';
 import Login from './components/login/Login';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
         path: 'profile',
         element: (
           <Protected roles={[Role.Expert, Role.Admin]}>
-            <Profile />
+            <Profile profileLink="user" />
           </Protected>
         ),
       },
@@ -60,6 +61,14 @@ const router = createBrowserRouter([
             element: (
               <Protected roles={[Role.Admin]}>
                 <Experts />
+              </Protected>
+            ),
+          },
+          {
+            path: 'preview',
+            element: (
+              <Protected roles={[Role.Admin]}>
+                <Preview />
               </Protected>
             ),
           },

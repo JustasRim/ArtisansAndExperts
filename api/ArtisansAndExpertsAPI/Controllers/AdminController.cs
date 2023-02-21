@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using ArtisansAndExpertsAPI.Attributes;
+using Domain.Dto;
 using Domain.Enum;
 using Domain.Extentions;
 using Domain.Model;
@@ -14,11 +15,13 @@ namespace ArtisansAndExpertsAPI.Controllers
     {
         private readonly IRepository<Expert> _expertRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Activity> _activityRepository;
 
-        public AdminController(IRepository<Expert> expertRepository, IRepository<User> userRepository)
+        public AdminController(IRepository<Expert> expertRepository, IRepository<User> userRepository, IRepository<Activity> activityRepository)
         {
             _expertRepository = expertRepository;
             _userRepository = userRepository;
+            _activityRepository = activityRepository;
         }
 
         [HttpGet("experts")]
@@ -79,6 +82,36 @@ namespace ArtisansAndExpertsAPI.Controllers
             user.RefreshToken = null;
             _userRepository.Update(user);
             return Ok(block);
+        }
+
+        [HttpGet("review/{email}")]
+        public IActionResult ReviewProfile(string email)
+        {
+            var user = _userRepository.Get(q => q.Email == email);
+            if (user is null)
+            {
+                return BadRequest("No user");
+            }
+
+            var activities = _activityRepository.GetAll();
+            var dto = user.Expert.ToExpertDto();
+            dto.Activities = activities
+                .Select(q => new ActivityDto
+                {
+                    Label = q.Name,
+                    Value = q.Id
+                })
+                    .ToList() ?? new List<ActivityDto>();
+
+            dto.SelectedActivities = user.Expert?.Activities?
+                .Select(q => new ActivityDto
+                {
+                    Label = q.Name,
+                    Value = q.Id
+                })
+                .ToList() ?? new List<ActivityDto>();
+
+            return Ok(dto);
         }
     }
 }

@@ -37,13 +37,17 @@ export function ExpertListItem({
     }
   };
 
+  const review = async (email: string) => {
+    window.location.href = `preview?email=${email}`;
+  };
+
   return (
     <div className={styles.list__item}>
       <span>{`${name} ${lastName}`}</span>
       <span>{email}t</span>
       <span>{moment(registrationDate).format('yyyy/mm/d hh:mm')}</span>
       <Button onClick={() => approveToggle(email)}> {approved ? 'Atmesti' : 'Patvirtinti'}</Button>
-      <Button>Peržiūrėti</Button>
+      <Button onClick={() => review(email)}>Peržiūrėti</Button>
       <Button onClick={() => banToggle(email)}>{banned ? 'Neblokuoti' : 'Blokuoti'}</Button>
     </div>
   );

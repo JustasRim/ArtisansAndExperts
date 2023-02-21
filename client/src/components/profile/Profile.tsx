@@ -29,10 +29,14 @@ const userProfile = z.object({
 
 type UserProfileInput = z.infer<typeof userProfile>;
 
-export function Profile() {
+type Props = {
+  profileLink: string;
+};
+
+export function Profile({ profileLink }: Props) {
   const { ax } = useAxios();
   const { isLoading, error, data } = useQuery<UserProfile, Error>('profile', async () => {
-    const profile = await ax.get('user');
+    const profile = await ax.get(profileLink);
     return profile.data;
   });
 
