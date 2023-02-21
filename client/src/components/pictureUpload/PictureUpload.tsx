@@ -10,9 +10,10 @@ import styles from './pictureUpload.module.scss';
 
 type Props = {
   initialImgSrc?: string;
+  email?: string;
 };
 
-export function PictureUpload({ initialImgSrc }: Props) {
+export function PictureUpload({ initialImgSrc, email }: Props) {
   const [crop, setCrop] = useState<Crop>();
   const [imgSrc, setImgSrc] = useState<string>(initialImgSrc ?? '');
   const [editOn, seteditOn] = useState(false);
@@ -51,7 +52,12 @@ export function PictureUpload({ initialImgSrc }: Props) {
     const t = await blob;
     const formData = new FormData();
     formData.append('file', t);
-    const response = await ax.post('user/picture', formData, {
+    let path = 'user/picture';
+    if (email) {
+      path += `/${email}`;
+    }
+
+    const response = await ax.post(path, formData, {
       headers: {
         'Content-Type': 'multiple/form-data',
       },

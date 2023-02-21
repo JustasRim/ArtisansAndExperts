@@ -7,6 +7,7 @@ using Domain.Extentions;
 using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ArtisansAndExpertsAPI.Controllers
 {
@@ -26,16 +27,16 @@ namespace ArtisansAndExpertsAPI.Controllers
             _activityRepository = activityRepository;
         }
 
-        [HttpGet]
+        [HttpGet("{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public IActionResult GetProfile()
+        public IActionResult GetProfile(string? email)
         {
             if (User is null || User.Identity is null)
             {
                 return BadRequest();
             }
 
-            var userName = User.Identity?.Name;
+            var userName = GetUserMail(email);
             if (userName is null)
             {
                 return BadRequest("No email");
@@ -68,9 +69,9 @@ namespace ArtisansAndExpertsAPI.Controllers
             return Ok(dto);
         }
 
-        [HttpPost]
+        [HttpPost("{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public async Task<IActionResult> UpdateExpert([FromBody] ExpertDto expertDto)
+        public async Task<IActionResult> UpdateExpert([FromBody] ExpertDto expertDto, string? email)
         {
             if (User is null || User.Identity is null || User.Identity.Name is null)
             {
@@ -82,7 +83,7 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest("No user");
             }
 
-            var userName = User.Identity?.Name;
+            var userName = GetUserMail(email);
             var user = _userRepository.Get(q => q.Email == userName);
             if (user is null || user.Expert is null)
             {
@@ -117,16 +118,17 @@ namespace ArtisansAndExpertsAPI.Controllers
             return Ok(user.Expert.ToExpertDto());
         }
 
-        [HttpPost("picture")]
+
+        [HttpPost("picture/{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public async Task<IActionResult> UpdateProfilePicture([FromForm] IFormFile file)
+        public async Task<IActionResult> UpdateProfilePicture([FromForm] IFormFile file, string? email)
         {
             if (User is null || User.Identity is null)
             {
                 return BadRequest();
             }
 
-            var userName = User.Identity?.Name;
+            var userName = GetUserMail(email);
             if (userName is null)
             {
                 return BadRequest("No email");
@@ -146,6 +148,22 @@ namespace ArtisansAndExpertsAPI.Controllers
             await _userRepository.Update(user);
 
             return Ok(url);
+        }
+
+        [NonAction]
+        private string? GetUserMail(string? email) 
+        {
+            var userName = User.Identity?.Name;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var role = User.Claims.FirstOrDefault(q => q.Type == ClaimTypes.Role)?.Value;
+                if (role.Equals(Role.Admin.ToString()))
+                {
+                    return email;
+                }
+            }
+
+            return userName;
         }
     }
 }

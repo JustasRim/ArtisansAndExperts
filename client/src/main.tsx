@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         path: 'profile',
         element: (
           <Protected roles={[Role.Expert, Role.Admin]}>
-            <Profile profileLink="user" />
+            <Profile />
           </Protected>
         ),
       },

@@ -30,13 +30,18 @@ const userProfile = z.object({
 type UserProfileInput = z.infer<typeof userProfile>;
 
 type Props = {
-  profileLink: string;
+  email?: string;
 };
 
-export function Profile({ profileLink }: Props) {
+export function Profile({ email }: Props) {
   const { ax } = useAxios();
   const { isLoading, error, data } = useQuery<UserProfile, Error>('profile', async () => {
-    const profile = await ax.get(profileLink);
+    let path = 'user';
+    if (email) {
+      path += `/${email}`;
+    }
+
+    const profile = await ax.get(path);
     return profile.data;
   });
 
@@ -60,7 +65,12 @@ export function Profile({ profileLink }: Props) {
 
   const onSubmit = async (submitData: UserProfileInput) => {
     submitData.activities = selected;
-    const userData = await ax.post('user', submitData);
+    let path = 'user';
+    if (email) {
+      path += `/${email}`;
+    }
+
+    const userData = await ax.post(path, submitData);
     if (!userData) {
       throw 'error';
     }
@@ -79,7 +89,7 @@ export function Profile({ profileLink }: Props) {
       <h1>Profilis</h1>
       <Card>
         <h2>Nuotrauka</h2>
-        <PictureUpload initialImgSrc={data?.profileSrc} />
+        <PictureUpload initialImgSrc={data?.profileSrc} email={email} />
       </Card>
       <Card>
         <form onSubmit={handleSubmit(onSubmit)}>

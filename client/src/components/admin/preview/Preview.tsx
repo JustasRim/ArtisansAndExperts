@@ -10,5 +10,5 @@ export function Preview() {
     return <div>Neteisingas paštas.</div>;
   }
 
-  return <Profile profileLink={`admin/review/${mail}`} />;
+  return <Profile email={mail} />;
 }

@@ -26,7 +26,6 @@ export function ClientListItem({ name, lastName, email, banned: isBanned, regist
       <span>{`${name} ${lastName}`}</span>
       <span>{email}t</span>
       <span>{moment(registrationDate).format('yyyy/mm/d hh:mm')}</span>
-      <Button>Peržiūrėti</Button>
       <Button onClick={() => banToggle(email)}>{banned ? 'Neblokuoti' : 'Blokuoti'}</Button>
     </div>
   );

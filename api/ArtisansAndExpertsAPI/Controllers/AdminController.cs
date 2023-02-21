@@ -83,35 +83,5 @@ namespace ArtisansAndExpertsAPI.Controllers
             _userRepository.Update(user);
             return Ok(block);
         }
-
-        [HttpGet("review/{email}")]
-        public IActionResult ReviewProfile(string email)
-        {
-            var user = _userRepository.Get(q => q.Email == email);
-            if (user is null)
-            {
-                return BadRequest("No user");
-            }
-
-            var activities = _activityRepository.GetAll();
-            var dto = user.Expert.ToExpertDto();
-            dto.Activities = activities
-                .Select(q => new ActivityDto
-                {
-                    Label = q.Name,
-                    Value = q.Id
-                })
-                    .ToList() ?? new List<ActivityDto>();
-
-            dto.SelectedActivities = user.Expert?.Activities?
-                .Select(q => new ActivityDto
-                {
-                    Label = q.Name,
-                    Value = q.Id
-                })
-                .ToList() ?? new List<ActivityDto>();
-
-            return Ok(dto);
-        }
     }
 }
