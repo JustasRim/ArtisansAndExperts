@@ -1,6 +1,21 @@
+@use '../../styles/theme-variables.scss' as *;
+
 .profile {
   &__multiselect {
     font-weight: normal;
-    color: red;
+
+    @include themify($themes) {
+      div {
+        background-color: themed('inputBackground');
+      }
+
+      span {
+        color: themed('colorText');
+      }
+
+      label:hover label {
+        background-color: themed('inputBackground') !important;
+      }
+    }
   }
 }

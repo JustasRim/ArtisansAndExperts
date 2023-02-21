@@ -108,7 +108,7 @@ export function Profile({ email }: Props) {
           {errors.radius?.message && <p className="error">{errors.radius?.message}</p>}
           <label htmlFor="activities">Veiklos:</label>
           <MultiSelect
-            className={styles.profile__multiselect}
+            className={`dark ${styles.profile__multiselect}`}
             overrideStrings={{
               selectAll: 'Pasirinkti viską',
               search: 'Ieškoti',

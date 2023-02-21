@@ -29,7 +29,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
         [HttpGet("{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public IActionResult GetProfile(string? email)
+        public IActionResult GetProfile([FromRoute] string? email)
         {
             if (User is null || User.Identity is null)
             {
@@ -71,7 +71,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
         [HttpPost("{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public async Task<IActionResult> UpdateExpert([FromBody] ExpertDto expertDto, string? email)
+        public async Task<IActionResult> UpdateExpert([FromBody] ExpertDto expertDto, [FromRoute]string? email)
         {
             if (User is null || User.Identity is null || User.Identity.Name is null)
             {
@@ -121,7 +121,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
         [HttpPost("picture/{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public async Task<IActionResult> UpdateProfilePicture([FromForm] IFormFile file, string? email)
+        public async Task<IActionResult> UpdateProfilePicture([FromForm] IFormFile file, [FromRoute] string? email)
         {
             if (User is null || User.Identity is null)
             {
