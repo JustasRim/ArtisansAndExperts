@@ -31,7 +31,7 @@ export function ExpertListItem({
   };
 
   const banToggle = async (email: string) => {
-    const response = await ax.patch(`admin/expert/block?email=${email}&block=${!banned}`);
+    const response = await ax.patch(`admin/block?email=${email}&block=${!banned}`);
     if (response.status === 200) {
       setBanned(response.data);
     }

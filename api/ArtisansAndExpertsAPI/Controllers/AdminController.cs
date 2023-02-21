@@ -66,35 +66,18 @@ namespace ArtisansAndExpertsAPI.Controllers
             return Ok(approve);
         }
 
-        [HttpPatch("{role}/block")]
-        public IActionResult Block(string role, [FromQuery] string email, [FromQuery] bool block)
+        [HttpPatch("block")]
+        public IActionResult Block([FromQuery] string email, [FromQuery] bool block)
         {
-            if (role.Equals("expert"))
-            {
-                var expert = _expertRepository.Get(q => q?.User?.Email == email);
-                if (expert is null)
-                {
-                    return NotFound();
-                }
-
-                if (expert.User is null)
-                {
-                    return BadRequest();
-                }
-
-                expert.User.IsBanned = block;
-                _expertRepository.Update(expert);
-                return Ok(block);
-            }
-
-            var client = _userRepository.Get(q => q.Email == email && q.Role == Role.Client);
-            if (client is null)
+            var user = _userRepository.Get(q => q.Email == email && q.Role != Role.Admin);
+            if (user is null)
             {
                 return NotFound();
             }
 
-            client.IsBanned = block;
-            _userRepository.Update(client);
+            user.IsBanned = block;
+            user.RefreshToken = null;
+            _userRepository.Update(user);
             return Ok(block);
         }
     }

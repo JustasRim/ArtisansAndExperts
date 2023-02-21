@@ -15,7 +15,7 @@ export function ClientListItem({ name, lastName, email, banned: isBanned, regist
   }, [isBanned]);
 
   const banToggle = async (email: string) => {
-    const response = await ax.patch(`admin/client/block?email=${email}&block=${!banned}`);
+    const response = await ax.patch(`admin/block?email=${email}&block=${!banned}`);
     if (response.status === 200) {
       setBanned(response.data);
     }
