@@ -12,7 +12,7 @@ namespace ArtisansAndExpertsAPI.Extentions
                 throw new ArgumentNullException(nameof(salt));
             }
 
-            services.AddSingleton<IHashids>(_ => new Hashids(salt));
+            services.AddSingleton<IHashids>(_ => new Hashids(salt, minHashLength: 11));
         }
     }
 }

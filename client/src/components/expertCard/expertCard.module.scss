@@ -1,0 +1,12 @@
+.card {
+  &__img {
+    border-radius: 50%;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  &__description {
+    text-align: justify;
+    margin: 0.5em 0;
+  }
+}

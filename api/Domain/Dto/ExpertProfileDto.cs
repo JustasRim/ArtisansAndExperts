@@ -2,13 +2,12 @@
 
 namespace Domain.Dto
 {
-    public class ExpertDto
+    public class ExpertProfileDto
     {
-        public string? Id { get; set; }
-
-        public string? Name { get; set; }
-
         public string? WorkDescription { get; set; }
+
+        [Phone]
+        public string? MobilePhone { get; set; }
 
         [StringLength(100)]
         public string? City { get; set; }
@@ -17,6 +16,8 @@ namespace Domain.Dto
 
         public string? ProfileSrc { get; set; }
 
-        public IList<string?>? Activities { get; set; }
+        public IList<ActivityDto>? Activities { get; set; }
+
+        public IList<ActivityDto>? SelectedActivities { get; set; }
     }
 }

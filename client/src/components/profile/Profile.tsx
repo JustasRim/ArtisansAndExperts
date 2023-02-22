@@ -11,10 +11,11 @@ import Button from '../button/Button';
 import { Card } from '../card/Card';
 import Input from '../input/Input';
 import { PictureUpload } from '../pictureUpload/PictureUpload';
+import { TextArea } from '../textArea/TextArea';
 import styles from './profile.module.scss';
 
 const userProfile = z.object({
-  workDescription: z.string().optional(),
+  workDescription: z.string().max(250, 'Neviršykite 250 raidžių limito').optional(),
   mobilePhone: z.string(),
   city: z.string().max(100),
   radius: z.number(),
@@ -97,8 +98,8 @@ export function Profile({ email }: Props) {
           <label htmlFor="mobilePhone">Mobilus numeris</label>
           <Input register={register} id="mobilePhone" type="text" />
           {errors.mobilePhone?.message && <p className="error">{errors.mobilePhone?.message}</p>}
-          <label htmlFor="workDescription">Darbo aprašymas</label>
-          <Input register={register} id="workDescription" type="text" />
+          <label htmlFor="workDescription">Trumpas veiklos aprašymas</label>
+          <TextArea register={register} id="workDescription" />
           {errors.workDescription?.message && <p className="error">{errors.workDescription?.message}</p>}
           <label htmlFor="city">Miestas</label>
           <Input register={register} id="city" type="text" />

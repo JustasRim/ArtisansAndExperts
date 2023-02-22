@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Admin } from './components/admin/Admin';
-import { Clients } from './components/admin/clients/Clients';
-import { Experts } from './components/admin/experts/Experts';
+import { AdminClients } from './components/admin/clients/AdminClients';
+import { AdminExperts } from './components/admin/experts/AdminExperts';
 import { Preview } from './components/admin/preview/Preview';
+import { Experts } from './components/experts/Experts';
 import Login from './components/login/Login';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
             path: 'clients',
             element: (
               <Protected roles={[Role.Admin]}>
-                <Clients />
+                <AdminClients />
               </Protected>
             ),
           },
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
             path: 'experts',
             element: (
               <Protected roles={[Role.Admin]}>
-                <Experts />
+                <AdminExperts />
               </Protected>
             ),
           },
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: 'experts',
+        element: <Experts />,
       },
       { path: '*', element: <Error404 /> },
     ],

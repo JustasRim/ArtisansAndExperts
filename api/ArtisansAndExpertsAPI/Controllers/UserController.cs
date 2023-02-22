@@ -49,7 +49,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             var activities = _activityRepository.GetAll();
-            var dto = user.Expert.ToExpertDto();
+            var dto = user.Expert.ToExpertProfileDto();
             dto.Activities = activities
                 .Select(q => new ActivityDto
                     {
@@ -71,7 +71,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
         [HttpPost("{email?}")]
         [AuthorizeRoles(Role.Admin, Role.Expert)]
-        public async Task<IActionResult> UpdateExpert([FromBody] ExpertDto expertDto, [FromRoute]string? email)
+        public async Task<IActionResult> UpdateExpert([FromBody] ExpertProfileDto expertDto, [FromRoute]string? email)
         {
             if (User is null || User.Identity is null || User.Identity.Name is null)
             {
@@ -115,7 +115,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             await _userRepository.Update(user);
-            return Ok(user.Expert.ToExpertDto());
+            return Ok(user.Expert.ToExpertProfileDto());
         }
 
 

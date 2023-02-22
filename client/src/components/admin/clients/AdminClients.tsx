@@ -6,7 +6,7 @@ import { Card } from '../../card/Card';
 import styles from '../admin.module.scss';
 import { ClientListItem } from '../lientListItem/ClientListItem';
 
-export function Clients() {
+export function AdminClients() {
   const { ax } = useAxios();
   const { isLoading, error, data } = useQuery<AdminUser[], Error>('adminClients', async () => {
     const experts = await ax.get('admin/clients');

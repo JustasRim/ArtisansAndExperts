@@ -21,3 +21,14 @@ export interface AdminUser {
   banned: boolean;
   approved: boolean;
 }
+
+export interface Expert {
+  id: string;
+  name: string;
+  workDescription: string;
+  city: string;
+  radius: number;
+  profileSrc: string;
+  registrationDate: Date;
+  activities: string[];
+}

@@ -5,9 +5,9 @@ namespace Domain.Extentions
 {
     public static class DtoExtentions
     {
-        public static ExpertDto ToExpertDto(this Expert expert)
+        public static ExpertProfileDto ToExpertProfileDto(this Expert expert)
         {
-            return new ExpertDto
+            return new ExpertProfileDto
             {
                 WorkDescription = expert.WorkDescription,
                 MobilePhone = expert.MobilePhone,
@@ -17,12 +17,25 @@ namespace Domain.Extentions
             };
         }
 
-        public static void UpdateExpertFromDto(this Expert expert, ExpertDto dto)
+        public static void UpdateExpertFromDto(this Expert expert, ExpertProfileDto dto)
         {
             expert.WorkDescription = dto.WorkDescription;
             expert.MobilePhone = dto.MobilePhone;
             expert.City = dto.City;
             expert.Radius = dto.Radius;
+        }
+
+        public static ExpertDto ToExpertDto(this Expert expert)
+        {
+            return new ExpertDto
+            {
+                Name = expert.User?.Name,
+                WorkDescription = expert.WorkDescription,
+                City = expert.City,
+                Radius = expert.Radius,
+                ProfileSrc = expert?.User?.ProfileSrc,
+                Activities = expert?.Activities?.Select(q => q.Name).ToList()
+            };
         }
 
         public static AdminUserDto ToAdminUserDto(this Expert expert)
