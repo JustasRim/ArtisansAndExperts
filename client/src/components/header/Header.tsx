@@ -56,8 +56,8 @@ const Header = ({ setSidebarHidden }: Props) => {
   return (
     <header className={styles.header}>
       <div className={`${styles.header__content} container`}>
-        <Link to="/" tabIndex={0}>
-          <span>A&E</span>
+        <Link to="/" tabIndex={0} className={styles.header__icon}>
+          <img src="/logo-transparent.png" alt="icon" />
         </Link>
         <nav className={styles.header__nav}>
           <Link className={styles.header__link} to="/" tabIndex={0}>

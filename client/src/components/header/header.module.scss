@@ -6,11 +6,15 @@
     background-color: themed('colorHeaderFooter');
   }
 
+  &__icon {
+    width: 50px;
+  }
+
   &__content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2em;
+    padding: 1em;
   }
 
   &__nav {
