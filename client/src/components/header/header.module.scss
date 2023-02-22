@@ -8,6 +8,10 @@
 
   &__icon {
     width: 50px;
+
+    @media (max-width: $breakpoint-tablet) {
+      width: 25px;
+    }
   }
 
   &__content {
