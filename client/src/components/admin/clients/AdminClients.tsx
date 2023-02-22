@@ -4,7 +4,7 @@ import { useAxios } from '../../../hooks/useAxios';
 import { AdminUser } from '../../../utils/Interfaces';
 import { Card } from '../../card/Card';
 import styles from '../admin.module.scss';
-import { ClientListItem } from '../clientListItem/ClientListItem';
+import { ClientItem } from '../clientItem/ClientItem';
 
 export function AdminClients() {
   const { ax } = useAxios();
@@ -30,7 +30,7 @@ export function AdminClients() {
       <h2>Klientai:</h2>
       <div className={styles.list}>
         {data?.map((adminUser) => (
-          <ClientListItem key={adminUser.email} {...adminUser} />
+          <ClientItem key={adminUser.email} {...adminUser} />
         ))}
       </div>
     </Card>
