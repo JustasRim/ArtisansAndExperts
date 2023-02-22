@@ -4,7 +4,7 @@ import { useAxios } from '../../../hooks/useAxios';
 import { AdminUser } from '../../../utils/Interfaces';
 import { Card } from '../../card/Card';
 import styles from '../admin.module.scss';
-import { ClientListItem } from '../lientListItem/ClientListItem';
+import { ClientListItem } from '../clientListItem/ClientListItem';
 
 export function AdminClients() {
   const { ax } = useAxios();
