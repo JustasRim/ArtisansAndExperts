@@ -29,7 +29,7 @@ namespace Infrastructure.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                     claims: claims,
-                    expires: DateTime.UtcNow.AddSeconds(10),
+                    expires: DateTime.UtcNow.AddMinutes(15),
                     signingCredentials: creds
                 );
 
@@ -59,8 +59,10 @@ namespace Infrastructure.Services
 
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false,
-                ValidateIssuer = false,
+                ValidIssuer = _configuration.GetValue<string>("Secrets:JwtIssuer"),
+                ValidAudience = _configuration.GetValue<string>("Secrets:JwtAudience"),
+                ValidateAudience = true,
+                ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
                 ValidateLifetime = false
