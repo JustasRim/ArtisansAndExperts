@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AaEDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("POSTGRESQLCONNSTR_AAEDatabase"),
+                options.UseNpgsql(configuration.GetConnectionString("AAEDatabase"),
                 builder => builder.MigrationsAssembly(typeof(AaEDbContext).Assembly.FullName)));
 
             services.AddTransient<ITokenService, TokenService>();
