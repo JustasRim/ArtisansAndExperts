@@ -45,7 +45,7 @@ export function ExpertItem({
     <div className={styles.list__item}>
       <span>{`${name} ${lastName}`}</span>
       <span>{email}t</span>
-      <span>{moment(registrationDate).format('YYYY/MM/DD HH:MM')}</span>
+      <span>{moment(registrationDate).format('YYYY/MM/DD HH:mm')}</span>
       <Button onClick={() => approveToggle(email)}> {approved ? 'Atmesti' : 'Patvirtinti'}</Button>
       <Button onClick={() => review(email)}>Peržiūrėti</Button>
       <Button onClick={() => banToggle(email)}>{banned ? 'Neblokuoti' : 'Blokuoti'}</Button>
