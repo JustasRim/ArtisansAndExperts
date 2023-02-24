@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useAxios } from '../../../hooks/useAxios';
 import { AdminUser } from '../../../utils/Interfaces';
 import Button from '../../button/Button';
-import styles from '../expertListItem/expertListItem.module.scss';
+import styles from '../expertItem/expertItem.module.scss';
 
-export function ClientListItem({ name, lastName, email, banned: isBanned, registrationDate }: AdminUser) {
+export function ClientItem({ name, lastName, email, banned: isBanned, registrationDate }: AdminUser) {
   const [banned, setBanned] = useState<boolean>(isBanned);
   const { ax } = useAxios();
 

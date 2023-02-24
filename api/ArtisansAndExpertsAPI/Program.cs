@@ -1,6 +1,6 @@
 using ArtisansAndExpertsAPI.Extentions;
 using ArtisansAndExpertsAPI.Middleware;
-using HashidsNet;
+using Infrastructure.Persistance;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using ILogger = Serilog.ILogger;
@@ -26,7 +26,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

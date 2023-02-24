@@ -4,7 +4,7 @@ import { useAxios } from '../../../hooks/useAxios';
 import { AdminUser } from '../../../utils/Interfaces';
 import { Card } from '../../card/Card';
 import styles from '../admin.module.scss';
-import { ExpertListItem } from '../expertListItem/ExpertListItem';
+import { ExpertItem } from '../expertItem/ExpertItem';
 
 export function AdminExperts() {
   const { ax } = useAxios();
@@ -29,7 +29,7 @@ export function AdminExperts() {
       <h2>Meistrai:</h2>
       <div className={styles.list}>
         {data?.map((adminUser) => (
-          <ExpertListItem key={adminUser.email} {...adminUser} />
+          <ExpertItem key={adminUser.email} {...adminUser} />
         ))}
       </div>
     </Card>

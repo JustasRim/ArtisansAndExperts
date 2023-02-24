@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useAxios } from '../../../hooks/useAxios';
 import { AdminUser } from '../../../utils/Interfaces';
 import Button from '../../button/Button';
-import styles from './expertListItem.module.scss';
+import styles from './expertItem.module.scss';
 
-export function ExpertListItem({
+export function ExpertItem({
   name,
   lastName,
   email,
