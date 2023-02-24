@@ -66,6 +66,11 @@ namespace Infrastructure.Services
                 throw new UnauthorizedAccessException("No user");
             }
 
+            if (user.IsBanned)
+            {
+                throw new UnauthorizedAccessException("User is banned");
+            }
+
             var isVerified = _passwordService.VerifyPassword(new User { Password = loginDto.Password }, user.Password);
             if (!isVerified) 
             {
