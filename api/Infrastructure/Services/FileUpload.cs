@@ -26,9 +26,9 @@ namespace Infrastructure.Services
             var client = new BlobServiceClient(connection);
             var container = client.GetBlobContainerClient("profiles");
             stream.Position = 0;
-            var name = $"{Guid.NewGuid()}.jpeg";
+            var name = $"{Guid.NewGuid()}.avif";
             var blobClient = container.GetBlobClient(name);
-            await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = "image/jpeg" });
+            await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = "image/avif" });
             return $"{blobClient.Uri.AbsoluteUri}";
 
         }

@@ -10,7 +10,7 @@
     width: 50px;
 
     @media (max-width: $breakpoint-tablet) {
-      width: 25px;
+      width: 40px;
     }
   }
 
@@ -57,11 +57,8 @@
   }
 
   &__theme_btn {
-    width: 25px;
+    width: 30px;
     cursor: pointer;
-    @media (min-width: $breakpoint-tablet) {
-      display: none;
-    }
   }
 
   &__logout {
@@ -76,16 +73,16 @@
 }
 
 .hamburger {
-  width: 20px;
+  width: 25px;
   cursor: pointer;
-  margin-left: 2rem;
+  margin-left: 2.25rem;
 
   @media (min-width: $breakpoint-tablet) {
     display: none;
   }
 
   &__bar {
-    height: 3px;
+    height: 4px;
     width: 100%;
     border-radius: 20px;
     @include themify($themes) {
@@ -93,7 +90,7 @@
     }
 
     &--middle {
-      margin: 0.25rem 0;
+      margin: 0.3rem 0;
     }
   }
 }

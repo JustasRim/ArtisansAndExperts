@@ -77,13 +77,6 @@ const Header = ({ setSidebarHidden }: Props) => {
           )}
         </nav>
         <div className={styles.controls}>
-          <Switch className={styles.controls__theme} checked={theme === 'dark'} setChecked={handleThemeChange} />
-          {user && (
-            <Button className={styles.controls__logout} onClick={handleLogout}>
-              Atsijungti
-            </Button>
-          )}
-
           <div
             className={styles.controls__theme_btn}
             {...registerInteraction(() => handleThemeChange())}
@@ -93,6 +86,11 @@ const Header = ({ setSidebarHidden }: Props) => {
           >
             {theme === 'dark' ? <img src={moon} alt="Moon" /> : <img src={sun} alt="Sun" />}{' '}
           </div>
+          {user && (
+            <Button className={styles.controls__logout} onClick={handleLogout}>
+              Atsijungti
+            </Button>
+          )}
           <div
             className={styles.hamburger}
             {...registerInteraction(() => setSidebarHidden((curr) => !curr))}

@@ -44,14 +44,14 @@ const Sidebar = ({ className, hidden, setHidden }: Props) => {
           X
         </button>
         <nav className={styles.sidebar__nav}>
-          <Link className={styles.sidebar__link} to="/" tabIndex={0}>
+          <Link className={styles.sidebar__link} to="/" onClick={() => setHidden(true)} tabIndex={0}>
             Namai
           </Link>
-          <Link className={styles.sidebar__link} to="/experts" tabIndex={0}>
+          <Link className={styles.sidebar__link} to="/experts" onClick={() => setHidden(true)} tabIndex={0}>
             Ekspertai
           </Link>
           {!user ? (
-            <Link className={styles.sidebar__link} to="/login" tabIndex={0}>
+            <Link className={styles.sidebar__link} to="/login" onClick={() => setHidden(true)} tabIndex={0}>
               Prisijungti
             </Link>
           ) : (
