@@ -14,13 +14,11 @@ namespace ArtisansAndExpertsAPI.Controllers
     {
         private readonly IRepository<Expert> _expertRepository;
         private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Activity> _activityRepository;
 
-        public AdminController(IRepository<Expert> expertRepository, IRepository<User> userRepository, IRepository<Activity> activityRepository)
+        public AdminController(IRepository<Expert> expertRepository, IRepository<User> userRepository)
         {
             _expertRepository = expertRepository;
             _userRepository = userRepository;
-            _activityRepository = activityRepository;
         }
 
         [HttpGet("experts")]
@@ -43,8 +41,8 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             searched = searched.Where(q =>
                 q.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                q.LastName.Contains(search) ||
-                q.Email.Contains(search)).ToList();
+                q.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                q.Email.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
 
             return Ok(searched);
         }
@@ -70,8 +68,8 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             searched = searched.Where(q =>
                 q.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                q.LastName.Contains(search) ||
-                q.Email.Contains(search)).ToList();
+                q.LastName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                q.Email.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
 
             return Ok(searched);
         }
