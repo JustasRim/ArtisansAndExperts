@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
 import { Card } from '../card/Card';
+import { Checkbox } from '../checkbox/Checkbox';
 import Input from '../input/Input';
 import styles from './register.module.scss';
 
@@ -100,7 +101,7 @@ export default function Register() {
             <label className={styles.register__label} htmlFor="password">
               Esu meistras (nesiregistruoju kaip klientas)
             </label>
-            <Input className={styles.register__checkbox} register={register} id="expert" type="checkbox" />
+            <Checkbox className={styles.register__checkbox} register={register} id="expert" />
           </div>
           {errors.expert?.message && <p className="error">{errors.expert?.message}</p>}
           <div className={styles.register__controls}>

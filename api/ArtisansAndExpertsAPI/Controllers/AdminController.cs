@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using ArtisansAndExpertsAPI.Attributes;
-using Domain.Dto;
 using Domain.Enum;
 using Domain.Extentions;
 using Domain.Model;
@@ -25,7 +24,7 @@ namespace ArtisansAndExpertsAPI.Controllers
         }
 
         [HttpGet("experts")]
-        public IActionResult GetAllExperts()
+        public IActionResult GetAllExperts([FromQuery] string? search, [FromQuery] bool banned, [FromQuery] bool approved)
         {
             var experts = _expertRepository
                 .GetAll()
@@ -36,11 +35,22 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return NoContent();
             }
 
-            return Ok(experts);
+            var searched = experts.Where(q => q.Banned == banned && q.Approved == approved).ToList();
+            if (string.IsNullOrEmpty(search))
+            {
+                return Ok(searched);
+            }
+
+            searched = searched.Where(q =>
+                q.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                q.LastName.Contains(search) ||
+                q.Email.Contains(search)).ToList();
+
+            return Ok(searched);
         }
 
         [HttpGet("clients")]
-        public IActionResult GetAllClients()
+        public IActionResult GetAllClients([FromQuery] string? search, [FromQuery] bool banned)
         {
             var clients = _userRepository
                 .GetAll()
@@ -52,7 +62,18 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return NoContent();
             }
 
-            return Ok(clients);
+            var searched = clients.Where(q => q.Banned == banned).ToList();
+            if (string.IsNullOrEmpty(search))
+            {
+                return Ok(searched);
+            }
+
+            searched = searched.Where(q =>
+                q.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                q.LastName.Contains(search) ||
+                q.Email.Contains(search)).ToList();
+
+            return Ok(searched);
         }
 
         [HttpPatch("approve")]

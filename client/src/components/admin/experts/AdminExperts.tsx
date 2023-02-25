@@ -1,37 +1,32 @@
-import { useQuery } from 'react-query';
+import { useState } from 'react';
 
-import { useAxios } from '../../../hooks/useAxios';
-import { AdminUser } from '../../../utils/Interfaces';
+import { useAdminExperts } from '../../../hooks/useAdminExperts';
+import { useDebaunce } from '../../../hooks/useDebaunce';
 import { Card } from '../../card/Card';
+import { SearchBar } from '../../searchBar/SearchBar';
 import styles from '../admin.module.scss';
 import { ExpertItem } from '../expertItem/ExpertItem';
 
 export function AdminExperts() {
-  const { ax } = useAxios();
-  const { isLoading, error, data } = useQuery<AdminUser[], Error>('adminExperts', async () => {
-    const experts = await ax.get('admin/experts');
-    if (experts.request?.status === 204) {
-      throw new Error('Nėra ekspertų');
-    }
-    return experts.data;
-  });
+  const [search, setSearch] = useState<string>();
+  const [approved, setApproved] = useState<boolean>(false);
+  const [banned, setBanned] = useState<boolean>(false);
 
-  if (isLoading) {
-    return <Card>Kraunasi...</Card>;
-  }
+  const searchDeb = useDebaunce(search, 500);
 
-  if (error) {
-    return <Card>{error.message}</Card>;
-  }
+  const { data } = useAdminExperts(searchDeb, approved, banned);
 
   return (
-    <Card>
-      <h2>Meistrai:</h2>
-      <div className={styles.list}>
-        {data?.map((adminUser) => (
-          <ExpertItem key={adminUser.email} {...adminUser} />
-        ))}
-      </div>
-    </Card>
+    <>
+      <SearchBar setSearch={setSearch} setApproved={setApproved} setBanned={setBanned} />
+      <Card>
+        <h2>Meistrai:</h2>
+        <div className={styles.list}>
+          {data?.map((adminUser) => (
+            <ExpertItem key={adminUser.email} {...adminUser} />
+          ))}
+        </div>
+      </Card>
+    </>
   );
 }

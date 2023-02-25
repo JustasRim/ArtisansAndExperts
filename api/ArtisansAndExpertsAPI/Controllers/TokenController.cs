@@ -30,7 +30,6 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             var principal = _tokenService.GetPrincipalFromExpiredToken(authDto.AccessToken);
             var userName = principal?.Identity?.Name;
-
             if (userName is null)
             {
                 return BadRequest("Invalid email");

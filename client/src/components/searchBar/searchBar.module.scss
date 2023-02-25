@@ -1,0 +1,21 @@
+@use '../../styles/variables.scss' as *;
+
+.search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+
+  &__check {
+    margin-left: 1rem;
+  }
+
+  label {
+    margin-left: 1rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
