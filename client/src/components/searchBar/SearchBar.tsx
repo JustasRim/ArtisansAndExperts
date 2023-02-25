@@ -4,7 +4,7 @@ import styles from './searchBar.module.scss';
 
 type Props = {
   setSearch: (value: string) => void;
-  setApproved: (value: boolean) => void;
+  setApproved?: (value: boolean) => void;
   setBanned: (value: boolean) => void;
 };
 
@@ -14,6 +14,7 @@ export function SearchBar({ setSearch, setApproved, setBanned }: Props) {
   };
 
   const handleApprovedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!setApproved) return;
     setApproved(e.target.checked);
   };
 
@@ -30,10 +31,13 @@ export function SearchBar({ setSearch, setApproved, setBanned }: Props) {
         id="search"
         type="text"
       />
-      <span>
-        <label htmlFor="approved">Patvirtintas:</label>
-        <Checkbox className={styles.search__check} onChange={handleApprovedChange} id="approved" />
-      </span>
+      {setApproved && (
+        <span>
+          <label htmlFor="approved">Patvirtintas:</label>
+          <Checkbox className={styles.search__check} onChange={handleApprovedChange} id="approved" />
+        </span>
+      )}
+
       <span>
         <label htmlFor="banned">Blokuotas:</label>
         <Checkbox className={styles.search__check} onChange={handleBannedChange} id="banned" />

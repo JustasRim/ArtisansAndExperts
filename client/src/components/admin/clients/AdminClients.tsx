@@ -1,38 +1,30 @@
-import { useQuery } from 'react-query';
+import { useState } from 'react';
 
-import { useAxios } from '../../../hooks/useAxios';
-import { AdminUser } from '../../../utils/Interfaces';
+import { useAdminClients } from '../../../hooks/useAdminClients';
+import { useDebaunce } from '../../../hooks/useDebaunce';
 import { Card } from '../../card/Card';
+import { SearchBar } from '../../searchBar/SearchBar';
 import styles from '../admin.module.scss';
 import { ClientItem } from '../clientItem/ClientItem';
 
 export function AdminClients() {
-  const { ax } = useAxios();
-  const { isLoading, error, data } = useQuery<AdminUser[], Error>('adminClients', async () => {
-    const experts = await ax.get('admin/clients');
-    if (experts.request?.status === 204) {
-      throw new Error('Nėra klientų');
-    }
+  const [search, setSearch] = useState<string>();
+  const [banned, setBanned] = useState<boolean>(false);
+  const searchDeb = useDebaunce(search, 500);
 
-    return experts.data;
-  });
-
-  if (isLoading) {
-    return <Card>Kraunasi...</Card>;
-  }
-
-  if (error) {
-    return <Card>{error.message}</Card>;
-  }
+  const { data } = useAdminClients(searchDeb, banned);
 
   return (
-    <Card>
-      <h2>Klientai:</h2>
-      <div className={styles.list}>
-        {data?.map((adminUser) => (
-          <ClientItem key={adminUser.email} {...adminUser} />
-        ))}
-      </div>
-    </Card>
+    <>
+      <SearchBar setSearch={setSearch} setBanned={setBanned} />
+      <Card>
+        <h2>Klientai:</h2>
+        <div className={styles.list}>
+          {data?.map((adminUser) => (
+            <ClientItem key={adminUser.email} {...adminUser} />
+          ))}
+        </div>
+      </Card>
+    </>
   );
 }
