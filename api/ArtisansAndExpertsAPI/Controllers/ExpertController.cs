@@ -1,7 +1,6 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Repositories;
 using Domain.Dto;
 using Domain.Extentions;
-using Domain.Model;
 using HashidsNet;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +10,10 @@ namespace ArtisansAndExpertsAPI.Controllers
     [ApiController]
     public class ExpertController : Controller
     {
-        private readonly IRepository<Expert> _expertRepository;
+        private readonly IExpertRepository _expertRepository;
         private readonly IHashids _hashids;
 
-        public ExpertController(IRepository<Expert> expertRepository, IHashids hashids)
+        public ExpertController(IExpertRepository expertRepository, IHashids hashids)
         {
             _expertRepository = expertRepository;
             _hashids = hashids;
@@ -23,7 +22,7 @@ namespace ArtisansAndExpertsAPI.Controllers
         [HttpGet]
         public IActionResult GetAllExperts()
         {
-            var experts = _expertRepository.GetAll();
+            var experts = _expertRepository.GetAllSortedByRating();
             List<ExpertDto> expertsDto = new();
 
             foreach (var expert in experts)

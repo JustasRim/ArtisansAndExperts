@@ -35,10 +35,15 @@ namespace Domain.Model
 
         public bool EmailConfirmed { get; set; } = false;
 
+        [Required]
+        public Guid EmailConfirmationToken { get; set; }
+
         public bool IsBanned { get; set; } = false;
 
         public Expert? Expert { get; set; }
 
         public Client? Client { get; set; }
+
+        public IList<PasswordReset>? PasswordResets { get; set; }
     }
 }

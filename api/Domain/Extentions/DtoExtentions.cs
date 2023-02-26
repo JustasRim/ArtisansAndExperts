@@ -33,6 +33,7 @@ namespace Domain.Extentions
                 WorkDescription = expert.WorkDescription,
                 City = expert.City,
                 Radius = expert.Radius,
+                Rating = expert.Rating,
                 ProfileSrc = expert?.User?.ProfileSrc,
                 Activities = expert?.Activities?.Select(q => q.Name).ToList()
             };

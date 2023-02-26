@@ -18,6 +18,11 @@ namespace Infrastructure.Persistance.Configuration
                 .HasOne(q => q.Client)
                 .WithOne(q => q.User)
                 .HasForeignKey<Client>(q => q.UserId);
+
+            builder
+                .HasMany(q => q.PasswordResets)
+                .WithOne(q => q.User)
+                .HasForeignKey(q => q.UserId);
         }
     }
 }

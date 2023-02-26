@@ -20,6 +20,7 @@ const registerInput = z
     password: z.string().min(6, 'Mažiausiai 6 simboliai'),
     confirmPassword: z.string().min(6, 'Mažiausiai 6 simboliai'),
     expert: z.boolean(),
+    policy: z.literal<boolean>(true),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -98,12 +99,19 @@ export default function Register() {
           {errors.confirmPassword?.message && <p className="error">{errors.confirmPassword?.message}</p>}
 
           <div className={`${styles.register__input} ${styles['register__input--inline']}`}>
-            <label className={styles.register__label} htmlFor="password">
+            <label className={styles.register__label} htmlFor="expert">
               Esu meistras (nesiregistruoju kaip klientas)
             </label>
             <Checkbox className={styles.register__checkbox} register={register} id="expert" />
           </div>
           {errors.expert?.message && <p className="error">{errors.expert?.message}</p>}
+          <div className={`${styles.register__input} ${styles['register__input--inline']}`}>
+            <label className={styles.register__label} htmlFor="policy">
+              Sutinku su tinklapio taisyklėmis ir privatumo politika
+            </label>
+            <Checkbox className={styles.register__checkbox} register={register} id="policy" />
+          </div>
+          {errors.policy?.message && <p className="error">{errors.policy?.message}</p>}
           <div className={styles.register__controls}>
             <Button type="submit">Registruotis</Button>
             <Link to={'/login'}>Aš jau turiu paskyrą!</Link>

@@ -6,15 +6,18 @@ using Domain.Enum;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Application.Repositories;
 
 namespace Infrastructure.Services
 {
     internal class AuthService : IAuthService
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserAuthRepository _userRepository;
+        private readonly IRepository<PasswordReset> _passwordResetRepository;
         private readonly ITokenService _tokenService;
         private readonly IPasswordService _passwordService;
         private readonly IConfiguration _configuration;
+        private readonly IMailService _mailService;
 
         private string JwtIssuer 
         {
@@ -45,12 +48,20 @@ namespace Infrastructure.Services
             }
         }
 
-        public AuthService(IRepository<User> userRepository, ITokenService tokenService, IPasswordService passwordService, IConfiguration configuration)
+        public AuthService(
+            IUserAuthRepository userRepository,
+            ITokenService tokenService,
+            IPasswordService passwordService,
+            IConfiguration configuration,
+            IMailService mailService,
+            IRepository<PasswordReset> passwordResetRepository)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _passwordService = passwordService;
             _configuration = configuration;
+            _mailService = mailService;
+            _passwordResetRepository = passwordResetRepository;
         }
 
         public async Task<AuthDto> Login(LoginDto loginDto)
@@ -93,6 +104,83 @@ namespace Infrastructure.Services
             };
         }
 
+        public async Task PasswordResetRequest(PasswordResetDto passwordResetDto)
+        {
+            if (passwordResetDto is null || string.IsNullOrEmpty(passwordResetDto.Email))
+            {
+                throw new ArgumentNullException(nameof(passwordResetDto));
+            }
+
+            var user = _userRepository.Get(q => q.Email == passwordResetDto.Email);
+            if (user is null || string.IsNullOrEmpty(user.Password))
+            {
+                throw new UnauthorizedAccessException("No user");
+            }
+
+            var token = Guid.NewGuid();
+            await _passwordResetRepository.Add(new PasswordReset
+            {
+                Token = token,
+                Expiration = DateTime.UtcNow.AddMinutes(15),
+                UserId = user.Id,
+            });
+
+            await _mailService.SendPasswordReset(passwordResetDto.Email, token);
+        }
+
+        public async Task<AuthDto> PasswordReset(PasswordResetDto passwordResetDto)
+        {
+            if (passwordResetDto is null || string.IsNullOrEmpty(passwordResetDto.Email))
+            {
+                throw new ArgumentNullException(nameof(passwordResetDto));
+            }
+
+            var user = await _userRepository.GetUserWithPasswordResets(passwordResetDto.Email);
+            if (user is null || string.IsNullOrEmpty(user.Password))
+            {
+                throw new UnauthorizedAccessException("No user");
+            }
+
+            var resetModal = user.PasswordResets?.OrderByDescending(q => q.CreationDate).FirstOrDefault();
+            if (resetModal is null)
+            {
+                throw new ArgumentNullException("User did not request password reset");
+            }
+
+            if (resetModal.Expiration < DateTime.UtcNow)
+            {
+                throw new UnauthorizedAccessException($"Token has expired on {resetModal.Expiration}");
+            }
+
+            if (resetModal.isReseted)
+            {
+                throw new InvalidOperationException("User has already reseted a password");
+            }
+
+            if (!resetModal.Token.Equals(passwordResetDto.Token))
+            {
+                throw new UnauthorizedAccessException("Tokens do not match");
+            }
+
+            user.Password = passwordResetDto.NewPassword;
+            var hashedPassword = _passwordService.HashPassword(user);
+            user.Password = hashedPassword;
+
+            var (accessToken, refreshToken) = GenerateTokens(passwordResetDto.Email, user.Role);
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
+            await _userRepository.Update(user);
+
+            return new AuthDto
+            {
+                Name = user.Name,
+                LastName = user.Name,
+                Role = user.Role,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+        }
+
         public async Task<AuthDto> Register(RegisterDto registerDto)
         {
             if (registerDto is null || string.IsNullOrEmpty(registerDto.Email))
@@ -107,13 +195,15 @@ namespace Infrastructure.Services
             }
 
             var role = registerDto.Expert ? Role.Expert : Role.Client;
-            var newUser = new User 
+            var emailVerificationToken = Guid.NewGuid();
+            var newUser = new User
             {
                 Email = registerDto.Email,
                 Name = registerDto.Name,
                 LastName = registerDto.LastName,
                 Role = role,
-                Password = registerDto.Password
+                Password = registerDto.Password,
+                EmailConfirmationToken = emailVerificationToken
             };
 
             var hashedPassword = _passwordService.HashPassword(newUser);
@@ -137,6 +227,7 @@ namespace Infrastructure.Services
                 throw new Exception("Save changes to database returned is 0");
             }
 
+            await _mailService.SendEmailVerificaiton(newUser.Email, emailVerificationToken);
             return new AuthDto
             {
                 Name = registerDto.Name,

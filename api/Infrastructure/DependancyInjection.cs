@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Repositories;
 using Application.Services;
 using Domain.Model;
 using Infrastructure;
@@ -21,10 +22,13 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IFileUploadService, FileUpload>();
+            services.AddTransient<IMailService, MailService>();
 
             services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddTransient<IUserAuthRepository, UserRepository>();
             services.AddTransient<IRepository<Activity>, ActivityRepository>();
-            services.AddTransient<IRepository<Expert>, ExpertRepository>();
+            services.AddTransient<IRepository<PasswordReset>, PasswordResetRepository>();
+            services.AddTransient<IExpertRepository, ExpertRepository>();
             
             return services;
         }

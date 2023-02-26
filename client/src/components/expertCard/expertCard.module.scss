@@ -9,4 +9,9 @@
     text-align: justify;
     margin: 0.5em 0;
   }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
 }

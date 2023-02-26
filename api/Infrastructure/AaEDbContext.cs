@@ -12,6 +12,8 @@ namespace Infrastructure
 
         public virtual DbSet<Expert> Experts => Set<Expert>();
 
+        public virtual DbSet<PasswordReset> PasswordResets => Set<PasswordReset>();
+
         public AaEDbContext(DbContextOptions<AaEDbContext> options)
             : base(options)
         {

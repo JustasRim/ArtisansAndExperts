@@ -1,10 +1,10 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Repositories;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    internal class UserRepository : IRepository<User>
+    internal class UserRepository : IUserAuthRepository
     {
         private readonly AaEDbContext _context;
 
@@ -30,6 +30,13 @@ namespace Infrastructure.Repositories
             .Include(q => q.Expert)
             .ThenInclude(q => q.Activities)
             .FirstOrDefault(pred);
+
+        public async Task<User?> GetUserWithPasswordResets(string email)
+        {
+            return await _context.Users
+                .Include(q => q.PasswordResets)
+                .FirstOrDefaultAsync(q => q.Email == email);
+        }
 
         public User? GetById(int id) => _context.Users.Find(id);
 

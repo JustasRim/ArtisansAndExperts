@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AaEDbContext))]
-    partial class AaEDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230225161117_ratingRename")]
+    partial class ratingRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,33 +207,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("OfferStep");
                 });
 
-            modelBuilder.Entity("Domain.Model.PasswordReset", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Expiration")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("Token")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("isReseted")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PasswordResets");
-                });
-
             modelBuilder.Entity("Domain.Model.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -270,9 +246,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
-
-                    b.Property<Guid>("EmailConfirmationToken")
-                        .HasColumnType("uuid");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
@@ -396,17 +369,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Offer");
                 });
 
-            modelBuilder.Entity("Domain.Model.PasswordReset", b =>
-                {
-                    b.HasOne("Domain.Model.User", "User")
-                        .WithMany("PasswordResets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Domain.Model.Project", b =>
                 {
                     b.HasOne("Domain.Model.Client", "Client")
@@ -445,8 +407,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Expert");
-
-                    b.Navigation("PasswordResets");
                 });
 #pragma warning restore 612, 618
         }

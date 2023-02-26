@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Repositories;
 using ArtisansAndExpertsAPI.Attributes;
 using Domain.Enum;
 using Domain.Extentions;
@@ -12,10 +13,10 @@ namespace ArtisansAndExpertsAPI.Controllers
     [ApiController]
     public class AdminController : Controller
     {
-        private readonly IRepository<Expert> _expertRepository;
+        private readonly IExpertRepository _expertRepository;
         private readonly IRepository<User> _userRepository;
 
-        public AdminController(IRepository<Expert> expertRepository, IRepository<User> userRepository)
+        public AdminController(IExpertRepository expertRepository, IRepository<User> userRepository)
         {
             _expertRepository = expertRepository;
             _userRepository = userRepository;

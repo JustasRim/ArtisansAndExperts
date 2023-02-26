@@ -17,6 +17,8 @@ namespace Domain.Model
 
         public bool Approved { get; set; } = false;
 
+        public float Rating { get; set; }
+
         public User? User { get; set; }
 
         public int UserId { get; set; }

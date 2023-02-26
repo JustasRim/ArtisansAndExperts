@@ -1,10 +1,10 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Repositories;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    internal class ExpertRepository : IRepository<Expert>
+    internal class ExpertRepository : IExpertRepository
     {
         private readonly AaEDbContext _context;
 
@@ -37,6 +37,14 @@ namespace Infrastructure.Repositories
             .Include(q => q.User)
             .Include(q => q.Activities)
             .OrderBy(q => q.User.Name)
+            .ThenBy(q => q.User.LastName)
+            .ToList();
+
+        public IList<Expert> GetAllSortedByRating() => _context.Experts
+            .Include(q => q.User)
+            .Include(q => q.Activities)
+            .OrderBy(q => q.Rating)
+            .ThenBy(q => q.User.Name)
             .ThenBy(q => q.User.LastName)
             .ToList();
 

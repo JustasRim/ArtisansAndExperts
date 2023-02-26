@@ -1,5 +1,7 @@
-﻿using Application.Services;
+﻿using Application.Common.Interfaces;
+using Application.Services;
 using Domain.Dto;
+using Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtisansAndExpertsAPI.Controllers
@@ -9,10 +11,12 @@ namespace ArtisansAndExpertsAPI.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IRepository<User> _userRepository;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IRepository<User> userRepository)
         {
             _authService = authService;
+            _userRepository = userRepository;
         }
 
         [HttpPost("login")]
@@ -41,6 +45,54 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             var authResponse = await _authService.Register(registerDto);
+            if (authResponse is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(authResponse);
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> EmailCongfirmation([FromQuery] string email, [FromQuery] string token)
+        {
+            var user = _userRepository.Get(q => q.Email == email);
+            if (user is null)
+            {
+                return BadRequest("wrong email");
+            }
+
+            if (!user.EmailConfirmationToken.Equals(token))
+            {
+                return BadRequest("wrong token");
+            }
+
+            user.EmailConfirmed = true;
+            await _userRepository.Update(user);
+            return Ok(user);
+        }
+
+        [HttpPost("password-reset-request")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] PasswordResetDto passwordResetDto)
+        {
+            if (passwordResetDto is null)
+            {
+                return BadRequest("Invalid request");
+            }
+
+            await _authService.PasswordResetRequest(passwordResetDto);
+            return Ok();
+        }
+
+        [HttpPost("password-reset")]
+        public async Task<IActionResult> PasswordReset([FromBody] PasswordResetDto passwordResetDto)
+        {
+            if (passwordResetDto is null)
+            {
+                return BadRequest("Invalid request");
+            }
+
+            var authResponse = await _authService.PasswordReset(passwordResetDto);
             if (authResponse is null)
             {
                 return BadRequest();

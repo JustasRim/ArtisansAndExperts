@@ -30,5 +30,6 @@ export interface Expert {
   radius: number;
   profileSrc: string;
   registrationDate: Date;
+  rating: number;
   activities: string[];
 }

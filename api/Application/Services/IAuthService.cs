@@ -7,5 +7,9 @@ namespace Application.Services
         Task<AuthDto> Register(RegisterDto registerDto);
 
         Task<AuthDto> Login(LoginDto loginDto);
+
+        Task<AuthDto> PasswordReset(PasswordResetDto passwordResetDto);
+
+        Task PasswordResetRequest(PasswordResetDto passwordResetDto);
     }
 }
