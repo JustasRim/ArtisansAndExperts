@@ -61,7 +61,7 @@ const Login = () => {
           </label>
           <Input className={styles.login__input} register={register} id="password" type="password" />
           {errors.password?.message && <p className="error">{errors.password?.message}</p>}
-          <Link className={styles.login__link} to={'/password-reset'} tabIndex={0}>
+          <Link className={styles.login__link} to={'/password-reset-request'} tabIndex={0}>
             Neprisimenu slaptažodžio
           </Link>
           <Button className={styles.login__submit} type="submit">

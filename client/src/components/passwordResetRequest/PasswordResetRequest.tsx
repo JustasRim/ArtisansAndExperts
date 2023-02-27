@@ -1,52 +1,34 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
-import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import Button from '../button/Button';
 import { Card } from '../card/Card';
 import Input from '../input/Input';
-import styles from './passwordReset.module.scss';
+import styles from './passwordResetRequest.module.scss';
 
 const passwordReset = z.object({
-  newPassword: z.string().min(6, 'Mažiausiai 6 simboliai'),
+  email: z.string().email('Netinkamas paštas'),
 });
 
 type PasswordResetInput = z.infer<typeof passwordReset>;
 
-export function PasswordReset() {
-  const [searchParam] = useSearchParams();
-  const { ax } = useAxios();
-  const { setUser } = useContext(AuthContext);
-
-  const email = searchParam.get('email');
-  const token = searchParam.get('token');
-
+export function PasswordResetRequest() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<PasswordResetInput>({ resolver: zodResolver(passwordReset) });
 
+  const { ax } = useAxios();
+
   const onSubmit = async (data: PasswordResetInput) => {
-    const response = await ax.post('/auth/password-reset', { ...data, email: email, token: token });
+    const response = await ax.post('/auth/password-reset-request', data);
     if (response.status !== 200) {
       return;
     }
-
-    const { data: responseData } = response;
-    setUser({
-      name: responseData.name,
-      lastName: responseData.lastName,
-      role: responseData.role,
-      accessToken: responseData.accessToken,
-      refreshToken: responseData.refreshToken,
-    });
-
-    window.location.href = '/';
   };
 
   return (
@@ -55,10 +37,10 @@ export function PasswordReset() {
         <h1>Atkurti slaptažodį</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label className={styles.reset__label} htmlFor="email">
-            Naujas slaptažodis:
+            El. paštas:
           </label>
-          <Input className={styles.reset__input} register={register} id="newPassword" type="password" />
-          {errors.newPassword?.message && <p className="error">{errors.newPassword?.message}</p>}
+          <Input className={styles.reset__input} register={register} id="email" type="email" />
+          {errors.email?.message && <p className="error">{errors.email?.message}</p>}
           <Button className={styles.reset__submit} type="submit">
             Prisijungti
           </Button>

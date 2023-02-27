@@ -8,7 +8,7 @@ export function ConfirmEmail() {
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const { ax } = useAxios();
 
-  const to = searchParam.get('to');
+  const to = searchParam.get('email');
   const token = searchParam.get('token');
 
   useEffect(() => {

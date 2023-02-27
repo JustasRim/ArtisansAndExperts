@@ -10,6 +10,7 @@ import { ConfirmEmail } from './components/confirmEmail/ConfirmEmail';
 import { Experts } from './components/experts/Experts';
 import Login from './components/login/Login';
 import { PasswordReset } from './components/passwordReset/PasswordReset';
+import { PasswordResetRequest } from './components/passwordResetRequest/PasswordResetRequest';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
 import Error404 from './pages/Error404';
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: 'sign-up',
         element: <Register />,
+      },
+      {
+        path: 'password-reset-request',
+        element: <PasswordResetRequest />,
       },
       {
         path: 'password-reset',

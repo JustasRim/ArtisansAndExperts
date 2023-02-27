@@ -169,6 +169,7 @@ namespace Infrastructure.Services
             var (accessToken, refreshToken) = GenerateTokens(passwordResetDto.Email, user.Role);
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
+            resetModal.isReseted = true;
             await _userRepository.Update(user);
 
             return new AuthDto
