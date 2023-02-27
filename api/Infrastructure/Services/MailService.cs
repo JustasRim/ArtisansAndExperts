@@ -62,17 +62,17 @@ namespace Infrastructure.Services
 
         public async Task SendEmailVerificaiton(string to, Guid token)
         {
-            var apiLink = _configuration.GetValue<string>("ApiLink");
-            if (apiLink is null)
+            var clientLink = _configuration.GetValue<string>("ClientLink");
+            if (clientLink is null)
             {
-                throw new ArgumentNullException($"{nameof(apiLink)} is null");
+                throw new ArgumentNullException($"{nameof(clientLink)} is null");
             }
 
             var client = new SendGridClient(SendgridApi);
             var from = new EmailAddress(FromAddress, "Artisans&Experts");
             var subject = "Pašto patvirtinimas";
             var toAddress = new EmailAddress(to);
-            var plainTextContent = $"Patvirtinkite paštą paspausdami šią nuorodą: {apiLink}/auth/confirm-email?email={to}&token={token}";
+            var plainTextContent = $"Patvirtinkite paštą paspausdami šią nuorodą: {clientLink}/confirm-email?email={to}&token={token}";
             var htmlContent = "<strong>Sveiki prisijungę!</strong>";
             var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
             await client.SendEmailAsync(msg);

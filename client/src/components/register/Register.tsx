@@ -20,14 +20,23 @@ const registerInput = z
     password: z.string().min(6, 'Mažiausiai 6 simboliai'),
     confirmPassword: z.string().min(6, 'Mažiausiai 6 simboliai'),
     expert: z.boolean(),
-    policy: z.literal<boolean>(true),
+    policy: z.boolean(),
   })
-  .superRefine(({ confirmPassword, password }, ctx) => {
+  .superRefine(({ confirmPassword, password, policy }, ctx) => {
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Slaptažodžiai nesutampa',
         path: ['confirmPassword'],
+        fatal: true,
+      });
+    }
+
+    if (!policy) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Privalote sutikti su taisyklėmis',
+        path: ['policy'],
         fatal: true,
       });
     }

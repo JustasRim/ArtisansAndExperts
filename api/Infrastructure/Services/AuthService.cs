@@ -111,7 +111,7 @@ namespace Infrastructure.Services
                 throw new ArgumentNullException(nameof(passwordResetDto));
             }
 
-            var user = _userRepository.Get(q => q.Email == passwordResetDto.Email);
+            var user = await _userRepository.GetByEmail(passwordResetDto.Email);
             if (user is null || string.IsNullOrEmpty(user.Password))
             {
                 throw new UnauthorizedAccessException("No user");
@@ -188,7 +188,8 @@ namespace Infrastructure.Services
                 throw new ArgumentNullException(nameof(registerDto));
             }
 
-            var user = _userRepository.Get(q => q.Email == registerDto.Email);
+            registerDto.Email = registerDto.Email.ToLower();
+            var user = await _userRepository.GetByEmail(registerDto.Email);
             if (user is not null)
             {
                 throw new InvalidOperationException("User exists");

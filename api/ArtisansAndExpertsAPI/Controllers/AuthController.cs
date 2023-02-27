@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Repositories;
 using Application.Services;
 using Domain.Dto;
 using Domain.Model;
@@ -11,9 +12,9 @@ namespace ArtisansAndExpertsAPI.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserAuthRepository _userRepository;
 
-        public AuthController(IAuthService authService, IRepository<User> userRepository)
+        public AuthController(IAuthService authService, IUserAuthRepository userRepository)
         {
             _authService = authService;
             _userRepository = userRepository;
@@ -53,23 +54,24 @@ namespace ArtisansAndExpertsAPI.Controllers
             return Ok(authResponse);
         }
 
-        [HttpGet("confirm-email")]
-        public async Task<IActionResult> EmailCongfirmation([FromQuery] string email, [FromQuery] string token)
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> EmailConfirmation([FromQuery] string email, [FromQuery] string token)
         {
-            var user = _userRepository.Get(q => q.Email == email);
+            var user = await _userRepository.GetByEmail(email);
             if (user is null)
             {
                 return BadRequest("wrong email");
             }
 
-            if (!user.EmailConfirmationToken.Equals(token))
+            var guidToken = new Guid(token);
+            if (!user.EmailConfirmationToken.Equals(guidToken))
             {
                 return BadRequest("wrong token");
             }
 
             user.EmailConfirmed = true;
             await _userRepository.Update(user);
-            return Ok(user);
+            return Ok();
         }
 
         [HttpPost("password-reset-request")]

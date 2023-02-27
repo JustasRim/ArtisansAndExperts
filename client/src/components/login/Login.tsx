@@ -61,10 +61,15 @@ const Login = () => {
           </label>
           <Input className={styles.login__input} register={register} id="password" type="password" />
           {errors.password?.message && <p className="error">{errors.password?.message}</p>}
-          <div className={styles.login__controls}>
-            <Button type="submit">Prisijungti</Button>
-            <Link to={'/sign-up'}>Aš neturiu paskyros!</Link>
-          </div>
+          <Link className={styles.login__link} to={'/password-reset'} tabIndex={0}>
+            Neprisimenu slaptažodžio
+          </Link>
+          <Button className={styles.login__submit} type="submit">
+            Prisijungti
+          </Button>
+          <Link className={styles.login__link} to={'/sign-up'} tabIndex={0}>
+            Aš neturiu paskyros!
+          </Link>
         </form>
       </Card>
     </div>

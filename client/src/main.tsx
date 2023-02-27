@@ -6,8 +6,10 @@ import { Admin } from './components/admin/Admin';
 import { AdminClients } from './components/admin/clients/AdminClients';
 import { AdminExperts } from './components/admin/experts/AdminExperts';
 import { Preview } from './components/admin/preview/Preview';
+import { ConfirmEmail } from './components/confirmEmail/ConfirmEmail';
 import { Experts } from './components/experts/Experts';
 import Login from './components/login/Login';
+import { PasswordReset } from './components/passwordReset/PasswordReset';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
 import Error404 from './pages/Error404';
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
       {
         path: 'sign-up',
         element: <Register />,
+      },
+      {
+        path: 'password-reset',
+        element: <PasswordReset />,
+      },
+      {
+        path: 'confirm-email',
+        element: <ConfirmEmail />,
       },
       {
         path: 'profile',

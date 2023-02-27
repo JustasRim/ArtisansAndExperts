@@ -31,6 +31,15 @@ namespace Infrastructure.Repositories
             .ThenInclude(q => q.Activities)
             .FirstOrDefault(pred);
 
+        public async Task<User?> GetByEmail(string email)
+        {
+            return await _context.Users
+                .Include(q => q.Client)
+                .Include(q => q.Expert)
+                .ThenInclude(q => q.Activities)
+                .FirstOrDefaultAsync(q => q.Email == email.ToLower());
+        }
+
         public async Task<User?> GetUserWithPasswordResets(string email)
         {
             return await _context.Users
