@@ -11,9 +11,21 @@ import { Card } from '../card/Card';
 import Input from '../input/Input';
 import styles from './passwordReset.module.scss';
 
-const passwordReset = z.object({
-  newPassword: z.string().min(6, 'Mažiausiai 6 simboliai'),
-});
+const passwordReset = z
+  .object({
+    newPassword: z.string().min(6, 'Mažiausiai 6 simboliai'),
+    confirmPassword: z.string().min(6, 'Mažiausiai 6 simboliai'),
+  })
+  .superRefine(({ confirmPassword, newPassword }, ctx) => {
+    if (confirmPassword !== newPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Slaptažodžiai nesutampa',
+        path: ['confirmPassword'],
+        fatal: true,
+      });
+    }
+  });
 
 type PasswordResetInput = z.infer<typeof passwordReset>;
 
@@ -54,11 +66,16 @@ export function PasswordReset() {
       <Card className={styles.reset__card}>
         <h1>Atkurti slaptažodį</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className={styles.reset__label} htmlFor="email">
+          <label className={styles.reset__label} htmlFor="newPassword">
             Naujas slaptažodis:
           </label>
           <Input className={styles.reset__input} register={register} id="newPassword" type="password" />
           {errors.newPassword?.message && <p className="error">{errors.newPassword?.message}</p>}
+          <label className={styles.reset__label} htmlFor="confirmPassword">
+            Pakartokite slaptažodį:
+          </label>
+          <Input className={styles.reset__input} register={register} id="confirmPassword" type="password" />
+          {errors.confirmPassword?.message && <p className="error">{errors.confirmPassword?.message}</p>}
           <Button className={styles.reset__submit} type="submit">
             Prisijungti
           </Button>

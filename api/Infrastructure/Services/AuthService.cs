@@ -121,7 +121,7 @@ namespace Infrastructure.Services
             await _passwordResetRepository.Add(new PasswordReset
             {
                 Token = token,
-                Expiration = DateTime.UtcNow.AddMinutes(15),
+                Expiration = DateTime.UtcNow.AddHours(1),
                 UserId = user.Id,
             });
 

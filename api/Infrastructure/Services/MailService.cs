@@ -54,8 +54,8 @@ namespace Infrastructure.Services
             var from = new EmailAddress(FromAddress, "Artisans&Experts");
             var subject = "Slaptažodžio atkūrimas";
             var toAddress = new EmailAddress(to);
-            var plainTextContent = $"Norėdami atkurti slaptažodį paspauskite šią nuorodą: {clientLink}/password-reset?email={to}&token={token}";
-            var htmlContent = "<strong>Atkuriamas slaptažodis</strong>";
+            var plainTextContent = $"Norėdami atkurti slaptažodį paspauskite šią nuorodą: {clientLink}/password-reset?email={to}&token={token}\nNuoroda galioja 1 valandą";
+            var htmlContent = $"<p>Norėdami atkurti slaptažodį paspauskite šią nuorodą: {clientLink}/password-reset?email={to}&token={token}</p><br /><strong>Nuoroda galioja 1 valandą</strong>";
             var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
             await client.SendEmailAsync(msg);
         }
@@ -73,7 +73,7 @@ namespace Infrastructure.Services
             var subject = "Pašto patvirtinimas";
             var toAddress = new EmailAddress(to);
             var plainTextContent = $"Patvirtinkite paštą paspausdami šią nuorodą: {clientLink}/confirm-email?email={to}&token={token}";
-            var htmlContent = "<strong>Sveiki prisijungę!</strong>";
+            var htmlContent = $"<p>Patvirtinkite paštą paspausdami šią nuorodą: {clientLink}/confirm-email?email={to}&token={token}</p>";
             var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
             await client.SendEmailAsync(msg);
         }
