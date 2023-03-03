@@ -7,7 +7,6 @@ import { useAxios } from '../../hooks/useAxios';
 import { useInteractions } from '../../hooks/useInteract';
 import { Role } from '../../utils/Enums';
 import Button from '../button/Button';
-import Switch from '../switch/Switch';
 import moon from './../../assets/moon.svg';
 import sun from './../../assets/sun.svg';
 import styles from './header.module.scss';
@@ -28,6 +27,12 @@ const renderLink = (role: Role) => {
       return (
         <Link className={styles.header__link} to="/admin" tabIndex={0}>
           Administravimas
+        </Link>
+      );
+    case Role.Client:
+      return (
+        <Link className={styles.header__link} to="/problem" tabIndex={0}>
+          Problema
         </Link>
       );
     default:

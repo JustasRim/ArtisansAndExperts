@@ -5,7 +5,7 @@ import { Role } from '../utils/Enums';
 
 type Props = {
   children: ReactNode;
-  roles: Role[];
+  roles?: Role[];
 };
 
 export function Protected({ children, roles }: Props) {
@@ -17,7 +17,11 @@ export function Protected({ children, roles }: Props) {
       return;
     }
 
-    const isAuth = roles.some((q) => q === user.role);
+    let isAuth = user !== null;
+    if (roles) {
+      isAuth = roles.some((q) => q === user.role);
+    }
+
     setAuthorized(isAuth);
     if (!isAuth) {
       window.location.href = '/login';

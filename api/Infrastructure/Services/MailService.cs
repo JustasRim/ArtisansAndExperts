@@ -54,7 +54,7 @@ namespace Infrastructure.Services
             var from = new EmailAddress(FromAddress, "Artisans&Experts");
             var subject = "Slaptažodžio atkūrimas";
             var toAddress = new EmailAddress(to);
-            var plainTextContent = $"Norėdami atkurti slaptažodį paspauskite šią nuorodą: {clientLink}/password-reset?email={to}&token={token}\nNuoroda galioja 1 valandą";
+            var plainTextContent = $"Norėdami atkurti slaptažodį paspauskite šią nuorodą: {clientLink}/password-reset?email={to}&token={token}\nNuoroda galioja 1-ą valandą";
             var htmlContent = $"<p>Norėdami atkurti slaptažodį paspauskite šią nuorodą: {clientLink}/password-reset?email={to}&token={token}</p><br /><strong>Nuoroda galioja 1 valandą</strong>";
             var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
             await client.SendEmailAsync(msg);

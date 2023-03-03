@@ -90,6 +90,11 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest("No user");
             }
 
+            if (!user.EmailConfirmed)
+            {
+                return Forbid("Email is not confirmed");
+            }
+
             user.Expert.UpdateExpertFromDto(expertDto);
             var activities = _activityRepository.GetAll();
             foreach (var activity in expertDto.Activities)
@@ -138,6 +143,11 @@ namespace ArtisansAndExpertsAPI.Controllers
             if (user is null || user.Expert is null)
             {
                 return BadRequest("No user");
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                return Forbid("Email is not confirmed");
             }
 
             using var memoryStream = new MemoryStream();

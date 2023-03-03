@@ -11,6 +11,7 @@ import { Experts } from './components/experts/Experts';
 import Login from './components/login/Login';
 import { PasswordReset } from './components/passwordReset/PasswordReset';
 import { PasswordResetRequest } from './components/passwordResetRequest/PasswordResetRequest';
+import { Problems } from './components/problemPanel/Problem';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
 import Error404 from './pages/Error404';
@@ -47,6 +48,14 @@ const router = createBrowserRouter([
       {
         path: 'confirm-email',
         element: <ConfirmEmail />,
+      },
+      {
+        path: 'problem',
+        element: (
+          <Protected>
+            <Problems />
+          </Protected>
+        ),
       },
       {
         path: 'profile',

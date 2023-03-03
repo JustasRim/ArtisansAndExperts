@@ -15,7 +15,7 @@ export function ExpertCard({ id, name, workDescription, profileSrc, rating }: Ex
       </div>
       <img src={profileSrc} className={styles.card__img} alt="profile" />
       <p className={styles.card__description}>{workDescription}</p>
-      <Link to={id}>Sužinok daugiau</Link>
+      <Link to={id}>Sužinoti daugiau</Link>
     </Card>
   );
 }
