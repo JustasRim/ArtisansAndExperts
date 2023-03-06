@@ -1,8 +1,6 @@
-﻿using Application.Common.Interfaces;
-using Application.Repositories;
+﻿using Application.Repositories;
 using Application.Services;
 using Domain.Dto;
-using Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtisansAndExpertsAPI.Controllers

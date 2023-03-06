@@ -214,15 +214,6 @@ namespace Infrastructure.Services
             var (accessToken, refreshToken) = GenerateTokens(registerDto.Email, registerDto.Expert ? Role.Expert : Role.Client);
             newUser.RefreshToken = refreshToken;
             newUser.RefreshTokenExpiryTime = _tokenService.GenerateRefreshTokenExpirationTime();
-            if (newUser.Role == Role.Expert)
-            {
-                newUser.Expert = new();
-            }
-            else
-            {
-                newUser.Client = new();
-            }
-
             var affectedRows = await _userRepository.Add(newUser);
             if (affectedRows == 0)
             {

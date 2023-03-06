@@ -14,6 +14,8 @@ namespace Infrastructure
 
         public virtual DbSet<PasswordReset> PasswordResets => Set<PasswordReset>();
 
+        public virtual DbSet<Project> Projects => Set<Project>();
+
         public AaEDbContext(DbContextOptions<AaEDbContext> options)
             : base(options)
         {
