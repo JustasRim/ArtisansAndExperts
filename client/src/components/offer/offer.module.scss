@@ -1,0 +1,17 @@
+.offer {
+  &__head {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+
+  &__card {
+    margin: 0;
+    margin: 0 3em 3em;
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 3em;
+  }
+}

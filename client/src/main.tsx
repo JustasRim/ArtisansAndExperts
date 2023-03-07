@@ -7,11 +7,12 @@ import { AdminClients } from './components/admin/clients/AdminClients';
 import { AdminExperts } from './components/admin/experts/AdminExperts';
 import { Preview } from './components/admin/preview/Preview';
 import { ConfirmEmail } from './components/confirmEmail/ConfirmEmail';
+import { Dashboard } from './components/dashboard/Dashboard';
 import { Experts } from './components/experts/Experts';
 import Login from './components/login/Login';
+import { Offer } from './components/offer/Offer';
 import { PasswordReset } from './components/passwordReset/PasswordReset';
 import { PasswordResetRequest } from './components/passwordResetRequest/PasswordResetRequest';
-import { Problems } from './components/problemPanel/Problem';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
 import Error404 from './pages/Error404';
@@ -50,10 +51,18 @@ const router = createBrowserRouter([
         element: <ConfirmEmail />,
       },
       {
-        path: 'problem',
+        path: 'dashboard',
         element: (
           <Protected>
-            <Problems />
+            <Dashboard />
+          </Protected>
+        ),
+      },
+      {
+        path: 'offer',
+        element: (
+          <Protected>
+            <Offer />
           </Protected>
         ),
       },

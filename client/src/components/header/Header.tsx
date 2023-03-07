@@ -31,8 +31,8 @@ const renderLink = (role: Role) => {
       );
     case Role.Client:
       return (
-        <Link className={styles.header__link} to="/problem" tabIndex={0}>
-          Problema
+        <Link className={styles.header__link} to="/dashboard" tabIndex={0}>
+          Panelė
         </Link>
       );
     default:

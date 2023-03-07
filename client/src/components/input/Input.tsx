@@ -24,7 +24,7 @@ const Input = <T extends FieldValues>({ id, type, className, placeholder, regist
     );
   }
   if (!onChange) {
-    throw 'Must have setState property';
+    throw 'Must have onChange property';
   }
 
   return (
