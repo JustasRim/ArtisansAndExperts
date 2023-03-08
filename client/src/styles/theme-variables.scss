@@ -10,6 +10,7 @@ $themes: (
     inputBackground: $catskill-white,
     headerLinks: $oxford-blue,
     links: $cobalt,
+    selected: scale-color($catskill-white, $lightness: -15%),
     primary: $casablanca,
     secondary: $cornflower-blue,
   ),
@@ -22,6 +23,7 @@ $themes: (
     inputBackground: $slate-gray,
     headerLinks: $casablanca,
     links: $casablanca,
+    selected: scale-color($slate-gray, $lightness: -15%),
     primary: $nevada,
     secondary: $nevada,
   ),
@@ -40,6 +42,7 @@ $themes: (
           )
         ) !global;
       }
+
       @content;
       $theme-map: null !global;
     }

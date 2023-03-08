@@ -1,3 +1,5 @@
+@use '../../styles/theme-variables.scss' as *;
+
 .offer {
   &__head {
     display: grid;

@@ -1,10 +1,17 @@
+import { useState } from 'react';
+import { MultiSelect } from 'react-multi-select-component';
+
+import { Select } from '../../utils/Interfaces';
 import Button from '../button/Button';
 import { Card } from '../card/Card';
 import Input from '../input/Input';
+import { MultiSelectWrapper } from '../multiselect/MultiselectWrapper';
 import { TextArea } from '../textArea/TextArea';
 import styles from './offer.module.scss';
 
 export function Offer() {
+  const [selected, setSelected] = useState<Select[]>([]);
+
   return (
     <div className={styles.offer}>
       <form>
@@ -18,16 +25,20 @@ export function Offer() {
           </Card>
           <Card className={styles.offer__card}>
             <h2>Kada darbas turi būti atliktas?</h2>
-            <select>
-              <option>Kuo skubiau</option>
-              <option>Per artimiausius tris mėnesius</option>
-              <option>Aš esu lankstus</option>
-              <option>Specifiška data</option>
-            </select>
+            <MultiSelectWrapper
+              options={[
+                { label: 'Kuo skubiau', value: 1 },
+                { label: 'Per artimiausius tris mėnesius', value: 2 },
+                { label: 'Aš esu lankstus', value: 3 },
+                { label: 'Specifiška data', value: 4 },
+              ]}
+              value={selected}
+              onChange={setSelected}
+            />
           </Card>
         </div>
         <Card className={styles.offer__card}>
-          <h2>Kurioje vietoje turi būti atliktas darbas?</h2>
+          <h2>Kuriame mieste turi būti atliktas darbas?</h2>
           <Input id="problem" type="text" onChange={() => {}} />
         </Card>
         <Card className={styles.offer__card}>

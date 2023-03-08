@@ -10,6 +10,7 @@ import { Select, UserProfile } from '../../utils/Interfaces';
 import Button from '../button/Button';
 import { Card } from '../card/Card';
 import Input from '../input/Input';
+import { MultiSelectWrapper } from '../multiselect/MultiselectWrapper';
 import { PictureUpload } from '../pictureUpload/PictureUpload';
 import { TextArea } from '../textArea/TextArea';
 import styles from './profile.module.scss';
@@ -108,18 +109,7 @@ export function Profile({ email }: Props) {
           <Input register={register} id="radius" type="number" />
           {errors.radius?.message && <p className="error">{errors.radius?.message}</p>}
           <label htmlFor="activities">Veiklos:</label>
-          <MultiSelect
-            className={`dark ${styles.profile__multiselect}`}
-            overrideStrings={{
-              selectAll: 'Pasirinkti viską',
-              search: 'Ieškoti',
-              selectSomeItems: 'Pasirinkti',
-            }}
-            options={data?.activities ?? []}
-            value={selected}
-            onChange={setSelected}
-            labelledBy="Pasirinkti"
-          />
+          <MultiSelectWrapper options={data?.activities ?? []} value={selected} onChange={setSelected} />
           {errors.activities?.message && <p className="error">{errors.activities?.message}</p>}
           <Button type="submit">Atnaujinti duomenis</Button>
         </form>

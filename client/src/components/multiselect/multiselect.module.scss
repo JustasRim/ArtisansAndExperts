@@ -1,0 +1,14 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.multiselect {
+  font-weight: normal;
+
+  @include themify($themes) {
+    --rmsc-main: #{themed('primary')};
+    --rmsc-selected: #{themed('selected')};
+    --rmsc-hover: #{themed('inputBackground')};
+    --rmsc-border: #{themed('inputBackground')};
+    --rmsc-gray: #{themed('color')};
+    --rmsc-bg: #{themed('inputBackground')};
+  }
+}
