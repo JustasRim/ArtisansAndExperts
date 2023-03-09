@@ -2,15 +2,19 @@
 
 .container {
   max-width: 1140px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 main {
-  min-height: calc(100vh - 14.5rem - 3px);
+  flex-grow: 1;
 }
 
 .bg {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  justify-content: center;
+
   @include themify($themes) {
     background-color: themed('colorBackground');
   }

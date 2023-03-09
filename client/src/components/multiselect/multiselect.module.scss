@@ -2,6 +2,11 @@
 
 .multiselect {
   font-weight: normal;
+  word-wrap: break-word;
+
+  & > div {
+    padding: 0.15em 0;
+  }
 
   @include themify($themes) {
     --rmsc-main: #{themed('primary')};

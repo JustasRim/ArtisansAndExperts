@@ -1,16 +1,21 @@
 import { useState } from 'react';
-import { MultiSelect } from 'react-multi-select-component';
+import { useQuery } from 'react-query';
 
-import { Select } from '../../utils/Interfaces';
+import { useAxios } from '../../hooks/useAxios';
+import { SelectOption } from '../../utils/Interfaces';
 import Button from '../button/Button';
 import { Card } from '../card/Card';
 import Input from '../input/Input';
-import { MultiSelectWrapper } from '../multiselect/MultiselectWrapper';
+import { Select } from '../select/Select';
 import { TextArea } from '../textArea/TextArea';
 import styles from './offer.module.scss';
 
 export function Offer() {
-  const [selected, setSelected] = useState<Select[]>([]);
+  const { ax } = useAxios();
+  const { data: activities } = useQuery<SelectOption[], Error>('activities', async () => {
+    const activitiesRes = await ax.get('project/activities');
+    return activitiesRes.data;
+  });
 
   return (
     <div className={styles.offer}>
@@ -18,22 +23,17 @@ export function Offer() {
         <div className={styles.offer__head}>
           <Card className={styles.offer__card}>
             <h2>Pasirinkite paslaugos tipą</h2>
-            <select>
-              <option>a</option>
-              <option>b</option>
-            </select>
+            {activities && <Select options={activities} />}
           </Card>
           <Card className={styles.offer__card}>
             <h2>Kada darbas turi būti atliktas?</h2>
-            <MultiSelectWrapper
+            <Select
               options={[
-                { label: 'Kuo skubiau', value: 1 },
-                { label: 'Per artimiausius tris mėnesius', value: 2 },
-                { label: 'Aš esu lankstus', value: 3 },
-                { label: 'Specifiška data', value: 4 },
+                { label: 'Kuo skubiau', value: 0 },
+                { label: 'Per artimiausius tris mėnesius', value: 1 },
+                { label: 'Aš esu lankstus', value: 2 },
+                { label: 'Specifiška data', value: 3 },
               ]}
-              value={selected}
-              onChange={setSelected}
             />
           </Card>
         </div>

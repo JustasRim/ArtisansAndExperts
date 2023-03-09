@@ -1,6 +1,5 @@
 using ArtisansAndExpertsAPI.Extentions;
 using ArtisansAndExpertsAPI.Middleware;
-using Infrastructure.Persistance;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using ILogger = Serilog.ILogger;

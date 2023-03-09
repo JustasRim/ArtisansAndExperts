@@ -12,6 +12,18 @@ namespace Domain.Model
         [Required]
         public string? Description { get; set; }
 
+        [Required]
+        [StringLength(100)]
+        public string? TimeLine { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string? City { get; set; }
+
+        public int ActivityId { get; set; }
+
+        public Activity? Activity { get; set; }
+
         public Client? Client { get; set; }
 
         public int ClientId { get; set; }

@@ -5,6 +5,17 @@ namespace Domain.Dto
     public class ProjectDto
     {
         [Required]
+        public int ActivityId { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string? TimeLine { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string? City { get; set; }
+
+        [Required]
         [StringLength(1000)]
         public string? Name { get; set; }
 

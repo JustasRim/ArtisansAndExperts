@@ -52,7 +52,6 @@ namespace Domain.Extentions
             };
         }
 
-
         public static AdminUserDto ToAdminUserDto(this User user)
         {
             return new AdminUserDto
@@ -62,6 +61,15 @@ namespace Domain.Extentions
                 Email = user.Email,
                 RegistrationDate = user.RegistrationDate,
                 Banned = user.IsBanned
+            };
+        }
+
+        public static ActivityDto ToActivityDto(this Activity activity)
+        {
+            return new ActivityDto
+            {
+                Label = activity.Name,
+                Value = activity.Id
             };
         }
     }

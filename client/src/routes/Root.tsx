@@ -32,8 +32,10 @@ function Root() {
               <Header setSidebarHidden={setHidden} />
               <Sidebar hidden={hidden} setHidden={setHidden} />
               <div className="paddingTop"></div>
-              <main className="container">
-                <Outlet />
+              <main>
+                <div className="container">
+                  <Outlet />
+                </div>
               </main>
               <Footer></Footer>
             </div>

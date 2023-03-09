@@ -10,5 +10,7 @@ namespace Domain.Model
         public string? Name { get; set; }
 
         public IList<Expert>? Experts { get; set; }
+
+        public IList<Project>? Projects { get; set; } 
     }
 }

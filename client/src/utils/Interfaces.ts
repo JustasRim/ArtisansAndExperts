@@ -1,14 +1,14 @@
 export interface UserProfile {
   workDescription?: string;
   profileSrc?: string;
-  activities: Select[];
-  selectedActivities: Select[];
+  activities: SelectOption[];
+  selectedActivities: SelectOption[];
   mobilePhone: string;
   city: string;
   radius: number;
 }
 
-export interface Select {
+export interface SelectOption {
   label: string;
   value: number;
 }

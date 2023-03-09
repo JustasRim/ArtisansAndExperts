@@ -1,12 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MultiSelect } from 'react-multi-select-component';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 import { useAxios } from '../../hooks/useAxios';
-import { Select, UserProfile } from '../../utils/Interfaces';
+import { SelectOption, UserProfile } from '../../utils/Interfaces';
 import Button from '../button/Button';
 import { Card } from '../card/Card';
 import Input from '../input/Input';
@@ -57,7 +56,7 @@ export function Profile({ email }: Props) {
     resolver: zodResolver(userProfile),
   });
 
-  const [selected, setSelected] = useState<Select[]>([]);
+  const [selected, setSelected] = useState<SelectOption[]>([]);
 
   useEffect(() => {
     reset({ ...data, activities: data?.activities ?? [] });
