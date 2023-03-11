@@ -1,5 +1,6 @@
 ﻿using Application.Repositories;
 using Domain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -15,7 +16,8 @@ namespace Infrastructure.Repositories
         public async Task<int> Add(Project entity)
         {
             await _context.Projects.AddAsync(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity.Id;
         }
 
         public async Task Delete(int id)
@@ -36,12 +38,14 @@ namespace Infrastructure.Repositories
 
         public Project? GetById(int id)
         {
-            return _context.Projects.Find(id);
+            return _context.Projects.Include(q => q.Images).FirstOrDefault(q => q.Id == id);
         }
 
         public IList<Project> GetProjectsByEmail(string email)
         {
-            return _context.Projects.Where(q => q.Client.User.Email.Equals(email)).ToList();
+            return _context.Projects
+                .Include(q => q.Images)
+                .Where(q => q.Client.User.Email.Equals(email)).ToList();
         }
 
         public async Task Update(Project entity)

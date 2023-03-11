@@ -4,6 +4,8 @@ namespace Domain.Dto
 {
     public class ProjectDto
     {
+        public string? Id { get; set; }
+
         [Required]
         public int ActivityId { get; set; }
 
@@ -21,5 +23,7 @@ namespace Domain.Dto
 
         [Required]
         public string? Description { get; set; }
+
+        public IList<ImageDto>? Images { get; set; }
     }
 }

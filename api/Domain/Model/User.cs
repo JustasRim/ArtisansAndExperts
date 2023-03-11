@@ -40,9 +40,9 @@ namespace Domain.Model
 
         public bool IsBanned { get; set; } = false;
 
-        public Expert? Expert { get; set; } = new Expert();
+        public Expert Expert { get; set; } = new Expert();
 
-        public Client? Client { get; set; } = new Client();
+        public Client Client { get; set; } = new Client();
 
         public IList<PasswordReset>? PasswordResets { get; set; }
     }

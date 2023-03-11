@@ -33,3 +33,18 @@ export interface Expert {
   rating: number;
   activities: string[];
 }
+
+export interface Poject {
+  id: string;
+  activityId: number;
+  timeLine: string;
+  city: string;
+  name: string;
+  description: string;
+  images: Image[];
+}
+
+export interface Image {
+  id: string;
+  source: string;
+}

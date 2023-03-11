@@ -30,6 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IRepository<PasswordReset>, PasswordResetRepository>();
             services.AddTransient<IExpertRepository, ExpertRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IImageRepository, ImageRepository>();
             
             return services;
         }

@@ -1,0 +1,49 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.container {
+  cursor: pointer;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include themify($themes) {
+    border: 2px solid themed('primary');
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.thumb-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: 2rem;
+
+  &__thumb {
+    position: relative;
+    display: inline-flex;
+    border-radius: 2px;
+    border: 1px solid #eaeaea;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    width: 100px;
+    height: 100px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  &__inner {
+    display: flex;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: block;
+    width: auto;
+    height: 100%;
+  }
+}

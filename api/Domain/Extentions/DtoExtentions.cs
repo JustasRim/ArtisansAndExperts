@@ -72,5 +72,34 @@ namespace Domain.Extentions
                 Value = activity.Id
             };
         }
+
+        public static Project ToProject(this ProjectDto projectDto)
+        {
+            return new Project
+            {
+                Name = projectDto.Name,
+                Description = projectDto.Description,
+                TimeLine = projectDto.TimeLine,
+                City = projectDto.City,
+                ActivityId = projectDto.ActivityId,
+            };
+        }
+
+        public static ProjectDto ToProjectDto(this Project project, Func<int, string> encode)
+        {
+            return new ProjectDto
+            {
+                Name = project.Name,
+                Description = project.Description,
+                TimeLine = project.TimeLine,
+                City = project.City,
+                ActivityId = project.ActivityId,
+                Images = project.Images?.Select(q => new ImageDto
+                {
+                    Id = encode(q.Id),
+                    Source = q.Source,
+                }).ToList()
+            };
+        }
     }
 }

@@ -67,6 +67,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: 'offer/images',
+        element: (
+          <Protected>
+            <Offer />
+          </Protected>
+        ),
+      },
+      {
         path: 'profile',
         element: (
           <Protected roles={[Role.Expert, Role.Admin]}>

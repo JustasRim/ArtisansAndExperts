@@ -16,6 +16,8 @@ namespace Infrastructure
 
         public virtual DbSet<Project> Projects => Set<Project>();
 
+        public virtual DbSet<Image> Images => Set<Image>();
+
         public AaEDbContext(DbContextOptions<AaEDbContext> options)
             : base(options)
         {

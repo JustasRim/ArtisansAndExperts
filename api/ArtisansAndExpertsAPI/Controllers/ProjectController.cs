@@ -5,6 +5,10 @@ using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Extentions;
+using Application.Services;
+using ArtisansAndExpertsAPI.Attributes;
+using Domain.Enum;
+using HashidsNet;
 
 namespace ArtisansAndExpertsAPI.Controllers
 {
@@ -16,12 +20,18 @@ namespace ArtisansAndExpertsAPI.Controllers
         private readonly IProjectRepository _projectRepository;
         private readonly IRepository<Activity> _activityRepository;
         private readonly IUserAuthRepository _userAuthRepository;
+        private readonly IFileUploadService _fileUploadService;
+        private readonly IHashids _hashids;
+        private readonly IImageRepository _imageRepository;
 
-        public ProjectController(IProjectRepository projectRepository, IRepository<Activity> activityRepository, IUserAuthRepository userAuthRepository)
+        public ProjectController(IProjectRepository projectRepository, IRepository<Activity> activityRepository, IUserAuthRepository userAuthRepository, IFileUploadService fileUploadService, IHashids hashids, IImageRepository imageRepository)
         {
             _projectRepository = projectRepository;
             _activityRepository = activityRepository;
             _userAuthRepository = userAuthRepository;
+            _fileUploadService = fileUploadService;
+            _hashids = hashids;
+            _imageRepository = imageRepository;
         }
 
         [HttpGet] 
@@ -34,7 +44,15 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             var projects = _projectRepository.GetProjectsByEmail(userName);
-            return Ok(projects);
+            var projectsDto = new List<ProjectDto>();
+            foreach (var project in projects )
+            {
+                var dto = project.ToProjectDto(_hashids.Encode);
+                dto.Id = _hashids.Encode(project.Id);
+                projectsDto.Add(dto);
+            }
+
+            return Ok(projectsDto);
         }
 
         [HttpPost]
@@ -57,17 +75,48 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest();
             }
 
-            _projectRepository.Add(new Project
-            {
-                ClientId = user.Client.Id,
-                Name = projectDto.Name,
-                Description = projectDto.Description,
-                TimeLine = projectDto.TimeLine,
-                City = projectDto.City,
-                ActivityId = projectDto.ActivityId,
-            });
+            var project = projectDto.ToProject();
+            project.ClientId = user.Client.Id;
+            await _projectRepository.Add(project);
+            projectDto.Id = _hashids.Encode(project.Id);
+            var location = Url.Action(nameof(CreateProject), new { id = projectDto.Id }) ?? $"/{projectDto.Id}";
+            return Created(location, projectDto);
+        }
 
-            return View();
+        [HttpPost("pictures")]
+        public async Task<IActionResult> PictureUpload([FromForm] IFormFile[] files, [FromQuery] string projectId)
+        {
+            if (User is null || User.Identity is null)
+            {
+                return BadRequest();
+            }
+
+            var userName = User.Identity?.Name;
+            if (userName is null)
+            {
+                return BadRequest("No email");
+            }
+
+            var projectIdAsNumber = _hashids.Decode(projectId)[0];
+            var project = _projectRepository.GetById(projectIdAsNumber);
+            var clientProjects = _projectRepository.GetProjectsByEmail(userName);
+            var clientContainsProject = clientProjects.Any(q => q.Id == projectIdAsNumber);
+            if (project is null || !clientContainsProject)
+            {
+                return BadRequest("No such project");
+            }
+
+            foreach (var file in files)
+            {
+                using var memoryStream = new MemoryStream();
+                file.CopyTo(memoryStream);
+                var url = await _fileUploadService.Upload(memoryStream, StorageContainer.Projects);
+                var image = new Image { ProjectId = projectIdAsNumber, Source = url };
+                await _imageRepository.AddWithoutCommiting(image);
+            }
+            
+            await _imageRepository.Commit();
+            return NoContent();
         }
 
         [HttpGet("activities")]

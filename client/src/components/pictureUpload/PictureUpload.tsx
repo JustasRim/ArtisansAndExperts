@@ -23,6 +23,8 @@ export function PictureUpload({ initialImgSrc, email }: Props) {
   useEffect(() => {
     if (!initialImgSrc) return;
     setImgSrc(initialImgSrc);
+
+    return () => URL.revokeObjectURL(imgSrc);
   }, [initialImgSrc]);
 
   const uploadedRef = useRef<HTMLImageElement>(null);

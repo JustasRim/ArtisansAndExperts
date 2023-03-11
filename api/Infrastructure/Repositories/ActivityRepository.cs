@@ -29,7 +29,10 @@ namespace Infrastructure.Repositories
 
         public Activity? GetById(int id) => _context.Activities.Find(id);
 
-        public IList<Activity> GetAll() => _context.Activities.Include(q => q.Experts).ToList();
+        public IList<Activity> GetAll() => _context.Activities
+            .Include(q => q.Experts)
+            .OrderBy(q => q.Name)
+            .ToList();
 
         public async Task Update(Activity entity)
         {

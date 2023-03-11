@@ -152,7 +152,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             using var memoryStream = new MemoryStream();
             file.CopyTo(memoryStream);
-            var url = await _fileUploadService.Upload(memoryStream);
+            var url = await _fileUploadService.Upload(memoryStream, StorageContainer.Profiles);
 
             user.ProfileSrc = url;
             await _userRepository.Update(user);
