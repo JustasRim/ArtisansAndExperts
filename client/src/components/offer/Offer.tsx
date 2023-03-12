@@ -31,7 +31,7 @@ export function Offer() {
     return activitiesRes.data;
   });
 
-  const [offerId, setOfferId] = useState<string>('e3BLRKAQJAY');
+  const [offerId, setOfferId] = useState<string>();
   const {
     register,
     handleSubmit,

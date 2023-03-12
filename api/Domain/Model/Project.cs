@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Model
@@ -21,6 +22,10 @@ namespace Domain.Model
         public string? City { get; set; }
 
         public int ActivityId { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public Status Status { get; set; } = Status.Active;
 
         public Activity? Activity { get; set; }
 

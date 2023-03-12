@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Extentions;
 using Application.Services;
-using ArtisansAndExpertsAPI.Attributes;
 using Domain.Enum;
 using HashidsNet;
 
@@ -24,7 +23,14 @@ namespace ArtisansAndExpertsAPI.Controllers
         private readonly IHashids _hashids;
         private readonly IImageRepository _imageRepository;
 
-        public ProjectController(IProjectRepository projectRepository, IRepository<Activity> activityRepository, IUserAuthRepository userAuthRepository, IFileUploadService fileUploadService, IHashids hashids, IImageRepository imageRepository)
+        public ProjectController(
+            IProjectRepository projectRepository,
+            IRepository<Activity> activityRepository,
+            IUserAuthRepository userAuthRepository,
+            IFileUploadService fileUploadService, 
+            IHashids hashids,
+            IImageRepository imageRepository
+            )
         {
             _projectRepository = projectRepository;
             _activityRepository = activityRepository;
@@ -48,6 +54,27 @@ namespace ArtisansAndExpertsAPI.Controllers
             foreach (var project in projects )
             {
                 var dto = project.ToProjectDto(_hashids.Encode);
+                dto.Id = _hashids.Encode(project.Id);
+                projectsDto.Add(dto);
+            }
+
+            return Ok(projectsDto);
+        }
+
+        [HttpGet("briefing")]
+        public IActionResult GetUserProjectBriefings()
+        {
+            var userName = User?.Identity?.Name;
+            if (userName is null)
+            {
+                return BadRequest();
+            }
+
+            var projects = _projectRepository.GetProjectsByEmail(userName);
+            var projectsDto = new List<ProjectBriefingDto>();
+            foreach (var project in projects)
+            {
+                var dto = project.ToProjectBriefingDto(_hashids.Encode);
                 dto.Id = _hashids.Encode(project.Id);
                 projectsDto.Add(dto);
             }

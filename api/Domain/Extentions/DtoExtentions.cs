@@ -94,11 +94,24 @@ namespace Domain.Extentions
                 TimeLine = project.TimeLine,
                 City = project.City,
                 ActivityId = project.ActivityId,
+                Status = project.Status,
                 Images = project.Images?.Select(q => new ImageDto
                 {
                     Id = encode(q.Id),
                     Source = q.Source,
                 }).ToList()
+            };
+        }
+
+        public static ProjectBriefingDto ToProjectBriefingDto(this Project project, Func<int, string> encode)
+        {
+            return new ProjectBriefingDto
+            {
+                Id = encode(project.Id),
+                Name = project.Name,
+                Activity = project.Activity.Name,
+                CreatedAt = project.CreatedAt,
+                Status = project.Status,
             };
         }
     }

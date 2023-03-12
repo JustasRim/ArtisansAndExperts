@@ -29,6 +29,8 @@ export function ImageUploader({ projectId }: Props) {
     if (response.status !== 204) {
       throw response.statusText;
     }
+
+    window.location.href = 'dashboard';
   };
 
   const { getRootProps, getInputProps } = useDropzone({

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dto
 {
@@ -23,6 +24,8 @@ namespace Domain.Dto
 
         [Required]
         public string? Description { get; set; }
+
+        public Status Status { get; set; }
 
         public IList<ImageDto>? Images { get; set; }
     }

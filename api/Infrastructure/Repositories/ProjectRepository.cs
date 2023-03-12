@@ -45,6 +45,8 @@ namespace Infrastructure.Repositories
         {
             return _context.Projects
                 .Include(q => q.Images)
+                .Include(q => q.Activity)
+                .OrderByDescending(q => q.CreatedAt)
                 .Where(q => q.Client.User.Email.Equals(email)).ToList();
         }
 

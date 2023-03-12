@@ -1,12 +1,26 @@
+import moment from 'moment';
 import { useContext } from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../context/AuthContext';
+import { useAxios } from '../../hooks/useAxios';
+import { ProjectBriefing } from '../../utils/Interfaces';
 import { Card } from '../card/Card';
+import { Table } from '../table/Table';
 import styles from './dashboard.module.scss';
 
 export function Dashboard() {
   const { user } = useContext(AuthContext);
+  const { ax } = useAxios();
+  const { data } = useQuery<ProjectBriefing[], Error>('projectBriefings', async () => {
+    const projects = await ax.get('project/briefing');
+    if (projects.request?.status === 204) {
+      throw new Error('Nėra projektu');
+    }
+
+    return projects.data;
+  });
 
   return (
     <div>
@@ -21,6 +35,16 @@ export function Dashboard() {
           <Card className={styles.actions__card}>Atsiliepimai</Card>
         </Link>
       </div>
+      <h2>Pasiūlymai</h2>
+      <p>To be table...</p>
+      <h2>Projektai</h2>
+      <Table
+        header={['Pavadinimas', 'Kategorija', 'Užsakymo laikas']}
+        rows={data?.map((briefing) => ({
+          id: briefing.id,
+          row: [briefing.name, briefing.activity, moment(briefing.createdAt).format('yyyy/mm/d hh:mm')],
+        }))}
+      />
     </div>
   );
 }

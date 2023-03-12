@@ -1,0 +1,34 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  td,
+  th {
+    @include themify($themes) {
+      border-bottom: 1px solid themed('selected');
+    }
+  }
+
+  thead {
+    td {
+      padding: 0.5em;
+      @include themify($themes) {
+        background-color: themed('primary');
+      }
+    }
+  }
+
+  tbody {
+    font-weight: normal;
+
+    tr {
+      cursor: pointer;
+
+      td {
+        padding: 0.5em;
+      }
+    }
+  }
+}

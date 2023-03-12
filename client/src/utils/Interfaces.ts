@@ -41,10 +41,19 @@ export interface Poject {
   city: string;
   name: string;
   description: string;
+  status: string;
   images: Image[];
 }
 
 export interface Image {
   id: string;
   source: string;
+}
+
+export interface ProjectBriefing {
+  id: string;
+  name: string;
+  activity: string;
+  createdAt: Date;
+  status: string;
 }
