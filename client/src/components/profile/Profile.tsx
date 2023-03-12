@@ -22,7 +22,7 @@ const userProfile = z.object({
   activities: z
     .object({
       label: z.string(),
-      value: z.number(),
+      value: z.string(),
     })
     .array()
     .optional(),
@@ -98,6 +98,9 @@ export function Profile({ email }: Props) {
           <label htmlFor="mobilePhone">Mobilus numeris</label>
           <Input register={register} id="mobilePhone" type="text" />
           {errors.mobilePhone?.message && <p className="error">{errors.mobilePhone?.message}</p>}
+          <label htmlFor="activities">Veiklos:</label>
+          <MultiSelectWrapper options={data?.activities ?? []} value={selected} onChange={setSelected} />
+          {errors.activities?.message && <p className="error">{errors.activities?.message}</p>}
           <label htmlFor="workDescription">Trumpas veiklos aprašymas</label>
           <TextArea register={register} id="workDescription" />
           {errors.workDescription?.message && <p className="error">{errors.workDescription?.message}</p>}
@@ -107,9 +110,6 @@ export function Profile({ email }: Props) {
           <label htmlFor="radius">Perimetras (km)</label>
           <Input register={register} id="radius" type="number" />
           {errors.radius?.message && <p className="error">{errors.radius?.message}</p>}
-          <label htmlFor="activities">Veiklos:</label>
-          <MultiSelectWrapper options={data?.activities ?? []} value={selected} onChange={setSelected} />
-          {errors.activities?.message && <p className="error">{errors.activities?.message}</p>}
           <Button type="submit">Atnaujinti duomenis</Button>
         </form>
       </Card>

@@ -69,7 +69,7 @@ namespace Domain.Extentions
             return new ActivityDto
             {
                 Label = activity.Name,
-                Value = activity.Id
+                Value = activity.Id.ToString()
             };
         }
 

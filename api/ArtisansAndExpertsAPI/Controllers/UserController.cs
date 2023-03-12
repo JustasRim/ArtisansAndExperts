@@ -54,7 +54,7 @@ namespace ArtisansAndExpertsAPI.Controllers
                 .Select(q => new ActivityDto
                     {
                         Label = q.Name,
-                        Value = q.Id
+                        Value = q.Id.ToString()
                     })
                     .ToList() ?? new List<ActivityDto>();
 
@@ -62,7 +62,7 @@ namespace ArtisansAndExpertsAPI.Controllers
                 .Select(q => new ActivityDto
                 {
                     Label = q.Name,
-                    Value = q.Id
+                    Value = q.Id.ToString()
                 })
                 .ToList() ?? new List<ActivityDto>();
 
@@ -97,9 +97,12 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             user.Expert.UpdateExpertFromDto(expertDto);
             var activities = _activityRepository.GetAll();
+            user.Expert.Activities = new List<Activity>();
+            await _userRepository.Update(user);
+
             foreach (var activity in expertDto.Activities)
             {
-                var activityToAdd = activities.FirstOrDefault(q => q.Id == activity.Value);
+                var activityToAdd = activities.FirstOrDefault(q => q.Id.ToString() == activity.Value);
                 if (activityToAdd is null)
                 {
                     return BadRequest("No such activity");
@@ -111,12 +114,6 @@ namespace ArtisansAndExpertsAPI.Controllers
                 };
 
                 await _activityRepository.Update(activityToAdd);
-            }
-
-            if (expertDto.Activities.Count == 0)
-            {
-                user.Expert.Activities = new List<Activity>();
-                await _userRepository.Update(user);
             }
 
             await _userRepository.Update(user);
