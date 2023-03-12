@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import { useDebaunce } from '../../hooks/useDebaunce';
+import { Status } from '../../utils/Enums';
 import { ProjectBriefing } from '../../utils/Interfaces';
 import { Card } from '../card/Card';
 import { SearchBar } from '../searchBar/SearchBar';
@@ -27,6 +28,19 @@ export function Dashboard() {
     return projects.data;
   });
 
+  const translateStatus = (status: Status) => {
+    switch (status) {
+      case Status.Active:
+        return 'Aktyvus';
+
+      case Status.Complete:
+        return 'Įvykdytas';
+
+      case Status.Deleted:
+        return 'Ištrintas';
+    }
+  };
+
   return (
     <div>
       <h1>
@@ -45,10 +59,15 @@ export function Dashboard() {
       <h2>Projektai</h2>
       <SearchBar setSearch={setSearch} />
       <Table
-        header={['Pavadinimas', 'Kategorija', 'Užsakymo laikas']}
+        header={['Pavadinimas', 'Kategorija', 'Sukurtas', 'Statusas']}
         rows={data?.map((briefing) => ({
           id: briefing.id,
-          row: [briefing.name, briefing.activity, moment(briefing.createdAt).format('yyyy/mm/d hh:mm')],
+          row: [
+            briefing.name,
+            briefing.activity,
+            moment(briefing.createdAt).format('yyyy/MM/DD HH:mm'),
+            translateStatus(briefing.status),
+          ],
         }))}
       />
     </div>

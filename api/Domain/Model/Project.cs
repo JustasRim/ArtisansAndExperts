@@ -23,7 +23,7 @@ namespace Domain.Model
 
         public int ActivityId { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Status Status { get; set; } = Status.Active;
 

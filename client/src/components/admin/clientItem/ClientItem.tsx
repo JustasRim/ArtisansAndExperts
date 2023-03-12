@@ -25,7 +25,7 @@ export function ClientItem({ name, lastName, email, banned: isBanned, registrati
     <div className={styles.list__item}>
       <span>{`${name} ${lastName}`}</span>
       <span>{email}</span>
-      <span>{moment(registrationDate).format('yyyy/mm/d hh:mm')}</span>
+      <span>{moment(registrationDate).format('yyyy/mm/d HH:mm')}</span>
       <Button onClick={() => banToggle(email)}>{banned ? 'Neblokuoti' : 'Blokuoti'}</Button>
     </div>
   );

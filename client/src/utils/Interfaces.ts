@@ -1,3 +1,5 @@
+import { Status } from './Enums';
+
 export interface UserProfile {
   workDescription?: string;
   profileSrc?: string;
@@ -41,7 +43,7 @@ export interface Poject {
   city: string;
   name: string;
   description: string;
-  status: string;
+  status: Status;
   images: Image[];
 }
 
@@ -55,5 +57,5 @@ export interface ProjectBriefing {
   name: string;
   activity: string;
   createdAt: Date;
-  status: string;
+  status: Status;
 }
