@@ -41,13 +41,26 @@ namespace Infrastructure.Repositories
             return _context.Projects.Include(q => q.Images).FirstOrDefault(q => q.Id == id);
         }
 
-        public IList<Project> GetProjectsByEmail(string email)
+        public IList<Project> GetProjectsByEmailFiltered(string email, string? search = null)
         {
-            return _context.Projects
+            var projects = _context.Projects
                 .Include(q => q.Images)
                 .Include(q => q.Activity)
                 .OrderByDescending(q => q.CreatedAt)
                 .Where(q => q.Client.User.Email.Equals(email)).ToList();
+
+            if (string.IsNullOrEmpty(search))
+            {
+                return projects;
+            }
+
+            return projects
+                .Where(q => 
+                    q.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    q.Activity.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    q.CreatedAt.ToShortDateString().Contains(search, StringComparison.OrdinalIgnoreCase)
+                )
+                .ToList();
         }
 
         public async Task Update(Project entity)

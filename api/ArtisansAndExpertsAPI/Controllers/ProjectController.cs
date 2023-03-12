@@ -49,7 +49,7 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest();
             }
 
-            var projects = _projectRepository.GetProjectsByEmail(userName);
+            var projects = _projectRepository.GetProjectsByEmailFiltered(userName);
             var projectsDto = new List<ProjectDto>();
             foreach (var project in projects )
             {
@@ -62,7 +62,7 @@ namespace ArtisansAndExpertsAPI.Controllers
         }
 
         [HttpGet("briefing")]
-        public IActionResult GetUserProjectBriefings()
+        public IActionResult GetUserProjectBriefings([FromQuery] string? search)
         {
             var userName = User?.Identity?.Name;
             if (userName is null)
@@ -70,7 +70,7 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest();
             }
 
-            var projects = _projectRepository.GetProjectsByEmail(userName);
+            var projects = _projectRepository.GetProjectsByEmailFiltered(userName, search);
             var projectsDto = new List<ProjectBriefingDto>();
             foreach (var project in projects)
             {
@@ -126,7 +126,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             var projectIdAsNumber = _hashids.Decode(projectId)[0];
             var project = _projectRepository.GetById(projectIdAsNumber);
-            var clientProjects = _projectRepository.GetProjectsByEmail(userName);
+            var clientProjects = _projectRepository.GetProjectsByEmailFiltered(userName);
             var clientContainsProject = clientProjects.Any(q => q.Id == projectIdAsNumber);
             if (project is null || !clientContainsProject)
             {

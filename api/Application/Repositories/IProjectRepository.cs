@@ -5,6 +5,6 @@ namespace Application.Repositories
 {
     public interface IProjectRepository : IRepository<Project>
     {
-        IList<Project> GetProjectsByEmail(string email);
+        IList<Project> GetProjectsByEmailFiltered(string email, string? search = null);
     }
 }
