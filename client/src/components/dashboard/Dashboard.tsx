@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import { useDebaunce } from '../../hooks/useDebaunce';
-import { Status } from '../../utils/Enums';
 import { Project, ProjectBriefing } from '../../utils/Interfaces';
+import { TranslateStatus, TranslateTimeLine } from '../../utils/UtilityFunctions';
 import { Card } from '../card/Card';
 import { Modal } from '../modal/Modal';
 import { SearchBar } from '../searchBar/SearchBar';
@@ -42,22 +42,6 @@ export function Dashboard() {
     return projects.data;
   });
 
-  const translateStatus = (status: Status | undefined) => {
-    switch (status) {
-      case Status.Active:
-        return 'Aktyvus';
-
-      case Status.Complete:
-        return 'Įvykdytas';
-
-      case Status.Deleted:
-        return 'Ištrintas';
-
-      default:
-        return '';
-    }
-  };
-
   const onRowClick = (id: string) => {
     setSelectedRow(id);
     setModalOpen(true);
@@ -88,7 +72,7 @@ export function Dashboard() {
             briefing.name,
             briefing.activity,
             moment(briefing.createdAt).format('yyyy/MM/DD HH:mm'),
-            translateStatus(briefing.status),
+            TranslateStatus(briefing.status),
           ],
         }))}
         onRowClick={onRowClick}
@@ -101,7 +85,7 @@ export function Dashboard() {
               Miestas: <strong>{selectedProject?.city}</strong>
             </p>
             <p>
-              Atlikti: <strong>{selectedProject?.timeLine}</strong>
+              Atlikti: <strong>{TranslateTimeLine(selectedProject?.timeLine)}</strong>
             </p>
           </div>
           <div className={styles.modal__pair}>
@@ -109,7 +93,7 @@ export function Dashboard() {
               Pavadinimas: <strong>{selectedProject?.name}</strong>
             </p>
             <p>
-              Statusas: <strong>{translateStatus(selectedProject?.status)}</strong>
+              Statusas: <strong>{TranslateStatus(selectedProject?.status)}</strong>
             </p>
           </div>
           <div className={styles.modal__description}>
