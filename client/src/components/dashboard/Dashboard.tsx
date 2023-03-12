@@ -28,7 +28,7 @@ export function Dashboard() {
   const { data, refetch } = useQuery<ProjectBriefing[], Error>(
     ['projectBriefings', { searchDeb, statusSearch }],
     async () => {
-      let url = `project/briefing?status=${statusSearch}`;
+      let url = `project/briefing?status=${statusSearch ?? Status.Active}`;
       if (searchDeb) {
         url += `&search=${searchDeb}`;
       }
