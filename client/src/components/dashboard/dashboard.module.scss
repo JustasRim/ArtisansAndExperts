@@ -37,4 +37,13 @@
       margin: 1rem 0;
     }
   }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__delete {
+    padding: 0.4em 0.5em;
+  }
 }

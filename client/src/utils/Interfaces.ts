@@ -12,7 +12,7 @@ export interface UserProfile {
 
 export interface SelectOption {
   label: string;
-  value: number;
+  value: string;
 }
 
 export interface AdminUser {

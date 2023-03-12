@@ -61,10 +61,10 @@ export function Offer() {
               <h2>Kada darbas turi būti atliktas?</h2>
               <Select
                 options={[
-                  { label: 'Kuo skubiau', value: 0 },
-                  { label: 'Per artimiausius tris mėnesius', value: 1 },
-                  { label: 'Aš esu lankstus', value: 2 },
-                  { label: 'Specifiška data', value: 3 },
+                  { label: 'Kuo skubiau', value: '0' },
+                  { label: 'Per artimiausius tris mėnesius', value: '1' },
+                  { label: 'Aš esu lankstus', value: '2' },
+                  { label: 'Specifiška data', value: '3' },
                 ]}
                 register={register}
                 id="timeLine"

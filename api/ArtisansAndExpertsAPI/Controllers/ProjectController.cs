@@ -27,7 +27,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             IProjectRepository projectRepository,
             IRepository<Activity> activityRepository,
             IUserAuthRepository userAuthRepository,
-            IFileUploadService fileUploadService, 
+            IFileUploadService fileUploadService,
             IHashids hashids,
             IImageRepository imageRepository
             )
@@ -40,7 +40,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             _imageRepository = imageRepository;
         }
 
-        [HttpGet] 
+        [HttpGet]
         public IActionResult GetUserProjects()
         {
             var userName = User?.Identity?.Name;
@@ -51,7 +51,7 @@ namespace ArtisansAndExpertsAPI.Controllers
 
             var projects = _projectRepository.GetProjectsByEmailFiltered(userName);
             var projectsDto = new List<ProjectDto>();
-            foreach (var project in projects )
+            foreach (var project in projects)
             {
                 var dto = project.ToProjectDto(_hashids.Encode);
                 dto.Id = _hashids.Encode(project.Id);
@@ -84,7 +84,7 @@ namespace ArtisansAndExpertsAPI.Controllers
         }
 
         [HttpGet("briefing")]
-        public IActionResult GetUserProjectBriefings([FromQuery] string? search)
+        public IActionResult GetUserProjectBriefings([FromQuery] Status status, [FromQuery] string? search)
         {
             var userName = User?.Identity?.Name;
             if (userName is null)
@@ -92,7 +92,7 @@ namespace ArtisansAndExpertsAPI.Controllers
                 return BadRequest();
             }
 
-            var projects = _projectRepository.GetProjectsByEmailFiltered(userName, search);
+            var projects = _projectRepository.GetProjectsByEmailFiltered(userName, search, status);
             var projectsDto = new List<ProjectBriefingDto>();
             foreach (var project in projects)
             {
@@ -102,6 +102,29 @@ namespace ArtisansAndExpertsAPI.Controllers
             }
 
             return Ok(projectsDto);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProject([FromRoute] string id)
+        {
+            var userName = User?.Identity?.Name;
+            if (userName is null)
+            {
+                return BadRequest();
+            }
+
+            var idAsNumber = _hashids.Decode(id)[0];
+            var project = _projectRepository.GetById(idAsNumber);
+            var clientProjects = _projectRepository.GetProjectsByEmailFiltered(userName);
+            var clientContainsProject = clientProjects.Any(q => q.Id == idAsNumber);
+            if (project is null || !clientContainsProject)
+            {
+                return BadRequest("Wrong id");
+            }
+
+            project.Status = Status.Deleted;
+            await _projectRepository.Update(project);
+            return Ok();
         }
 
         [HttpPost]

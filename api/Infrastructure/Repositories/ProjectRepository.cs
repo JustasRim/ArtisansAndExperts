@@ -1,4 +1,5 @@
 ﻿using Application.Repositories;
+using Domain.Enum;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,34 +42,37 @@ namespace Infrastructure.Repositories
             return _context.Projects.Include(q => q.Images).FirstOrDefault(q => q.Id == id);
         }
 
-        public IList<Project> GetProjectsByEmailFiltered(string email, string? search = null)
+        public IList<Project> GetProjectsByEmailFiltered(string email, string? search = null, Status? status = null)
         {
             var projects = _context.Projects
                 .Include(q => q.Images)
                 .Include(q => q.Activity)
                 .OrderByDescending(q => q.CreatedAt)
                 .Where(q => q.Client.User.Email.Equals(email)).ToList();
-
-            if (string.IsNullOrEmpty(search))
+            if (status is not null)
             {
-                return projects;
+                projects = projects.Where(q => q.Status == status).ToList();
             }
 
-            return projects
-                .Where(q => 
+            if (!string.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(q =>
                     q.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                     q.Activity.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                     q.CreatedAt.ToShortDateString().Contains(search, StringComparison.OrdinalIgnoreCase)
                 )
                 .ToList();
+            }
+
+            return projects;
         }
 
         public async Task Update(Project entity)
         {
-            var user = _context.Users.Find(entity.Id);
-            if (user == null)
+            var project = _context.Projects.Find(entity.Id);
+            if (project == null)
             {
-                return;
+                throw new InvalidOperationException("Could not find the project");
             }
 
             _context.Entry(entity).CurrentValues.SetValues(entity);

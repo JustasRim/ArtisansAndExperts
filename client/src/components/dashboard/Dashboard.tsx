@@ -6,8 +6,10 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import { useDebaunce } from '../../hooks/useDebaunce';
+import { Status } from '../../utils/Enums';
 import { Project, ProjectBriefing } from '../../utils/Interfaces';
 import { TranslateStatus, TranslateTimeLine } from '../../utils/UtilityFunctions';
+import Button from '../button/Button';
 import { Card } from '../card/Card';
 import { Modal } from '../modal/Modal';
 import { SearchBar } from '../searchBar/SearchBar';
@@ -20,16 +22,25 @@ export function Dashboard() {
   const [search, setSearch] = useState<string>();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<string>();
+  const [statusSearch, setStatusSearch] = useState<string>();
   const searchDeb = useDebaunce(search, 500);
 
-  const { data } = useQuery<ProjectBriefing[], Error>(['projectBriefings', { searchDeb }], async () => {
-    const projects = await ax.get(`project/briefing${searchDeb ? '?search=' + searchDeb : ''}`);
-    if (projects.request?.status === 204) {
-      throw new Error('Nėra projektu');
-    }
+  const { data, refetch } = useQuery<ProjectBriefing[], Error>(
+    ['projectBriefings', { searchDeb, statusSearch }],
+    async () => {
+      let url = `project/briefing?status=${statusSearch}`;
+      if (searchDeb) {
+        url += `&search=${searchDeb}`;
+      }
 
-    return projects.data;
-  });
+      const projects = await ax.get(url);
+      if (projects.request?.status === 204) {
+        throw new Error('Nėra projektu');
+      }
+
+      return projects.data;
+    }
+  );
 
   const { data: selectedProject } = useQuery<Project, Error>(['selectedProject', { selectedRow }], async () => {
     if (!selectedRow) return;
@@ -45,6 +56,16 @@ export function Dashboard() {
   const onRowClick = (id: string) => {
     setSelectedRow(id);
     setModalOpen(true);
+  };
+
+  const onDelete = async () => {
+    const response = await ax.delete(`project/${selectedRow}`);
+    if (response.status !== 200) {
+      throw 'Could not delete a project';
+    }
+
+    refetch();
+    setModalOpen(false);
   };
 
   return (
@@ -63,7 +84,15 @@ export function Dashboard() {
       <h2>Pasiūlymai</h2>
       <p>To be table...</p>
       <h2>Projektai</h2>
-      <SearchBar setSearch={setSearch} />
+      <SearchBar
+        setSearch={setSearch}
+        setSelection={[{ action: setStatusSearch }]}
+        options={[
+          { label: TranslateStatus(Status.Active), value: Status.Active },
+          { label: TranslateStatus(Status.Complete), value: Status.Complete },
+          { label: TranslateStatus(Status.Deleted), value: Status.Deleted },
+        ]}
+      />
       <Table
         header={['Pavadinimas', 'Kategorija', 'Sukurtas', 'Statusas']}
         rows={data?.map((briefing) => ({
@@ -100,12 +129,24 @@ export function Dashboard() {
             <p>{selectedProject?.description}</p>
           </div>
         </div>
-        <hr />
-        <div className={styles.modal__images}>
-          {selectedProject?.images.map((image) => (
-            <img key={image.id} alt="uploaded by user" src={image.source} />
-          ))}
+        <div className={styles.modal__actions}>
+          {selectedProject?.status !== Status.Deleted && (
+            <Button className={styles.modal__delete} onClick={onDelete}>
+              Ištrinti
+            </Button>
+          )}
         </div>
+
+        {selectedProject?.images && selectedProject.images.length > 0 && (
+          <>
+            <hr />
+            <div className={styles.modal__images}>
+              {selectedProject.images.map((image) => (
+                <img key={image.id} alt="uploaded by user" src={image.source} />
+              ))}
+            </div>
+          </>
+        )}
       </Modal>
     </div>
   );
