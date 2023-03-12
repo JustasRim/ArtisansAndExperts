@@ -16,7 +16,8 @@ export function AdminClients() {
 
   return (
     <>
-      <SearchBar setSearch={setSearch} setBanned={setBanned} />
+      <SearchBar setSearch={setSearch} setActions={[{ name: 'Blokuotas', action: setBanned }]} />
+
       <Card>
         <h2>Klientai:</h2>
         <div className={styles.list}>

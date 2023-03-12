@@ -18,7 +18,13 @@ export function AdminExperts() {
 
   return (
     <>
-      <SearchBar setSearch={setSearch} setApproved={setApproved} setBanned={setBanned} />
+      <SearchBar
+        setSearch={setSearch}
+        setActions={[
+          { name: 'Patvirtintas', action: setApproved },
+          { name: 'Blokuotas', action: setBanned },
+        ]}
+      />
       <Card>
         <h2>Meistrai:</h2>
         <div className={styles.list}>

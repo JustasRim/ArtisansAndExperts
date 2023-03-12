@@ -4,22 +4,12 @@ import styles from './searchBar.module.scss';
 
 type Props = {
   setSearch: (value: string) => void;
-  setApproved?: (value: boolean) => void;
-  setBanned: (value: boolean) => void;
+  setActions?: { name: string; action: (value: boolean) => void }[];
 };
 
-export function SearchBar({ setSearch, setApproved, setBanned }: Props) {
+export function SearchBar({ setSearch, setActions }: Props) {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-  };
-
-  const handleApprovedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!setApproved) return;
-    setApproved(e.target.checked);
-  };
-
-  const handleBannedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBanned(e.target.checked);
   };
 
   return (
@@ -31,17 +21,16 @@ export function SearchBar({ setSearch, setApproved, setBanned }: Props) {
         id="search"
         type="text"
       />
-      {setApproved && (
-        <span>
-          <label htmlFor="approved">Patvirtintas:</label>
-          <Checkbox className={styles.search__check} onChange={handleApprovedChange} id="approved" />
+      {setActions?.map((item, index) => (
+        <span key={index}>
+          <label htmlFor="approved">{item.name}</label>
+          <Checkbox
+            className={styles.search__check}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => item.action(e.target.checked)}
+            id="approved"
+          />
         </span>
-      )}
-
-      <span>
-        <label htmlFor="banned">Blokuotas:</label>
-        <Checkbox className={styles.search__check} onChange={handleBannedChange} id="banned" />
-      </span>
+      ))}
     </div>
   );
 }
