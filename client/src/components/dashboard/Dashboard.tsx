@@ -100,6 +100,12 @@ export function Dashboard() {
             <p>{selectedProject?.description}</p>
           </div>
         </div>
+        <hr />
+        <div className={styles.modal__images}>
+          {selectedProject?.images.map((image) => (
+            <img key={image.id} alt="uploaded by user" src={image.source} />
+          ))}
+        </div>
       </Modal>
     </div>
   );

@@ -26,8 +26,15 @@
 
   &__description {
     padding: 1em;
+    margin-bottom: 1rem;
     @include themify($themes) {
       border: 1px solid themed('primary');
+    }
+  }
+
+  &__images {
+    img {
+      margin: 1rem 0;
     }
   }
 }
