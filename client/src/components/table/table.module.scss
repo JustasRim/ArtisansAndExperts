@@ -1,19 +1,28 @@
 @use '../../styles/theme-variables.scss' as *;
+@use '../../styles/variables.scss' as *;
 
 .table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
 
   td,
   th {
+    padding: 0.5em;
+    width: 100%;
+    word-wrap: break-word;
+
     @include themify($themes) {
       border-bottom: 1px solid themed('selected');
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.5em 0.1em;
     }
   }
 
   thead {
     td {
-      padding: 0.5em;
       @include themify($themes) {
         background-color: themed('primary');
       }
@@ -25,10 +34,6 @@
 
     tr {
       cursor: pointer;
-
-      td {
-        padding: 0.5em;
-      }
     }
   }
 }
