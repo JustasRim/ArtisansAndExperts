@@ -1,0 +1,25 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+
+  &__card {
+    margin: 0;
+  }
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5em;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: #00000069;
+}

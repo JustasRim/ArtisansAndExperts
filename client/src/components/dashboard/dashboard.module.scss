@@ -1,3 +1,5 @@
+@use '../../styles/theme-variables.scss' as *;
+
 .actions {
   margin: 3rem 0;
   display: flex;
@@ -11,5 +13,21 @@
   &__card {
     margin: 0;
     padding: 0.75em;
+  }
+}
+
+.modal {
+  &__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    margin-bottom: 0.5em;
+  }
+
+  &__description {
+    padding: 1em;
+    @include themify($themes) {
+      border: 1px solid themed('primary');
+    }
   }
 }

@@ -61,6 +61,28 @@ namespace ArtisansAndExpertsAPI.Controllers
             return Ok(projectsDto);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetUserProjects([FromRoute] string id)
+        {
+            var userName = User?.Identity?.Name;
+            if (userName is null)
+            {
+                return BadRequest();
+            }
+
+            var idAsNumber = _hashids.Decode(id)[0];
+            var project = _projectRepository.GetById(idAsNumber);
+            var clientProjects = _projectRepository.GetProjectsByEmailFiltered(userName);
+            var clientContainsProject = clientProjects.Any(q => q.Id == idAsNumber);
+            if (project is null || !clientContainsProject)
+            {
+                return BadRequest("Wrong id");
+            }
+
+            var dto = project.ToProjectDto(_hashids.Encode);
+            return Ok(dto);
+        }
+
         [HttpGet("briefing")]
         public IActionResult GetUserProjectBriefings([FromQuery] string? search)
         {

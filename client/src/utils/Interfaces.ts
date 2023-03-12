@@ -36,7 +36,7 @@ export interface Expert {
   activities: string[];
 }
 
-export interface Poject {
+export interface Project {
   id: string;
   activityId: number;
   timeLine: string;

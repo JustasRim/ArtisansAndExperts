@@ -89,6 +89,7 @@ namespace Domain.Extentions
         {
             return new ProjectDto
             {
+                Id = encode(project.Id),
                 Name = project.Name,
                 Description = project.Description,
                 TimeLine = project.TimeLine,

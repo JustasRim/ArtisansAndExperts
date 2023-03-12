@@ -7,8 +7,9 @@ import { AuthContext } from '../../context/AuthContext';
 import { useAxios } from '../../hooks/useAxios';
 import { useDebaunce } from '../../hooks/useDebaunce';
 import { Status } from '../../utils/Enums';
-import { ProjectBriefing } from '../../utils/Interfaces';
+import { Project, ProjectBriefing } from '../../utils/Interfaces';
 import { Card } from '../card/Card';
+import { Modal } from '../modal/Modal';
 import { SearchBar } from '../searchBar/SearchBar';
 import { Table } from '../table/Table';
 import styles from './dashboard.module.scss';
@@ -17,6 +18,8 @@ export function Dashboard() {
   const { user } = useContext(AuthContext);
   const { ax } = useAxios();
   const [search, setSearch] = useState<string>();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<string>();
   const searchDeb = useDebaunce(search, 500);
 
   const { data } = useQuery<ProjectBriefing[], Error>(['projectBriefings', { searchDeb }], async () => {
@@ -28,7 +31,18 @@ export function Dashboard() {
     return projects.data;
   });
 
-  const translateStatus = (status: Status) => {
+  const { data: selectedProject } = useQuery<Project, Error>(['selectedProject', { selectedRow }], async () => {
+    if (!selectedRow) return;
+
+    const projects = await ax.get(`project/${selectedRow}`);
+    if (projects.request?.status === 204) {
+      throw new Error('Nėra projektu');
+    }
+
+    return projects.data;
+  });
+
+  const translateStatus = (status: Status | undefined) => {
     switch (status) {
       case Status.Active:
         return 'Aktyvus';
@@ -38,7 +52,15 @@ export function Dashboard() {
 
       case Status.Deleted:
         return 'Ištrintas';
+
+      default:
+        return '';
     }
+  };
+
+  const onRowClick = (id: string) => {
+    setSelectedRow(id);
+    setModalOpen(true);
   };
 
   return (
@@ -69,7 +91,32 @@ export function Dashboard() {
             translateStatus(briefing.status),
           ],
         }))}
+        onRowClick={onRowClick}
       />
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <h2>Darbo Nr: {selectedProject?.id}</h2>
+        <div className={styles.modal__details}>
+          <div className={styles.modal__pair}>
+            <p>
+              Miestas: <strong>{selectedProject?.city}</strong>
+            </p>
+            <p>
+              Atlikti: <strong>{selectedProject?.timeLine}</strong>
+            </p>
+          </div>
+          <div className={styles.modal__pair}>
+            <p>
+              Pavadinimas: <strong>{selectedProject?.name}</strong>
+            </p>
+            <p>
+              Statusas: <strong>{translateStatus(selectedProject?.status)}</strong>
+            </p>
+          </div>
+          <div className={styles.modal__description}>
+            <p>{selectedProject?.description}</p>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
