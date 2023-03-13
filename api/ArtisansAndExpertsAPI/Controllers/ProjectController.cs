@@ -108,25 +108,50 @@ namespace ArtisansAndExpertsAPI.Controllers
         }
 
         [HttpGet("active")]
-        public async Task<IActionResult> GetActiveProjects()
+        public async Task<IActionResult> GetActiveProjects([FromQuery] string? search)
         {
             var userName = User?.Identity?.Name;
             if (userName is null)
             {
                 return BadRequest();
             }
-
-            var a = await _mapService.GetDistanceBetweenObjects("Kaunas", "Vilnius");
-
+            
             var user = await _userAuthRepository.GetByEmail(userName);
-            var projects = _projectRepository
-                .GetAll()
-                .Where(q => q.Status == Status.Active &&
-                (user?.Expert?.Activities?.Any(activity => activity.Id == q.ActivityId) ?? false))
-                .Select(q => q.ToProjectBriefingDto(_hashids.Encode))
-                .ToList();
+            var projects = _projectRepository.GetAll();
+            var projectsFilteredDto = new List<ProjectBriefingDto>();
+            foreach (var project in projects)
+            {
+                if (project.Status != Status.Active || !(user?.Expert?.Activities?.Any(activity => activity.Id == project.ActivityId) ?? false))
+                {
+                    continue;
+                }
 
-            return Ok(projects);
+                if (project.City is null || user.Expert is null || user.Expert.City is null)
+                {
+                    throw new ArgumentException("City is null");
+                }
+
+                var distance = await _mapService.GetDistanceBetweenObjects(project.City, user.Expert.City);
+                if (distance > user.Expert.Radius)
+                {
+                    continue;
+                }
+
+                if (search is null)
+                {
+                    projectsFilteredDto.Add(project.ToProjectBriefingDto(_hashids.Encode));
+                    continue;
+                }
+
+                if (project.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    project.City.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    project.Activity.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
+                {
+                    projectsFilteredDto.Add(project.ToProjectBriefingDto(_hashids.Encode));
+                }
+            }
+
+            return Ok(projectsFilteredDto);
         }
 
         [HttpDelete("{id}")]
