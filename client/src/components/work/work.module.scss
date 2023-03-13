@@ -1,0 +1,17 @@
+@use '../../styles/theme-variables.scss' as *;
+
+.actions {
+  margin: 3rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+
+  &__link {
+    text-decoration: none;
+  }
+
+  &__card {
+    margin: 0;
+    padding: 0.75em;
+  }
+}

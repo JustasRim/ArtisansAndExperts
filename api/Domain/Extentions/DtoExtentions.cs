@@ -113,6 +113,8 @@ namespace Domain.Extentions
                 Activity = project.Activity.Name,
                 CreatedAt = project.CreatedAt,
                 Status = project.Status,
+                City = project.City,
+                TimeLine = project?.TimeLine,
             };
         }
     }

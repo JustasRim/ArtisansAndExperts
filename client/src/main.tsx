@@ -15,6 +15,7 @@ import { PasswordReset } from './components/passwordReset/PasswordReset';
 import { PasswordResetRequest } from './components/passwordResetRequest/PasswordResetRequest';
 import { Profile } from './components/profile/Profile';
 import Register from './components/register/Register';
+import { Work } from './components/work/Work';
 import Error404 from './pages/Error404';
 import { Protected } from './routes/Protected';
 import Root from './routes/Root';
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     children: [
+      {
+        path: '/',
+        element: <Experts />,
+      },
       {
         path: 'login',
         element: <Login />,
@@ -117,8 +122,8 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'experts',
-        element: <Experts />,
+        path: 'work',
+        element: <Work />,
       },
       { path: '*', element: <Error404 /> },
     ],

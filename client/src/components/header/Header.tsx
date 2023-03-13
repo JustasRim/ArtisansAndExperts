@@ -19,9 +19,17 @@ const renderLink = (role: Role) => {
   switch (role) {
     case Role.Expert:
       return (
-        <Link className={styles.header__link} to="/profile" tabIndex={0}>
-          Profilis
-        </Link>
+        <>
+          <Link className={styles.header__link} to="/work" tabIndex={0}>
+            Darbai
+          </Link>
+          <Link className={styles.header__link} to="/dashboard" tabIndex={0}>
+            Panelė
+          </Link>
+          <Link className={styles.header__link} to="/profile" tabIndex={0}>
+            Profilis
+          </Link>
+        </>
       );
     case Role.Admin:
       return (
@@ -67,9 +75,6 @@ const Header = ({ setSidebarHidden }: Props) => {
         <nav className={styles.header__nav}>
           <Link className={styles.header__link} to="/" tabIndex={0}>
             Namai
-          </Link>
-          <Link className={styles.header__link} to="/experts" tabIndex={0}>
-            Ekspertai
           </Link>
           {!user ? (
             <>

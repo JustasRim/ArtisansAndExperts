@@ -58,4 +58,6 @@ export interface ProjectBriefing {
   activity: string;
   createdAt: Date;
   status: Status;
+  city: string;
+  timeLine: string;
 }

@@ -104,6 +104,26 @@ namespace ArtisansAndExpertsAPI.Controllers
             return Ok(projectsDto);
         }
 
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveProjects()
+        {
+            var userName = User?.Identity?.Name;
+            if (userName is null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _userAuthRepository.GetByEmail(userName);
+            var projects = _projectRepository
+                .GetAll()
+                .Where(q => q.Status == Status.Active &&
+                (user?.Expert?.Activities?.Any(activity => activity.Id == q.ActivityId) ?? false))
+                .Select(q => q.ToProjectBriefingDto(_hashids.Encode))
+                .ToList();
+
+            return Ok(projects);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject([FromRoute] string id)
         {

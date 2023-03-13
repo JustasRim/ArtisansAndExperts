@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
 
         public IList<Project> GetAll()
         {
-            return _context.Projects.ToList();
+            return _context.Projects.Include(q => q.Activity).ToList();
         }
 
         public Project? GetById(int id)

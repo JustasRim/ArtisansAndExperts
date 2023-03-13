@@ -13,5 +13,9 @@ namespace Domain.Dto
         public DateTime? CreatedAt { get; set; }
 
         public Status Status { get; set; }
+
+        public string? City { get; set; }
+
+        public string? TimeLine { get; set; }
     }
 }
