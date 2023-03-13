@@ -22,6 +22,7 @@ namespace ArtisansAndExpertsAPI.Controllers
         private readonly IFileUploadService _fileUploadService;
         private readonly IHashids _hashids;
         private readonly IImageRepository _imageRepository;
+        private readonly IMapService _mapService;
 
         public ProjectController(
             IProjectRepository projectRepository,
@@ -29,7 +30,8 @@ namespace ArtisansAndExpertsAPI.Controllers
             IUserAuthRepository userAuthRepository,
             IFileUploadService fileUploadService,
             IHashids hashids,
-            IImageRepository imageRepository
+            IImageRepository imageRepository,
+            IMapService mapService
             )
         {
             _projectRepository = projectRepository;
@@ -38,6 +40,7 @@ namespace ArtisansAndExpertsAPI.Controllers
             _fileUploadService = fileUploadService;
             _hashids = hashids;
             _imageRepository = imageRepository;
+            _mapService = mapService;
         }
 
         [HttpGet]
@@ -112,6 +115,8 @@ namespace ArtisansAndExpertsAPI.Controllers
             {
                 return BadRequest();
             }
+
+            var a = await _mapService.GetDistanceBetweenObjects("Kaunas", "Vilnius");
 
             var user = await _userAuthRepository.GetByEmail(userName);
             var projects = _projectRepository

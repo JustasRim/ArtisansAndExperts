@@ -2,6 +2,7 @@
 using Application.Repositories;
 using Application.Services;
 using Domain.Model;
+using GoogleApi.Extensions;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -31,6 +32,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IExpertRepository, ExpertRepository>();
             services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
+            services.AddTransient<IMapService, MapService>();
+
+            services.AddGoogleApiClients();
             
             return services;
         }

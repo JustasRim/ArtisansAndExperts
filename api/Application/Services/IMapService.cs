@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Services
+﻿namespace Application.Services
 {
-    internal interface IMapService
+    public interface IMapService
     {
+        Task<double> GetDistanceBetweenObjects(string a, string b);
     }
 }
